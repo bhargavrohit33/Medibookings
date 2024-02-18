@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/auth/register_screen.dart';
+import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
 import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -45,22 +48,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]), // Text color
+                textFormField(
+                  textEditingController: TextEditingController(),
+                  decoration: defaultInputDecoration(hintText: "Email"),
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your email';
@@ -70,43 +61,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  onSaved: (value) => _email = value!,
+                  
                 ),
                 const SizedBox(height: 16.0),
                 Stack(
                   alignment: Alignment.centerRight,
                   children: [
-                    TextFormField(
+                    textFormField(
+                      textEditingController: TextEditingController(),
                       obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      style: TextStyle(color: Colors.grey[800]),
+                      decoration: defaultInputDecoration(hintText: "Password"),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your password';
                         }
                         return null;
                       },
-                      onSaved: (value) => _password = value!,
+                     
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
-                        );
+                        Navigator.pushReplacementNamed(context, RouteName.forgetPasswordRoute);
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -124,10 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // form logic
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                      );
+                      Navigator.pushReplacementNamed(context, RouteName.loginRoute);
                     }
                   },
                   text: 'Login',
@@ -140,10 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text("Don't have an account, "),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                        );
+                        Navigator.pushReplacementNamed(context, RouteName.registerRoute);
                       },
                       child: const Text(
                         'Register',

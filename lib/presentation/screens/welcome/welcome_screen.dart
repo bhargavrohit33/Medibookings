@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/presentation/screens/auth/login_screen.dart'; // Import your login screen file
 import 'package:medibookings/presentation/screens/auth/register_screen.dart'; // Import your register screen file
 import 'package:medibookings/presentation/screens/widget/button.dart'; // Import your button file
@@ -37,10 +38,8 @@ class WelcomeScreen extends StatelessWidget {
                 child: basicButton(
                   onPressed: () {
                     // Navigate to login screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    );
+                    Navigator.pushReplacementNamed(context, RouteName.loginRoute);
+                   
                   },
                   text: 'Login',
                   height: 50.0,
@@ -54,10 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                 child: basicButton(
                   onPressed: () {
                     // Navigate to registration screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                    );
+                     Navigator.pushReplacementNamed(context, RouteName.registerRoute);
                   },
                   text: 'Register',
                   height: 50.0,

@@ -1,254 +1,234 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/presentation/screens/auth/login_screen.dart';
-import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
+import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/presentation/screens/common/textFormField.dart';
+import 'package:medibookings/presentation/screens/upload_document/upload_documents_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
+    // Import the widget for nurse registration
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
-
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>(); // GlobalKey for the form
+class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
-  String _firstName = '';
-  String _lastName = '';
-  String _mobileNumber = '';
-  String _email = '';
-  String _password = '';
-  String _confirmPassword = '';
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        title: Text('Registration'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(text: 'Hospital'),
+            Tab(text: 'Nurse'),
+          ],
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const Text(
-                  'Create an account',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'TitilliumWeb-Bold',
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'First Name',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your first name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _firstName = value!,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Last Name',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your last name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _lastName = value!,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Mobile Number',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your mobile number';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _mobileNumber = value!,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _email = value!,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _password = value!,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.grey[800]),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != _password) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _confirmPassword = value!,
-                ),
-                const SizedBox(height: 32.0),
-                basicButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                      );
-                    }
-                  },
-                  text: 'Register',
-                  width: double.infinity,
-                  height: 50.0,
-                  borderRadius: 10.0,
-                  color: primaryColor,
-                ),
-                const SizedBox(height: 16.0),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    );
-                  },
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Already a user? ',
-                      style: TextStyle(color: Colors.grey[800]),
-                      children: const <TextSpan>[
-                        TextSpan(
-                          text: 'Login ',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        TextSpan(
-                          text: 'here!',
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ],
-            ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          HospitalRegistration(), // Widget for hospital registration
+          NurseRegistration(),    // Widget for nurse registration
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+class HospitalRegistration extends StatefulWidget {
+  @override
+  _HospitalRegistrationState createState() => _HospitalRegistrationState();
+}
+
+class _HospitalRegistrationState extends State<HospitalRegistration> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _hospitalNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Hospital name field
+              textFormField(
+                textEditingController: _hospitalNameController,
+                decoration: defaultInputDecoration(hintText: 'Hospital Name'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the hospital name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Email field
+              textFormField(
+                textEditingController: _emailController,
+                decoration: defaultInputDecoration(hintText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  // Add more validation if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Password field
+              textFormField(
+                textEditingController: _passwordController,
+                decoration: defaultInputDecoration(hintText: 'Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  // Add more validation if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              
+
+              basicButton(onPressed: (){if (_formKey.currentState!.validate()) {
+                    // Submit logic
+                    // Example: Submit hospital registration data
+                  }}, text: "Register"),
+backLogin(context)
+                  
+              
+            ],
           ),
         ),
       ),
     );
   }
 }
+class NurseRegistration extends StatefulWidget {
+  @override
+  _NurseRegistrationState createState() => _NurseRegistrationState();
+}
+
+class _NurseRegistrationState extends State<NurseRegistration> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // First name field
+              textFormField(
+                textEditingController: _firstNameController,
+                decoration: defaultInputDecoration(hintText: 'First Name'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Last name field
+              textFormField(
+                textEditingController: _lastNameController,
+                decoration: defaultInputDecoration(hintText: 'Last Name'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Phone number field
+              textFormField(
+                textEditingController: _phoneNumberController,
+                decoration: defaultInputDecoration(hintText: 'Phone Number'),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  // Add more validation if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Email field
+              textFormField(
+                textEditingController: _emailController,
+                decoration: defaultInputDecoration(hintText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  // Add more validation if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Password field
+              textFormField(
+                textEditingController: _passwordController,
+                decoration: defaultInputDecoration(hintText: 'Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  // Add more validation if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              // Add document submission widget for nurse
+              // Example: File picker or document upload button
+              // Add submit button
+              basicButton(onPressed: (){
+                Navigator.pushNamed(context, RouteName.uploadDocumentPageRoute);
+                if (_formKey.currentState!.validate()) {
+                    
+                  }},text: "Register"),
+
+              backLogin(context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+

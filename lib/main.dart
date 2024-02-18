@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/app_colors.dart';
+import 'package:medibookings/common/route.dart';
+import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/splash/splash_screen.dart';
 //import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
 
@@ -16,11 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hospital Appointment App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const SplashScreen(), // Set initial screen to SplashScreen
+      theme: themeData,
+      routes: routes,
+      initialRoute: RouteName.splashRoute, // Set initial screen to SplashScreen
     );
   }
 }

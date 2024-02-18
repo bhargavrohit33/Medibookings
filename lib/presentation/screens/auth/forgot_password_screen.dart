@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
@@ -59,10 +60,8 @@ class ForgotPasswordScreen extends StatelessWidget {
               basicButton(
                 onPressed: () {
                   // forgot password logic to be performed later
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                  );
+                  Navigator.pushReplacementNamed(context, RouteName.welcomeRoute);
+                 
                 },
                 text: 'Reset Password',
                 width: double.infinity,
@@ -71,21 +70,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 color: primaryColor,
               ),
               const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate back to login screen
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                ),
-                child: const Text(
-                  'Back to Login',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
+              backLogin(context)
             ],
           ),
         ),

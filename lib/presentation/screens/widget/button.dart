@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/app_colors.dart';
+import 'package:medibookings/common/route_name.dart';
 
 var primaryColor = const Color(0xFF92A3FD);
 var buttonGradient = const Color(0xFF9DCEFF);
 Widget basicButton({
   required Function() onPressed,
   double? width,
-  double? height,
-  String? text,
+  double? height=50,
+ required String text,
   Color? color,
   double borderRadius = 40,
 }) {
@@ -37,4 +39,19 @@ Widget basicButton({
       ),
     ),
   );
+}
+
+Widget backLogin(BuildContext context){
+  return Center(
+                    child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: TextButton(
+                                  onPressed: () {
+                                    // Navigate back to the login screen
+                                    Navigator.pushReplacementNamed(context,RouteName.loginRoute);
+                                  },
+                                  child: Text('Back to Login',style: TextStyle(color: blueColor),),
+                                ),
+                              ),
+                  );
 }
