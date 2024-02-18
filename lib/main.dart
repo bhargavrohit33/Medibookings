@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/screens/splash_screen.dart';
+import 'package:medibookings/presentation/screens/splash/splash_screen.dart';
 //import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
 
 
@@ -10,7 +10,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
