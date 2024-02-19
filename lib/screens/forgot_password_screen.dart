@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:medibookings/screens/welcome_screen.dart';
+import 'package:medibookings/screens/button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
@@ -8,25 +9,82 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password'),
+        title: const Text(''),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Enter your email',
-                ),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const Text(
+                'Forgot Password',
+                style: TextStyle(fontSize: 24.0, fontFamily: 'TitilliumWeb'),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 20.0),
+              const Text(
+                'Please enter the email address you would like your password reset information sent to',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                style: TextStyle(color: Colors.grey[800]),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20.0),
+              basicButton(
+                onPressed: () {
+                  // forgot password logic to be performed later
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                  );
+                },
+                text: 'Reset Password',
+                width: double.infinity,
+                height: 50.0,
+                borderRadius: 10.0,
+                color: primaryColor,
+              ),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Implement logic to send password reset instructions
+                  // Navigate back to login screen
+                  Navigator.pop(context);
                 },
-                child: const Text('Reset Password'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                ),
+                child: const Text(
+                  'Back to Login',
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
             ],
           ),
