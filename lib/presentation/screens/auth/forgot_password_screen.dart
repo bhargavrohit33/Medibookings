@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/presentation/widget/button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});

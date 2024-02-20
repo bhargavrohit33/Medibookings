@@ -3,7 +3,7 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/upload_document/upload_documents_screen.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/presentation/widget/button.dart';
     // Import the widget for nurse registration
 
 class RegisterScreen extends StatefulWidget {
@@ -110,7 +110,9 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
               SizedBox(height: 16.0),
               
 
-              basicButton(onPressed: (){if (_formKey.currentState!.validate()) {
+              basicButton(onPressed: (){
+                Navigator.pushReplacementNamed(context, RouteName.uploadDocumentPageRoute);
+                if (_formKey.currentState!.validate()) {
                     // Submit logic
                     // Example: Submit hospital registration data
                   }}, text: "Register"),
@@ -217,7 +219,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
               // Example: File picker or document upload button
               // Add submit button
               basicButton(onPressed: (){
-                Navigator.pushNamed(context, RouteName.uploadDocumentPageRoute);
+                Navigator.pushReplacementNamed(context, RouteName.uploadDocumentPageRoute);
                 if (_formKey.currentState!.validate()) {
                     
                   }},text: "Register"),

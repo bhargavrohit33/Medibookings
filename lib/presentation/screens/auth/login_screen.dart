@@ -5,7 +5,7 @@ import 'package:medibookings/presentation/screens/auth/register_screen.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
 import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/presentation/widget/button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key});
