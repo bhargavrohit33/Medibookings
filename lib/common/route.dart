@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/presentation/screens/Hospital/department/appointments_preview.dart';
+import 'package:medibookings/presentation/screens/Hospital/department/generate_appointment_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/create_doctor_profile_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/edit_doctor_profile.screen.dart';
@@ -27,5 +29,10 @@ Map<String,WidgetBuilder> routes ={
   RouteName.hospitalWrapperScreen:(context) => HospitalWrapperScreen(),
   RouteName.hospital_doctorList_Screen:(context)=> DoctorListScreen(),
   RouteName.hospital_createDoctorProfile:(context) => CreateDoctorProfileScreen(),
-  RouteName.hospital_editDoctorProfile:(context) => EditDoctorProfileScreen()
+  RouteName.hospital_editDoctorProfile:(context) => EditDoctorProfileScreen(),
+  RouteName.hospital_generate_appointment:(context) => GenerateAppointmentScreen(),
+  RouteName.appointmentPreviewScreen: (context) {
+    final List<DateTime> appointments = ModalRoute.of(context)!.settings.arguments as List<DateTime>;
+    return AppointmentPreviewScreen(appointments: appointments);
+  },
 };
