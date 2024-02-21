@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/department/emergency_department_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_home_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_drawer.dart';
@@ -20,7 +20,7 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
   var list = [
     hospitalHomeScreen(),
     EmergencyDepartmentScreen(),
-    AppointmentScreen()
+    AppointmentListScreen()
   ];
 
   @override

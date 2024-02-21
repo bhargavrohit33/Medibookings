@@ -2,9 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
+import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_detail_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
 import 'package:medibookings/presentation/screens/Hospital/department/appointments_preview.dart';
 import 'package:medibookings/presentation/screens/Hospital/department/generate_appointment_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/create_doctor_profile_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_appointment_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/edit_doctor_profile.screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_wrapper_screen.dart';
@@ -31,8 +35,20 @@ Map<String,WidgetBuilder> routes ={
   RouteName.hospital_createDoctorProfile:(context) => CreateDoctorProfileScreen(),
   RouteName.hospital_editDoctorProfile:(context) => EditDoctorProfileScreen(),
   RouteName.hospital_generate_appointment:(context) => GenerateAppointmentScreen(),
+  RouteName.hospital_doctorAppointmentListRoute:(context) => DoctorAppointmentListScreen(),
+  
+  
+  // apointments
   RouteName.appointmentPreviewScreen: (context) {
     final List<DateTime> appointments = ModalRoute.of(context)!.settings.arguments as List<DateTime>;
     return AppointmentPreviewScreen(appointments: appointments);
   },
+// appointment
+  RouteName.appointmentRoute:(context) {
+    final Appointment  appointment=  ModalRoute.of(context)!.settings.arguments as Appointment;
+    return AppointmentDetailScreeen(appointment);
+
+  },
+
+ 
 };

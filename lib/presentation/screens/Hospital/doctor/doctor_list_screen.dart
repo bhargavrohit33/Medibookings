@@ -119,7 +119,7 @@ class DoctorWidget extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Handle appointments button press
+                     Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute);
                     },
                     child: FittedBox(child: Text('Appointments')),
                   ),

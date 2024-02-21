@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 
@@ -15,7 +17,8 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
   TimeOfDay _selectedClosingTime = TimeOfDay(hour: 17, minute: 0);
   List<TimeOfDayRange> _selectedBreakTimes = [];
   List<DateTime> _generatedAppointments = [];
-
+  TextEditingController _durationOfAppointment = TextEditingController();
+  final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -94,6 +97,19 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
               ],
             ),
             SizedBox(height: 20),
+            Form(
+              key: key,
+              child: textFormField(textEditingController: _durationOfAppointment,
+              keyboardType:TextInputType.numberWithOptions(),
+               decoration: defaultInputDecoration(hintText: "Appointment duration"),
+               validator: (v){
+                if(int.tryParse(v!)== null){
+                  return "Enter integer only";
+                }
+                return null;
+              }),
+            ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,12 +150,13 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: basicButton(onPressed: ()async{
+          if (key.currentState!.validate()){
         await generateAppointments();
         
            Navigator.of(context).pushNamed(
   RouteName.appointmentPreviewScreen,
   arguments: _generatedAppointments,
-);
+);}
         }, text: "Generate Appointments"),
       ),
     );
@@ -229,6 +246,7 @@ Widget listOfBreakTime() {
   }
 
   Future<void> generateAppointments() async{
+    int? duration  = int.tryParse(_durationOfAppointment.text);
     _generatedAppointments.clear();
 
     DateTime startTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedOpeningTime.hour, _selectedOpeningTime.minute);
@@ -247,12 +265,12 @@ Widget listOfBreakTime() {
       if (!isBreakTime) {
         _generatedAppointments.add(startTime);
       }
-      startTime = startTime.add(Duration(minutes: 15)); // Adjust appointment duration here
+      startTime = startTime.add(Duration(minutes:duration! )); // Adjust appointment duration here
     }
 
     setState(() {});
-  
   }
+  
 
   String formatTimeOfDay(TimeOfDay time) {
     final now = DateTime.now();

@@ -5,6 +5,7 @@ class Appointment {
   final int timeSlotDuration;
   final int? prescriptionId;
   final int? doctor;
+  final DateTime? appointmentDate;
   final int? referralAppointmentId;
 
   Appointment({
@@ -13,6 +14,7 @@ class Appointment {
     required this.hospitalId,
     required this.timeSlotDuration,
     required this.doctor,
+    required this.appointmentDate,
     this.prescriptionId,
     this.referralAppointmentId,
   });

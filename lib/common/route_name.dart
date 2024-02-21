@@ -13,8 +13,12 @@ class RouteName {
   static const String hospital_doctorList_Screen = "/hospitalDoctorListScreen";
   static const String hospital_createDoctorProfile = "/hospitalCreateDoctorProfileScreen";
   static const String hospital_editDoctorProfile = "/hospitalEditDoctorProfileScreen";
-
+  static const String hospital_doctorAppointmentListRoute = "/doctorAppointmentListScreen";
   static const String hospital_generate_appointment = "/generate_appointemntScreen";
-  static const String appointmentPreviewScreen = "/appointmentPreviewScreen";
 
+  
+  static const String appointmentPreviewScreen = "/appointmentPreviewScreen";
+ static const String appointmentRoute = "/appointmentPage";
+ 
+  // static const String appointmentListViewRoute = "/appointListViewPage";
 }

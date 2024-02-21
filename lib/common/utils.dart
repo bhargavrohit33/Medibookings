@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:medibookings/common/app_colors.dart';
+import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 
 
 
@@ -11,6 +12,22 @@ String hospitalDemoImage =
 
 String nurseDemoImageURL =
         "https://images.pexels.com/photos/6749773/pexels-photo-6749773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+
+ List<Appointment> generateDummyAppointments() {
+    return List.generate(20, (index) {
+      return Appointment(
+        id: index + 1,
+        patientId: index % 5 + 1,
+        hospitalId: 1,
+        timeSlotDuration: 30,
+        doctor: index % 3 == 0 ? index % 5 + 1 : null,
+        prescriptionId: null,
+        referralAppointmentId: null,
+        appointmentDate: DateTime.now()
+      );
+    });
+  }
+// remove above line
 
 // app theme 
 final themeData = ThemeData(
