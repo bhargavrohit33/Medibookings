@@ -34,17 +34,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController specialtyController = TextEditingController();
   String? selectedSpecialty;
-  List<String> specialtyOptions = [
-    'Cardiology',
-    'Dermatology',
-    'Endocrinology',
-    'Gastroenterology',
-    'Hematology',
-    'Neurology',
-    'Oncology',
-    'Pediatrics',
-    // Add more specialties as needed
-  ];
+  
 
   @override
   Widget build(BuildContext context) {

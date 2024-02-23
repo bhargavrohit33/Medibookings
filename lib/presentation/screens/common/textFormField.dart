@@ -13,7 +13,7 @@ TextFormField textFormField({
   int maxLength = TextField.noMaxLength,
   bool showLengthCount = false,
   String? Function(String?)? validator,
-  bool obscureText = false,asdasd
+  bool obscureText = false,void Function(String)? onChanged,
 }) {
   final inputDecoration = decoration ?? defaultInputDecoration();
   final hasLengthCounter = maxLength != TextField.noMaxLength && showLengthCount;
@@ -32,5 +32,6 @@ TextFormField textFormField({
     maxLength: maxLength,
     validator: validator,
     maxLengthEnforcement: showLengthCount ? MaxLengthEnforcement.enforced : MaxLengthEnforcement.none,
+    onChanged: onChanged,
   );
 }

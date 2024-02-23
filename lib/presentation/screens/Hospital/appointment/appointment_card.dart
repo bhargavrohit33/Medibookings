@@ -18,10 +18,8 @@ class AppointcardWidget extends StatelessWidget {
     return Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(cardRadius),
-            ),
+            
+            shape:cardShape,
             child: Container(
               decoration: BoxDecoration(
                 color: theme.scaffoldBackgroundColor,
@@ -41,12 +39,13 @@ class AppointcardWidget extends StatelessWidget {
                       ],
                     ),
                   ),
+
                   SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Row(
                       children: [
-                        Icon(Icons.person, color: primaryColor),
+                        Icon(Icons.personal_injury_rounded, color: primaryColor),
                         SizedBox(width: 8),
                         Text(appointment.doctor.toString()),
                       ],

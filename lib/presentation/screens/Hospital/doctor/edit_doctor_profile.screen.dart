@@ -21,6 +21,7 @@ class EditDoctorProfileScreen extends StatefulWidget {
 class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
    Doctor doctor =Doctor(id: 1, firstName: 'Dr. Smith', lastName: '', specialty: 'Cardiology') ;
   PlatformFile? _selectedFile;
+  String? selectedSpecialty ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,7 +31,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
     firstNameController.text = doctor.firstName;
     lastNameController.text = doctor.lastName;
     specialtyController.text = doctor.specialty;
-    // Update selected file if doctor has profile picture
+    
     if (doctor.profilePicture != null) {
       _selectedFile = PlatformFile(
         path: doctor.profilePicture!,
@@ -91,6 +92,22 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                 },
               ),
               SizedBox(height: 16),
+              DropdownButtonFormField(
+                decoration: defaultInputDecoration(hintText: 'Specialty'),
+                value: selectedSpecialty,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedSpecialty = newValue as String?;
+                  });
+                },
+                items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 16,),
               GestureDetector(
                 onTap: () {
                   _selectFiles();
@@ -106,6 +123,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                 ),
               ),
               SizedBox(height: 16),
+              
               basicButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

@@ -3,6 +3,7 @@ import 'package:medibookings/presentation/screens/Hospital/appointment/appointme
 import 'package:medibookings/presentation/screens/Hospital/department/emergency_department_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_home_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_drawer.dart';
+import 'package:medibookings/presentation/widget/custom_appBar_without_backbutton.dart';
 
 class HospitalWrapperScreen extends StatefulWidget {
   @override
@@ -17,6 +18,8 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
       _selectedIndex = index;
     });
   }
+
+  var titles = ['Home',"Emergency",'Appointment'];
   var list = [
     hospitalHomeScreen(),
     EmergencyDepartmentScreen(),
@@ -26,13 +29,11 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Hospital'),
+      appBar: CustomAppBarWithoutBackButton(
+      title: titles[_selectedIndex],
       ),
       drawer: HospitalDrawer(),
-      body: Center(
-        child: list[_selectedIndex],
-      ),
+      body: list[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

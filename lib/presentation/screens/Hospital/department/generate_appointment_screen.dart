@@ -44,6 +44,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                         }
                       },
               child: Card(
+                shape: cardShape,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(

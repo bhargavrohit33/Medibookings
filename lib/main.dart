@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
       title: 'Hospital Appointment App',
       theme: themeData,
       routes: routes,
-     
+     darkTheme: ThemeData.dark(
+       useMaterial3:true 
+      ),
       initialRoute: RouteName.hospitalWrapperScreen, // Set initial screen to SplashScreen
     );
   }

@@ -27,6 +27,17 @@ String nurseDemoImageURL =
       );
     });
   }
+  List<String> specialtyOptions = [
+    'Cardiology',
+    'Dermatology',
+    'Endocrinology',
+    'Gastroenterology',
+    'Hematology',
+    'Neurology',
+    'Oncology',
+    'Pediatrics',
+    // Add more specialties as needed
+  ];
 // remove above line
 
 // app theme 
@@ -66,9 +77,9 @@ final themeData = ThemeData(
   iconTheme: IconThemeData(color: primaryColor),
   cardTheme: CardTheme(
     color: Colors.white,
-    // Ensure elevation and shadow properties align with MD3
-    elevation: 4,
-    shadowColor: Colors.black.withOpacity(0.1),
+
+    elevation: 8,
+    shadowColor: Colors.black.withOpacity(1),
   ),
   switchTheme: SwitchThemeData(
     thumbColor: MaterialStateColor.resolveWith((states) {
