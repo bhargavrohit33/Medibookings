@@ -13,7 +13,7 @@ TextFormField textFormField({
   int maxLength = TextField.noMaxLength,
   bool showLengthCount = false,
   String? Function(String?)? validator,
-  bool obscureText = false,asdasd
+  bool obscureText = false,
 }) {
   final inputDecoration = decoration ?? defaultInputDecoration();
   final hasLengthCounter = maxLength != TextField.noMaxLength && showLengthCount;

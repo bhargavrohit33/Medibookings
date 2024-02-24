@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
-import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
 
 
 abstract class SplashScreenStateInterface {

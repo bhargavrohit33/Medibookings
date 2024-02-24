@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
-import 'package:medibookings/presentation/screens/auth/register_screen.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
-import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key});
+  const LoginScreen({super.key });
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -17,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>(); // GlobalKey for the form
 
-  String _email = '';
-  String _password = '';
+  final String _email = '';
+  final String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // form logic
-                      Navigator.pushReplacementNamed(context, RouteName.loginRoute);
+                      Navigator.pushReplacementNamed(context, RouteName.homePageRoute);
                     }
                   },
                   text: 'Login',

@@ -25,9 +25,9 @@ final themeData = ThemeData(
     unselectedItemColor: Colors.grey,
     // Ensure elevation and shadow properties align with MD3
     elevation: 8,
-    selectedIconTheme: IconThemeData(size: 24),
+    selectedIconTheme: const IconThemeData(size: 24),
   ),
-  bottomSheetTheme: BottomSheetThemeData(
+  bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Colors.white,
     // Ensure elevation and shadow properties align with MD3
     elevation: 24,
@@ -81,7 +81,7 @@ final themeData = ThemeData(
   listTileTheme: ListTileThemeData(
     tileColor: Colors.white,
     // Ensure content padding aligns with MD3
-    contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+    contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     // Ensure shape aligns with MD3
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
@@ -119,7 +119,7 @@ final cardShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(color: textFormFieldText)
     ),
-    contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+    contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     fillColor: textFormFieldText,
     hintText: hintText,
     filled: true

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:medibookings/presentation/screens/upload_document/upload_documents_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
     // Import the widget for nurse registration
 
