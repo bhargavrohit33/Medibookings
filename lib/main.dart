@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
-import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_drawer.dart';
-import 'package:medibookings/presentation/screens/splash/splash_screen.dart';
-//import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
+import 'package:medibookings/firebase_options.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:provider/provider.dart';
+
+import 'package:firebase_core/firebase_core.dart'; 
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp(); // Initialize Firebase app
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+ 
   runApp(const MyApp());
 }
 
@@ -19,15 +22,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-    
-      title: 'Hospital Appointment App',
-      theme: themeData,
-      routes: routes,
-     darkTheme: ThemeData.dark(
-       useMaterial3:true 
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
+          ChangeNotifierProvider(create: (_) => HospitalService()),
+      ],
+      child: MaterialApp(
+      
+        title: 'Hospital Appointment App',
+        theme: themeData,
+        routes: routes,
+       darkTheme: ThemeData.dark(
+         useMaterial3:true 
+        ),
+        initialRoute: RouteName.splashRoute, // Set initial screen to SplashScreen
       ),
-      initialRoute: RouteName.hospitalWrapperScreen, // Set initial screen to SplashScreen
     );
   }
 }

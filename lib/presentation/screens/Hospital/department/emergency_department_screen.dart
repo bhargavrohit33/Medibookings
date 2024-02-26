@@ -4,6 +4,8 @@ import 'package:medibookings/presentation/widget/commonLoading.dart';
 
 
 class EmergencyDepartmentScreen extends StatefulWidget {
+  const EmergencyDepartmentScreen({super.key});
+
   @override
   _EmergencyDepartmentScreenState createState() => _EmergencyDepartmentScreenState();
 }
@@ -30,21 +32,21 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
                 EmergencyDepartmentAppointment appointment = appointments[index];
                 return Card(
                   elevation: 2,
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
                     title: Text(
                       appointment.patientName,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text('Time: ${appointment.appointmentTime.toString()}'),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Priority: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -80,14 +82,14 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
 }
 
 class EmergencyDepartmentRepository {
-  static List<EmergencyDepartmentAppointment> _appointments = [
+  static final List<EmergencyDepartmentAppointment> _appointments = [
     EmergencyDepartmentAppointment(id: 1, patientName: 'John Doe', appointmentTime: DateTime.now(), priority: 'Normal'),
     EmergencyDepartmentAppointment(id: 2, patientName: 'Jane Smith', appointmentTime: DateTime.now(), priority: 'Urgent'),
     EmergencyDepartmentAppointment(id: 3, patientName: 'Alice Johnson', appointmentTime: DateTime.now(), priority: 'Normal'),
   ];
 
   Future<List<EmergencyDepartmentAppointment>> getAppointments() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     return _appointments;
   }
 

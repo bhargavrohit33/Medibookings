@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route_name.dart';
 
-var primaryColor = const Color(0xFF92A3FD);
-var buttonGradient = const Color(0xFF9DCEFF);
+
+
 Widget basicButton({
   required Function() onPressed,
   double? width,

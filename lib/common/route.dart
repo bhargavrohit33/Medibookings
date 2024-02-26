@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_detail_screen.dart';
-import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
 import 'package:medibookings/presentation/screens/Hospital/department/appointments_preview.dart';
 import 'package:medibookings/presentation/screens/Hospital/department/generate_appointment_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/create_doctor_profile_screen.dart';
@@ -19,23 +18,25 @@ import 'package:medibookings/presentation/screens/auth/register_screen.dart';
 import 'package:medibookings/presentation/screens/splash/splash_screen.dart';
 import 'package:medibookings/presentation/screens/upload_document/upload_documents_screen.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
+import 'package:medibookings/presentation/wrapper.dart';
 
 Map<String,WidgetBuilder> routes ={
   RouteName.splashRoute:(context)=>const SplashScreen(),
   RouteName.welcomeRoute:(context) => const WelcomeScreen(),
+  RouteName.appWrapper:(context) => const Wrapper(),
   RouteName.loginRoute:(context) => const LoginScreen(),
-  RouteName.registerRoute:(context) =>  RegisterScreen(),
+  RouteName.registerRoute:(context) =>  const RegisterScreen(),
   RouteName.forgetPasswordRoute:(context) => const ForgotPasswordScreen(),
   RouteName.uploadDocumentPageRoute:(context)=>const UploadDocumentsScreen(),
-  RouteName.accountNotVerifiedScreen:(context) =>  AccountNotVerifiedScreen(),
+  RouteName.accountNotVerifiedScreen:(context) =>  const AccountNotVerifiedScreen(),
 
   // home screen
-  RouteName.hospitalWrapperScreen:(context) => HospitalWrapperScreen(),
-  RouteName.hospital_doctorList_Screen:(context)=> DoctorListScreen(),
-  RouteName.hospital_createDoctorProfile:(context) => CreateDoctorProfileScreen(),
-  RouteName.hospital_editDoctorProfile:(context) => EditDoctorProfileScreen(),
-  RouteName.hospital_generate_appointment:(context) => GenerateAppointmentScreen(),
-  RouteName.hospital_doctorAppointmentListRoute:(context) => DoctorAppointmentListScreen(),
+  RouteName.hospitalWrapperScreen:(context) => const HospitalWrapperScreen(),
+  RouteName.hospital_doctorList_Screen:(context)=> const DoctorListScreen(),
+  RouteName.hospital_createDoctorProfile:(context) => const CreateDoctorProfileScreen(),
+  RouteName.hospital_editDoctorProfile:(context) => const EditDoctorProfileScreen(),
+  RouteName.hospital_generate_appointment:(context) => const GenerateAppointmentScreen(),
+  RouteName.hospital_doctorAppointmentListRoute:(context) => const DoctorAppointmentListScreen(),
   
   
   // apointments

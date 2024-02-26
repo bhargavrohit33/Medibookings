@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class AppointmentPreviewScreen extends StatefulWidget {
   final List<DateTime> appointments;
 
-  AppointmentPreviewScreen({required this.appointments});
+  const AppointmentPreviewScreen({super.key, required this.appointments});
 
   @override
   State<AppointmentPreviewScreen> createState() => _AppointmentPreviewScreenState();
@@ -15,7 +15,7 @@ class _AppointmentPreviewScreenState extends State<AppointmentPreviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointment Preview'),
+        title: const Text('Appointment Preview'),
       ),
       body: _buildAppointmentGrid(context),
     );
@@ -27,7 +27,7 @@ class _AppointmentPreviewScreenState extends State<AppointmentPreviewScreen> {
   return GridView.builder(
     
     shrinkWrap: true, 
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 3,
        crossAxisSpacing: 8.0,
       mainAxisSpacing: 8.0,
@@ -53,7 +53,7 @@ class AppointmentTile extends StatelessWidget {
   final DateTime appointmentTime;
   final VoidCallback onDelete;
 
-  AppointmentTile({required this.appointmentTime, required this.onDelete});
+  const AppointmentTile({super.key, required this.appointmentTime, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +65,15 @@ class AppointmentTile extends StatelessWidget {
           
           },
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${DateFormat('hh:mm a').format(appointmentTime)}'),
+                Text(DateFormat('hh:mm a').format(appointmentTime)),
                
                 InkWell(
                   onTap: onDelete,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Icon(Icons.delete, ),

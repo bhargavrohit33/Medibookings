@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class HospitalDrawer extends StatelessWidget {
+  const HospitalDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthService>(context );
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text('John Doe'),
-            accountEmail: Text('johndoe@example.com'),
+            accountName: const Text('John Doe'),
+            accountEmail: const Text('johndoe@example.com'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(nurseDemoImageURL),
             ),
@@ -21,6 +26,7 @@ class HospitalDrawer extends StatelessWidget {
          }),
           box("Profile",(){}),
           box("Setting",(){}),
+          box("Log out",(){provider.logout();}),
         ],
       ),
     );

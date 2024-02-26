@@ -6,7 +6,7 @@ class CustomAppBarWithoutBackButton extends StatelessWidget implements Preferred
   final TextStyle textStyle;
   final PreferredSizeWidget? bottom; 
 final double appBarSize ;
-  CustomAppBarWithoutBackButton({
+  const CustomAppBarWithoutBackButton({super.key, 
     required this.title,
     this.actions = const [],
     this.textStyle = const TextStyle(),

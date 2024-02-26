@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "245451810013",
+    "project_id": "hospitalappointment-6cf61",
+    "storage_bucket": "hospitalappointment-6cf61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245451810013:android:ea3cbf7a8c10c8f8b12734",
+        "android_client_info": {
+          "package_name": "com.example.medibookings"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcfEjk0lftfdoliXApN1FGu6kpeTkxPFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

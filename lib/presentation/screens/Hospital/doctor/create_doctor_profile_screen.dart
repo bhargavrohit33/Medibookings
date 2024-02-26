@@ -7,6 +7,8 @@ import 'package:medibookings/presentation/widget/button.dart';
 import 'package:file_picker/file_picker.dart';
 
 class CreateDoctorProfileScreen extends StatefulWidget {
+  const CreateDoctorProfileScreen({super.key});
+
   @override
   State<CreateDoctorProfileScreen> createState() => _CreateDoctorProfileScreenState();
 }
@@ -40,7 +42,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Doctor Profile'),
+        title: const Text('Create Doctor Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -58,7 +60,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               textFormField(
                 textEditingController: lastNameController,
                 decoration: defaultInputDecoration(hintText: 'Last Name'),
@@ -69,13 +71,13 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               DropdownButtonFormField(
                 decoration: defaultInputDecoration(hintText: 'Specialty'),
                 value: selectedSpecialty,
                 onChanged: (newValue) {
                   setState(() {
-                    selectedSpecialty = newValue as String?;
+                    selectedSpecialty = newValue;
                   });
                 },
                 items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {
@@ -85,7 +87,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
                   _selectFiles();
@@ -100,7 +102,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
                   child: ImageWidget(selectedFile: _selectedFile), // Use ImageWidget here
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               basicButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -121,7 +123,7 @@ class _CreateDoctorProfileScreenState extends State<CreateDoctorProfileScreen> {
 class ImageWidget extends StatelessWidget {
   final PlatformFile? selectedFile;
 
-  const ImageWidget({Key? key, this.selectedFile}) : super(key: key);
+  const ImageWidget({super.key, this.selectedFile});
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,7 @@ class ImageWidget extends StatelessWidget {
         fit: BoxFit.cover,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.add_a_photo,
         size: 40,
       );

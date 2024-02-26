@@ -12,7 +12,7 @@ import 'package:medibookings/presentation/widget/button.dart';
 class EditDoctorProfileScreen extends StatefulWidget {
   
 
-  EditDoctorProfileScreen();
+  const EditDoctorProfileScreen({super.key});
 
   @override
   State<EditDoctorProfileScreen> createState() => _EditDoctorProfileScreenState();
@@ -62,7 +62,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Doctor Profile'),
+        title: const Text('Update Doctor Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -80,7 +80,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               textFormField(
                 textEditingController: lastNameController,
                 decoration: defaultInputDecoration(hintText: 'Last Name'),
@@ -91,13 +91,13 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               DropdownButtonFormField(
                 decoration: defaultInputDecoration(hintText: 'Specialty'),
                 value: selectedSpecialty,
                 onChanged: (newValue) {
                   setState(() {
-                    selectedSpecialty = newValue as String?;
+                    selectedSpecialty = newValue;
                   });
                 },
                 items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {
@@ -107,7 +107,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               GestureDetector(
                 onTap: () {
                   _selectFiles();
@@ -122,7 +122,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                   child: ImageWidget(selectedFile: _selectedFile), // Use ImageWidget to display profile picture
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               
               basicButton(
                 onPressed: () {
@@ -132,7 +132,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                     String lastName = lastNameController.text;
                     String specialty = specialtyController.text;
                     String? profilePicture =
-                        _selectedFile != null ? _selectedFile!.path : null;
+                        _selectedFile?.path;
 
                     // Create updated Doctor object
                     Doctor updatedDoctor = Doctor(

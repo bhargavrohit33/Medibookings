@@ -17,7 +17,7 @@ class EmergencyDepartmentAppointment {
     String? priority,
   }) {
     return EmergencyDepartmentAppointment(
-      id: this.id,
+      id: id,
       patientName: patientName ?? this.patientName,
       appointmentTime: appointmentTime ?? this.appointmentTime,
       priority: priority ?? this.priority,

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 
 class AppointmentDetailScreeen extends StatelessWidget {
   final Appointment appointment;
 
-  AppointmentDetailScreeen(this.appointment);
+  const AppointmentDetailScreeen(this.appointment, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +38,23 @@ decoration: BoxDecoration(
                 children: [
                   Text(
                     '${appointment.patientId}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
-                  Divider(),
+                  const Divider(),
                   Text(
                     'Doctor: ${appointment.doctor}',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Start Time: ${appointment.appointmentDate}',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     'Duration: 15',
                     style: TextStyle(fontSize: 16),
                   ),
@@ -66,7 +65,7 @@ decoration: BoxDecoration(
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: basicButton(onPressed: (){},text: "Cancel appointment",height: 50)),
     );
   }

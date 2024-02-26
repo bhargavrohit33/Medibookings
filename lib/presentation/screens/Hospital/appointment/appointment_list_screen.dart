@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/common/app_colors.dart';
-import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:intl/intl.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
 
 class AppointmentListScreen extends StatefulWidget {
+  const AppointmentListScreen({super.key});
+
   
   @override
   State<AppointmentListScreen> createState() => _AppointmentListScreenState();
@@ -28,7 +27,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen> with Sing
         
         body: Column(
           children: [
-            Container(
+            const SizedBox(
               height: 50,
               child:TabBar(
             tabs: [
@@ -61,7 +60,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen> with Sing
 class AppointmentListView extends StatelessWidget {
   final List<Appointment> appointments;
 
-  AppointmentListView({required this.appointments});
+  const AppointmentListView({super.key, required this.appointments});
 
   @override
   Widget build(BuildContext context) {

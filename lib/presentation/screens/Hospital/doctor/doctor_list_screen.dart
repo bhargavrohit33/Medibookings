@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
-import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 
 
@@ -13,7 +12,7 @@ import 'package:medibookings/presentation/widget/custom_appbar.dart';
 class DoctorListScreen extends StatefulWidget {
   
 
-  DoctorListScreen();
+  const DoctorListScreen({super.key});
 
   @override
   State<DoctorListScreen> createState() => _DoctorListScreenState();
@@ -40,14 +39,14 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.pushReplacementNamed(context, RouteName.hospital_createDoctorProfile);
-      },child: Icon(Icons.add)),
+      },child: const Icon(Icons.add)),
     );
   }
 }
 class DoctorWidget extends StatelessWidget {
   final Doctor doctor;
 
-  DoctorWidget(this.doctor);
+  DoctorWidget(this.doctor, {super.key});
 
   final GlobalKey iconKey = GlobalKey();
 
@@ -60,7 +59,7 @@ class DoctorWidget extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(cardRadius)),
-        padding: EdgeInsets.all(16), // Added padding for better spacing
+        padding: const EdgeInsets.all(16), // Added padding for better spacing
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -74,21 +73,21 @@ class DoctorWidget extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                 ),
-                SizedBox(width: 10), // Added space between image and text
+                const SizedBox(width: 10), // Added space between image and text
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         doctor.firstName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       Text(
                         doctor.specialty,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                         ),
                       ),
@@ -100,11 +99,11 @@ class DoctorWidget extends StatelessWidget {
                   onPressed: () {
                     showPopUp(context);
                   },
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                 )
               ],
             ),
-            SizedBox(height: 10), // Added space between doctor info and buttons
+            const SizedBox(height: 10), // Added space between doctor info and buttons
             Row(
               children: [
                 Expanded(
@@ -112,16 +111,16 @@ class DoctorWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, RouteName.hospital_editDoctorProfile);
                     },
-                    child: FittedBox(child: Text('Edit')),
+                    child: const FittedBox(child: Text('Edit')),
                   ),
                 ),
-                SizedBox(width: 10), // Added space between buttons
+                const SizedBox(width: 10), // Added space between buttons
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
                      Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute);
                     },
-                    child: FittedBox(child: Text('Appointments')),
+                    child: const FittedBox(child: Text('Appointments')),
                   ),
                 ),
               ],
@@ -132,7 +131,7 @@ class DoctorWidget extends StatelessWidget {
     );
   }
   showPopUp(BuildContext context){
-    final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
                     final RenderBox button = iconKey.currentContext!.findRenderObject() as RenderBox;
 
                     final RenderBox overlayBox = overlay;
@@ -154,7 +153,7 @@ class DoctorWidget extends StatelessWidget {
                             Navigator.pushNamed(context, RouteName.hospital_generate_appointment);
                           },
                           value: 1,
-                          child: Text("Generate"),
+                          child: const Text("Generate"),
                         ),
                         
                       ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/common/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -8,7 +7,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   TextStyle textStyle;
   
 
-  CustomAppBar({required this.title, this.actions = const [], this.textStyle= const TextStyle()});
+  CustomAppBar({super.key, required this.title, this.actions = const [], this.textStyle= const TextStyle()});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +31,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 20); 
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20); 
 }
 

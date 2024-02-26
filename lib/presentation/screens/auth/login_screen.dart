@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
-import 'package:medibookings/presentation/screens/auth/register_screen.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
-import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key});
+  const LoginScreen({super.key, });
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -16,12 +16,20 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>(); // GlobalKey for the form
+   bool _obscurePassword = true;
 
-  String _email = '';
-  String _password = '';
+  void _toggleObscurePassword() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
+
+ TextEditingController emailController =TextEditingController();
+ TextEditingController passwordController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+   final provider = Provider.of<AuthService>(context );
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -49,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 textFormField(
-                  textEditingController: TextEditingController(),
+                  textEditingController: emailController,
                   decoration: defaultInputDecoration(hintText: "Email"),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -68,9 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   children: [
                     textFormField(
-                      textEditingController: TextEditingController(),
-                      obscureText: true,
-                      decoration: defaultInputDecoration(hintText: "Password"),
+                      textEditingController: passwordController,
+                       obscureText: _obscurePassword,
+                      decoration:  defaultInputDecoration(hintText: "Password").copyWith(
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
+                        onPressed: _toggleObscurePassword,
+                      ),
+                    ),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your password';
@@ -95,11 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 32.0),
                 basicButton(
-                  onPressed: () {
+                  onPressed: ()async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      // form logic
-                      Navigator.pushReplacementNamed(context, RouteName.loginRoute);
+                    final result = await provider.login(emailController.text, passwordController.text);
+                    if ( result == true){
+                      
+                      Navigator.pushReplacementNamed(context, RouteName.appWrapper);
+                    }
+                      
                     }
                   },
                   text: 'Login',
@@ -114,9 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () {
                         Navigator.pushReplacementNamed(context, RouteName.registerRoute);
                       },
-                      child: const Text(
+                      child:  Text(
                         'Register',
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: blueColor),
                       ),
                     ),
                   ],

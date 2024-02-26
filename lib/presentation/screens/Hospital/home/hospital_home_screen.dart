@@ -6,7 +6,6 @@ import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/widget/home_doctor_card.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 
@@ -33,15 +32,15 @@ class _hospitalHomeScreenState extends State<hospitalHomeScreen> {
                 textEditingController: textEditingController,
                 decoration: defaultInputDecoration(hintText: "Search Doctor"),
                 onChanged: (c) => setState(() {})),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             textEditingController.text.isEmpty
                 ? Padding(
                     padding: EdgeInsets.all(padding),
-                    child: HomeBasicContent(),
+                    child:  HomeBasicContent(),
                   )
-                : SearchResult()
+                : const SearchResult()
           ],
         ),
       ),
@@ -58,7 +57,7 @@ class HomeBasicContent extends StatelessWidget {
       hospitalId: 1,
       timeSlotDuration: 30,
       doctor: 1,
-      appointmentDate: DateTime.now().add(Duration(days: 1)),
+      appointmentDate: DateTime.now().add(const Duration(days: 1)),
     ),
     Appointment(
       id: 1,
@@ -66,7 +65,7 @@ class HomeBasicContent extends StatelessWidget {
       hospitalId: 1,
       timeSlotDuration: 30,
       doctor: 1,
-      appointmentDate: DateTime.now().add(Duration(days: 1)),
+      appointmentDate: DateTime.now().add(const Duration(days: 1)),
     ),
     Appointment(
       id: 1,
@@ -74,7 +73,7 @@ class HomeBasicContent extends StatelessWidget {
       hospitalId: 1,
       timeSlotDuration: 30,
       doctor: 1,
-      appointmentDate: DateTime.now().add(Duration(days: 1)),
+      appointmentDate: DateTime.now().add(const Duration(days: 1)),
     ),
   ];
 
@@ -82,28 +81,30 @@ class HomeBasicContent extends StatelessWidget {
     EmergencyDepartmentAppointment(
       id: 1,
       patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(Duration(hours: 2)),
+      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
       priority: 'Urgent',
     ),
     EmergencyDepartmentAppointment(
       id: 1,
       patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(Duration(hours: 2)),
+      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
       priority: 'Urgent',
     ),
     EmergencyDepartmentAppointment(
       id: 1,
       patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(Duration(hours: 2)),
+      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
       priority: 'Urgent',
     ),
     EmergencyDepartmentAppointment(
       id: 1,
       patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(Duration(hours: 2)),
+      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
       priority: 'Urgent',
     ),
   ];
+
+   HomeBasicContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +112,17 @@ class HomeBasicContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         titleBar("Doctors:",(){}),
-        SizedBox(height: 8),
-        doctorList(),SizedBox(height: 8),
-          SizedBox(height: 8),
+        const SizedBox(height: 8),
+        doctorList(),const SizedBox(height: 8),
+          const SizedBox(height: 8),
         titleBar("Upcoming Emergency Department Appointments:",(){}),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         buildEmergencyAppointmentCarousel(emergencyAppointments,context),
-         SizedBox(height: 8),
+         const SizedBox(height: 8),
         titleBar("Upcoming Appointments:",(){}),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         buildAppointmentCarousel(normalAppointments,context),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         
         
       ],
@@ -151,7 +152,7 @@ class HomeBasicContent extends StatelessWidget {
   Widget buildAppointmentCarousel(List<Appointment> appointments, BuildContext context) {
   final size = MediaQuery.of(context).size;
   final theme = Theme.of(context);
-  final color = Colors.white;
+  const color = Colors.white;
 
   return CarouselSlider.builder(
     itemCount: appointments.length,
@@ -176,11 +177,11 @@ class HomeBasicContent extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.event_note, color: color, size: 30),
+                  const Icon(Icons.event_note, color: color, size: 30),
                   Expanded(
                     child: Text(
                       'Appointment ID: ${appointment.id}',
-                      style: TextStyle(color: color),
+                      style: const TextStyle(color: color),
                     ),
                   ),
                 ],
@@ -188,11 +189,11 @@ class HomeBasicContent extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(Icons.calendar_today, color: color, size: 30),
+                  const Icon(Icons.calendar_today, color: color, size: 30),
                   Expanded(
                     child: Text(
                       'Date: ${DateFormat('MMMM dd, yyyy').format(appointment.appointmentDate!)}',
-                      style: TextStyle(color: color),
+                      style: const TextStyle(color: color),
                     ),
                   ),
                 ],
@@ -208,7 +209,7 @@ class HomeBasicContent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   child: Row(
                     children: [
-                      Icon(Icons.timer, size: 20),
+                      const Icon(Icons.timer, size: 20),
                       const SizedBox(width: 8),
                       Text(
                         'Time Slot Duration: ${appointment.timeSlotDuration} minutes',
@@ -285,7 +286,7 @@ Widget doctorList(){
       List<EmergencyDepartmentAppointment> appointments,BuildContext context) {
         final size = MediaQuery.of(context).size;
         final theme = Theme.of(context);
-        final color = Colors.white;
+        const color = Colors.white;
     return CarouselSlider.builder(
       itemCount: appointments.length,
       options: CarouselOptions(
@@ -307,20 +308,20 @@ Widget doctorList(){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  Icon(Icons.personal_injury,color: color,size: 30),
+                  const Icon(Icons.personal_injury,color: color,size: 30),
                   Expanded(
-                    child: Text('${appointment.patientName}',
-                                    style: TextStyle(color: color),
+                    child: Text(appointment.patientName,
+                                    style: const TextStyle(color: color),
                                     ),
                   ),
                 
                 ],),
                  const SizedBox(height: 5,),
                  Row(children: [
-                  Icon(Icons.lock_clock,color: color,size: 30),
+                  const Icon(Icons.lock_clock,color: color,size: 30),
                   Expanded(
                     child: Text(
-                    ' ${DateFormat('hh:mm a').format(appointment.appointmentTime)}',style: TextStyle(color: color),),
+                    ' ${DateFormat('hh:mm a').format(appointment.appointmentTime)}',style: const TextStyle(color: color),),
                   ),
                 
                 ],),
@@ -335,7 +336,7 @@ Widget doctorList(){
                   padding: const EdgeInsets.symmetric(horizontal:8,vertical: 2),
                   child: Row(
                     children: [
-                       Icon(Icons.lock_clock,size: 20),
+                       const Icon(Icons.lock_clock,size: 20),
                       const SizedBox(width: 8),
                       Text('Priority: ${appointment.priority}'),
                     ],

@@ -6,6 +6,8 @@ import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_draw
 import 'package:medibookings/presentation/widget/custom_appBar_without_backbutton.dart';
 
 class HospitalWrapperScreen extends StatefulWidget {
+  const HospitalWrapperScreen({super.key});
+
   @override
   _HospitalWrapperScreenState createState() => _HospitalWrapperScreenState();
 }
@@ -21,9 +23,9 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
 
   var titles = ['Home',"Emergency",'Appointment'];
   var list = [
-    hospitalHomeScreen(),
-    EmergencyDepartmentScreen(),
-    AppointmentListScreen()
+    const hospitalHomeScreen(),
+    const EmergencyDepartmentScreen(),
+    const AppointmentListScreen()
   ];
 
   @override
@@ -32,7 +34,7 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
       appBar: CustomAppBarWithoutBackButton(
       title: titles[_selectedIndex],
       ),
-      drawer: HospitalDrawer(),
+      drawer: const HospitalDrawer(),
       body: list[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

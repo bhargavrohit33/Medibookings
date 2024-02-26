@@ -3,7 +3,7 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 
 class AccountNotVerifiedScreen extends StatelessWidget {
-  const AccountNotVerifiedScreen();
+  const AccountNotVerifiedScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

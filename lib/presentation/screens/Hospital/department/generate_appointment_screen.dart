@@ -7,17 +7,19 @@ import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 
 class GenerateAppointmentScreen extends StatefulWidget {
+  const GenerateAppointmentScreen({super.key});
+
   @override
   _GenerateAppointmentScreenState createState() => _GenerateAppointmentScreenState();
 }
 
 class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
   DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedOpeningTime = TimeOfDay(hour: 9, minute: 0);
-  TimeOfDay _selectedClosingTime = TimeOfDay(hour: 17, minute: 0);
-  List<TimeOfDayRange> _selectedBreakTimes = [];
-  List<DateTime> _generatedAppointments = [];
-  TextEditingController _durationOfAppointment = TextEditingController();
+  TimeOfDay _selectedOpeningTime = const TimeOfDay(hour: 9, minute: 0);
+  final TimeOfDay _selectedClosingTime = const TimeOfDay(hour: 17, minute: 0);
+  final List<TimeOfDayRange> _selectedBreakTimes = [];
+  final List<DateTime> _generatedAppointments = [];
+  final TextEditingController _durationOfAppointment = TextEditingController();
   final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
     return Scaffold(
       appBar: CustomAppBar(title: "Generate Appointments"),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,7 +37,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                           context: context,
                           initialDate: _selectedDate,
                           firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
+                          lastDate: DateTime.now().add(const Duration(days: 365)),
                         );
                         if (pickedDate != null && pickedDate != _selectedDate) {
                           setState(() {
@@ -47,24 +49,24 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                 shape: cardShape,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
+                  child: SizedBox(
                     width: size.width ,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(
+                      children: [const Text(
                       'Select Date:',
                       style: TextStyle(fontSize: 18),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       DateFormat('MMMM dd, yyyy').format(_selectedDate),
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),],),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,11 +99,11 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                 
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Form(
               key: key,
               child: textFormField(textEditingController: _durationOfAppointment,
-              keyboardType:TextInputType.numberWithOptions(),
+              keyboardType:const TextInputType.numberWithOptions(),
                decoration: defaultInputDecoration(hintText: "Appointment duration"),
                validator: (v){
                 if(int.tryParse(v!)== null){
@@ -110,11 +112,11 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                 return null;
               }),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Doctor Break Times:',
                   style: TextStyle(fontSize: 18),
                 ),
@@ -134,12 +136,12 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                           });
                         }
                       }
-                }, icon: Icon(Icons.add_circle))
+                }, icon: const Icon(Icons.add_circle))
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-            if (_selectedBreakTimes.length > 0)
+            if (_selectedBreakTimes.isNotEmpty)
             listOfBreakTime(),
             
             
@@ -163,7 +165,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
     );
   }
 Widget listOfBreakTime() {
-  return Container(
+  return SizedBox(
     height: 100,
     child: ListView.builder(
       shrinkWrap: true,
@@ -186,7 +188,7 @@ Widget listOfBreakTime() {
                       Text(formatTimeOfDay(breakTime.end)),
                       
                       Expanded(
-                        child: ElevatedButton(child: Text("Delete"),
+                        child: ElevatedButton(child: const Text("Delete"),
                           onPressed: (){ setState(() {
                           _selectedBreakTimes.removeAt(index);
                         },
@@ -220,8 +222,8 @@ Widget listOfBreakTime() {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.schedule),
-                                SizedBox(width: 5,),
+                                const Icon(Icons.schedule),
+                                const SizedBox(width: 5,),
                                 FittedBox(
                                   child: Text(
                                    text,
@@ -230,13 +232,13 @@ Widget listOfBreakTime() {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             GestureDetector(
                               onTap : onPressed,
                               
                               child: Text(
                                 formatTimeOfDay(time),
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ],

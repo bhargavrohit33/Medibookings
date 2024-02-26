@@ -14,7 +14,7 @@ class AppointcardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      final theme = Theme.of(context);
-     final bottomBarColor = Colors.white;
+     const bottomBarColor = Colors.white;
     return Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Card(
@@ -25,7 +25,7 @@ class AppointcardWidget extends StatelessWidget {
                 color: theme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(cardRadius),
               ),
-              padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -34,26 +34,26 @@ class AppointcardWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(Icons.local_hospital, color: primaryColor),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text( appointment.patientId.toString()),
                       ],
                     ),
                   ),
 
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Row(
                       children: [
                         Icon(Icons.personal_injury_rounded, color: primaryColor),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(appointment.doctor.toString()),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.only(
@@ -64,7 +64,7 @@ class AppointcardWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(DateFormat('MMMM dd, yyyy, hh, mm').format(appointment.appointmentDate!), style: TextStyle(color: bottomBarColor)),
+                        Text(DateFormat('MMMM dd, yyyy, hh, mm').format(appointment.appointmentDate!), style: const TextStyle(color: bottomBarColor)),
                         Row(
                           children: [
                             IconButton(
@@ -76,15 +76,15 @@ class AppointcardWidget extends StatelessWidget {
                                   
                                 );
                               },
-                              icon: Icon(Icons.info_outline, color: bottomBarColor),
+                              icon: const Icon(Icons.info_outline, color: bottomBarColor),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             IconButton(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               onPressed: () {
                                
                               },
-                              icon: Icon(Icons.swap_horiz, color: bottomBarColor),
+                              icon: const Icon(Icons.swap_horiz, color: bottomBarColor),
                             ),
                           ],
                         ),
