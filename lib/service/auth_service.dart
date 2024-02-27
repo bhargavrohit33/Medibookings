@@ -7,8 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:medibookings/service/disposable_service.dart';
 
-class AuthService extends ChangeNotifier {
+class AuthService extends DisposableService {
   User? user;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -58,7 +59,10 @@ class AuthService extends ChangeNotifier {
       return true;
     } catch (e ) {
      
-      print('Error logging in user: $e');
+       if (e is FirebaseAuthException) {
+      log('Firebase Error: ${e.message}');
+      throw Exception(e.message);
+    } 
       
       throw e;
     }
@@ -76,21 +80,47 @@ class AuthService extends ChangeNotifier {
       throw e;
     }
   }
-Future<List<String>> uploadFiles(List<PlatformFile> selectedFiles,HospitalService hospitalService) async {
+
+  Future<void> forgetPassowrd(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+      notifyListeners();
+    } catch (e) {
+      
+      print('Error logging out user: $e');
+      throw e;
+    }
+  }
+Future<List<String>> documentsupload(List<PlatformFile> selectedFiles,HospitalService hospitalService) async {
+  final List<String> downloadUrls = await uploadFiles(selectedFiles);
+  await hospitalService.updateDocumentList(downloadUrls);
+  return downloadUrls;
+}
+Future<List<String>> uploadFiles(List<PlatformFile> selectedFiles)async{
   final List<String> downloadUrls = [];
   for (final PlatformFile file in selectedFiles) {
-    final firebaseStorage = FirebaseStorage.instance;
+    
+
+    final downloadUrl = await uploadFile(file);
+    downloadUrls.add(downloadUrl);
+  }
+  return downloadUrls;
+}
+Future<String> uploadFile(PlatformFile file)async{
+  final firebaseStorage = FirebaseStorage.instance;
     final reference = firebaseStorage.ref().child(firebaseAuth.currentUser!.uid).child(file.name);
     final task = reference.putFile(File(file.path!));
 
     final snapshot = await task.whenComplete(() => null);
 
-    final downloadUrl = await snapshot.ref.getDownloadURL();
-    downloadUrls.add(downloadUrl);
-  }
-  await hospitalService.updateDocumentList(downloadUrls);
-  return downloadUrls;
+   return await snapshot.ref.getDownloadURL();
 }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+  }
 
 
 

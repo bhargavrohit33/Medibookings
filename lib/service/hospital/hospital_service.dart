@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medibookings/model/hospital/hospital/hospital_model.dart';
+import 'package:medibookings/service/disposable_service.dart';
 import 'package:medibookings/service/service_utils.dart';
 
-class HospitalService extends ChangeNotifier {
+class HospitalService   extends DisposableService {
   HospitalModel? hospitalModel;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -12,6 +13,11 @@ class HospitalService extends ChangeNotifier {
       FirebaseFirestore.instance.collection(ServiceUtils.collection_hospital);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
+  @override
+  void dispose() {
+    hospitalModel = null;
+    
+  }
   Future<bool> checkHospitalExists(String hospitalName) async {
     QuerySnapshot<Object?> querySnapshot =
         await hospitalsCollection.where('name', isEqualTo: hospitalName).get();
@@ -78,4 +84,10 @@ class HospitalService extends ChangeNotifier {
       throw e;
     }
   }
+  
+ 
+  
+
+  
+  
 }

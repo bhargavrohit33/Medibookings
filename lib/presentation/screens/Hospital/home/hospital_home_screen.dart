@@ -8,6 +8,9 @@ import 'package:medibookings/presentation/screens/Hospital/home/widget/home_doct
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
+import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:provider/provider.dart';
 
 class hospitalHomeScreen extends StatefulWidget {
   const hospitalHomeScreen({super.key});
@@ -113,7 +116,7 @@ class HomeBasicContent extends StatelessWidget {
       children: [
         titleBar("Doctors:",(){}),
         const SizedBox(height: 8),
-        doctorList(),const SizedBox(height: 8),
+        doctorList(context),const SizedBox(height: 8),
           const SizedBox(height: 8),
         titleBar("Upcoming Emergency Department Appointments:",(){}),
         const SizedBox(height: 8),
@@ -226,57 +229,34 @@ class HomeBasicContent extends StatelessWidget {
     },
   );
 }
-Widget doctorList(){
-  final List<Doctor> doctors = [
-    Doctor(
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      specialty: 'Cardiologist',
-    ),
-    Doctor(
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Smith',
-      specialty: 'Pediatrician',
-    ),
-    Doctor(
-      id: 3,
-      firstName: 'Michael',
-      lastName: 'Johnson',
-      specialty: 'Dermatologist',
-    ),
-    Doctor(
-      id: 4,
-      firstName: 'Sarah',
-      lastName: 'Williams',
-      specialty: 'Neurologist',
-    ),
-    Doctor(
-      id: 5,
-      firstName: 'Robert',
-      lastName: 'Brown',
-      specialty: 'Orthopedic Surgeon',
-    ),
-    Doctor(
-      id: 6,
-      firstName: 'Emily',
-      lastName: 'Wilson',
-      specialty: 'Ophthalmologist',
-    ),
-  ];
+Widget doctorList(BuildContext context){
+  final _doctorService = Provider.of<DoctorService>(context);
   return SizedBox(
       height: 180, 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: doctors.length,
-        itemBuilder: (context, index) {
-          final doctor = doctors[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: HomeDoctorCard(doctor: doctor),
+      child: StreamBuilder<List<Doctor>>(
+        stream: _doctorService.getDoctorsByHospitalIdStream(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              
+              if (snapshot.connectionState == ConnectionState.waiting) {
+            return commonLoading();
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: '));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No doctors found.'));
+          }else{
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: HomeDoctorCard(doctor: snapshot.data![index]),
+              );
+          }
+              
+            },
           );
-        },
+        }
       ),
     );
     

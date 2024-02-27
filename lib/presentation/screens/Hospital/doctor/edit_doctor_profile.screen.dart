@@ -7,36 +7,40 @@ import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/create_doctor_profile_screen.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
+import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:provider/provider.dart';
 
 
 class EditDoctorProfileScreen extends StatefulWidget {
-  
+  final Doctor doctor;
 
-  const EditDoctorProfileScreen({super.key});
+  const EditDoctorProfileScreen({Key? key, required this.doctor}) : super(key: key);
 
   @override
   State<EditDoctorProfileScreen> createState() => _EditDoctorProfileScreenState();
 }
 
 class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
-   Doctor doctor =Doctor(id: 1, firstName: 'Dr. Smith', lastName: '', specialty: 'Cardiology') ;
   PlatformFile? _selectedFile;
-  String? selectedSpecialty ;
+  String? selectedSpecialty;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-  
-    firstNameController.text = doctor.firstName;
-    lastNameController.text = doctor.lastName;
-    specialtyController.text = doctor.specialty;
+    firstNameController = TextEditingController(text: widget.doctor.firstName);
+    lastNameController = TextEditingController(text: widget.doctor.lastName);
     
-    if (doctor.profilePicture != null) {
+    selectedSpecialty = widget.doctor.specialization;
+    if (widget.doctor.profilePhoto != null) {
       _selectedFile = PlatformFile(
-        path: doctor.profilePicture!,
+        path: widget.doctor.profilePhoto!,
         name: 'profile_picture',
-        size: 50
+        size: 50,
       );
     }
   }
@@ -54,105 +58,120 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
     }
   }
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController specialtyController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final doctorService = Provider.of<DoctorService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Doctor Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              textFormField(
-                textEditingController: firstNameController,
-                decoration: defaultInputDecoration(hintText: 'First Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              textFormField(
-                textEditingController: lastNameController,
-                decoration: defaultInputDecoration(hintText: 'Last Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your last name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField(
-                decoration: defaultInputDecoration(hintText: 'Specialty'),
-                value: selectedSpecialty,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedSpecialty = newValue;
-                  });
-                },
-                items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16,),
-              GestureDetector(
-                onTap: () {
-                  _selectFiles();
-                },
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(15),
+        child: Stack(
+          children: [
+            Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  textFormField(
+                    textEditingController: firstNameController,
+                    decoration: defaultInputDecoration(hintText: 'First Name'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your first name';
+                      }
+                      return null;
+                    },
                   ),
-                  child: ImageWidget(selectedFile: _selectedFile), // Use ImageWidget to display profile picture
-                ),
+                  const SizedBox(height: 16),
+                  textFormField(
+                    textEditingController: lastNameController,
+                    decoration: defaultInputDecoration(hintText: 'Last Name'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your last name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField(
+                    decoration: defaultInputDecoration(hintText: 'Specialty'),
+                    value: selectedSpecialty,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedSpecialty = newValue as String?;
+                      });
+                    },
+                    items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 16,),
+                  GestureDetector(
+                    onTap: () {
+                      _selectFiles();
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ImageWidget(selectedFile: _selectedFile), // Use ImageWidget to display profile picture
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  basicButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                         setState(() {
+                            _isLoading = false;
+                          });
+                        String firstName = firstNameController.text;
+                        String lastName = lastNameController.text;
+                        String specialty = selectedSpecialty ?? '';
+                        String? profilePicture = _selectedFile?.path;
+                        Doctor updatedDoctor = Doctor(
+                          id: widget.doctor.id,
+                          firstName: firstName,
+                          lastName: lastName,
+                          specialization: specialty,
+                          profilePhoto: profilePicture,
+                          hospitalId: widget.doctor.hospitalId,
+                        );
+            
+                        try {
+                          await doctorService.editDoctorProfile(
+                            widget.doctor.id,
+                            firstName,
+                            lastName,
+                            specialty,
+                            file: _selectedFile,
+                          );
+            
+                          Navigator.pop(context);
+                        } catch (e) {
+                          print('Error updating doctor profile: $e');
+                        }finally{
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }
+                      }
+                    },
+                    text: 'Update Profile',
+                  )
+                ],
               ),
-              const SizedBox(height: 16),
-              
-              basicButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Get updated information
-                    String firstName = firstNameController.text;
-                    String lastName = lastNameController.text;
-                    String specialty = specialtyController.text;
-                    String? profilePicture =
-                        _selectedFile?.path;
-
-                    // Create updated Doctor object
-                    Doctor updatedDoctor = Doctor(
-                      id: doctor.id,
-                      firstName: firstName,
-                      lastName: lastName,
-                      specialty: specialty,
-                      profilePicture: profilePicture,
-                    );
-
-                    // TODO: Call updateDoctor method to update doctor information
-
-                    // Navigate back
-                    Navigator.pop(context);
-                  }
-                },
-                text: 'Update Profile',
-              )
-            ],
-          ),
+            ),
+           if (_isLoading)
+            commonLoading()
+          ],
         ),
       ),
     );

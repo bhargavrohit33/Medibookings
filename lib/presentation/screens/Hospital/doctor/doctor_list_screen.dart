@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
+import 'package:medibookings/presentation/widget/profile_photo_card.dart';
+import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -10,39 +14,47 @@ import 'package:medibookings/presentation/widget/custom_appbar.dart';
 
 
 class DoctorListScreen extends StatefulWidget {
-  
-
-  const DoctorListScreen({super.key});
+  const DoctorListScreen({Key? key}) : super(key: key);
 
   @override
   State<DoctorListScreen> createState() => _DoctorListScreenState();
 }
 
 class _DoctorListScreenState extends State<DoctorListScreen> {
-
- final List<Doctor> doctors = [
-  Doctor(id: 1, firstName: 'Dr. Smith', lastName: '', specialty: 'Cardiology'),
-  Doctor(id: 2, firstName: 'Dr. Johnson', lastName: '', specialty: 'Pediatrics'),
-  Doctor(id: 3, firstName: 'Dr. Williams', lastName: '', specialty: 'Orthopedics'),
-  
-];
-
   @override
   Widget build(BuildContext context) {
+    final doctorService = Provider.of<DoctorService>(context);
     return Scaffold(
       appBar: CustomAppBar(title: 'Doctor List'),
-      body: ListView.builder(
-        itemCount: doctors.length,
-        itemBuilder: (context, index) {
-          return DoctorWidget(doctors[index]);
+      body: StreamBuilder<List<Doctor>>(
+        stream: doctorService.getDoctorsByHospitalIdStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return commonLoading();
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: '));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No doctors found.'));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return DoctorWidget(snapshot.data![index]);
+              },
+            );
+          }
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.pushReplacementNamed(context, RouteName.hospital_createDoctorProfile);
-      },child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, RouteName.hospital_createDoctorProfile);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
+
 class DoctorWidget extends StatelessWidget {
   final Doctor doctor;
 
@@ -65,28 +77,22 @@ class DoctorWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                ClipOval(
-                  child: Image.network(
-                    nurseDemoImageURL,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                profilePhoto(profilePhoto: doctor.profilePhoto),
+                
                 const SizedBox(width: 10), // Added space between image and text
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        doctor.firstName,
+                        doctor.firstName +" " + doctor.lastName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        doctor.specialty,
+                        doctor.specialization,
                         style: const TextStyle(
                           color: Colors.grey,
                         ),
@@ -109,7 +115,7 @@ class DoctorWidget extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, RouteName.hospital_editDoctorProfile);
+                      Navigator.pushNamed(context, RouteName.hospital_editDoctorProfile,arguments: doctor);
                     },
                     child: const FittedBox(child: Text('Edit')),
                   ),
@@ -130,6 +136,8 @@ class DoctorWidget extends StatelessWidget {
       ),
     );
   }
+
+  
   showPopUp(BuildContext context){
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
                     final RenderBox button = iconKey.currentContext!.findRenderObject() as RenderBox;

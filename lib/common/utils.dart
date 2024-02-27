@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
+import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 
 
 
@@ -27,6 +28,32 @@ String nurseDemoImageURL =
       );
     });
   }
+
+ final List<Doctor> doctors = [
+  Doctor(
+    id: "1",
+    firstName: 'Dr. Smith',
+    lastName: '',
+    specialization: 'Cardiology',
+    hospitalId: '', // Provide the hospitalId here
+  ),
+  Doctor(
+    id: "2",
+    firstName: 'Dr. Johnson',
+    lastName: '',
+    specialization: 'Pediatrics',
+    hospitalId: '', // Provide the hospitalId here
+  ),
+  Doctor(
+    id: "3",
+    firstName: 'Dr. Williams',
+    lastName: '',
+    specialization: 'Orthopedics',
+    hospitalId: '', // Provide the hospitalId here
+  ),
+];
+
+
   List<String> specialtyOptions = [
     'Cardiology',
     'Dermatology',

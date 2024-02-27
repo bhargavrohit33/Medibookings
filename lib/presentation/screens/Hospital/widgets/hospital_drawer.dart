@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/service/auth_service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:provider/provider.dart';
 
 class HospitalDrawer extends StatelessWidget {
@@ -9,7 +10,8 @@ class HospitalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AuthService>(context );
+    final _authProvider = Provider.of<AuthService>(context );
+    final _hospitalProvider = Provider.of<HospitalService>(context );
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -26,7 +28,10 @@ class HospitalDrawer extends StatelessWidget {
          }),
           box("Profile",(){}),
           box("Setting",(){}),
-          box("Log out",(){provider.logout();}),
+          box("Log out",()async{
+            
+            await _authProvider.logout();
+             _hospitalProvider.dispose();}),
         ],
       ),
     );

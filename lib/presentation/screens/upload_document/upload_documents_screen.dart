@@ -129,7 +129,7 @@ final theme = Theme.of(context);
               _isUploading = true;
             });
             try {
-              await authService.uploadFiles(_selectedFiles!, hospitalService);
+              await authService.documentsupload(_selectedFiles!, hospitalService);
               if (!context.mounted) return;
               custom_snackBar(context, "Files successfully uploaded");
               Navigator.pushReplacementNamed(context, RouteName.appWrapper);

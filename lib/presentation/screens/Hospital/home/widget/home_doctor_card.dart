@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
+import 'package:medibookings/presentation/widget/profile_photo_card.dart';
 
 class HomeDoctorCard extends StatelessWidget {
   final Doctor doctor;
@@ -26,11 +27,17 @@ class HomeDoctorCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage:  NetworkImage(nurseDemoImageURL,)
-                , 
-              ),
+             
+                doctor.profilePhoto != null
+                ? CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(doctor.profilePhoto!),
+                  )
+                : const CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage('assets/Logo.png'),
+                ),
+    
               Expanded(
                 child: Text(
                   '${doctor.firstName} ${doctor.lastName}',
@@ -41,11 +48,13 @@ class HomeDoctorCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
-                doctor.specialty,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
+              FittedBox(
+                child: Text(
+                  doctor.specialization,
+                  style: const TextStyle(
+                    
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],

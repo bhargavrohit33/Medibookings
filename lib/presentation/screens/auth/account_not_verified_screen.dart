@@ -6,26 +6,24 @@ class AccountNotVerifiedScreen extends StatelessWidget {
   const AccountNotVerifiedScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
      
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           const Icon(
+            Icon(
               Icons.warning,
               size: 100,
               color: Colors.orange,
             ),
-           const SizedBox(height: 20),
-           const Text(
+            SizedBox(height: 20),
+            Text(
               'Your account is not verified yet.',
               style: TextStyle(fontSize: 18),
             ),
-           const SizedBox(height: 10),
-            basicButton(onPressed: (){
-              Navigator.pushReplacementNamed(context, RouteName.hospitalWrapperScreen);
-            }, text: "Skip temporary")
+            SizedBox(height: 10),
+           
           ],
         ),
       ),

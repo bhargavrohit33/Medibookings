@@ -4,6 +4,7 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:provider/provider.dart';
 
@@ -111,11 +112,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: ()async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                    final result = await provider.login(emailController.text, passwordController.text);
+                      try{
+                         final result = await provider.login(emailController.text, passwordController.text);
                     if ( result == true){
                       
                       Navigator.pushReplacementNamed(context, RouteName.appWrapper);
+                    }else{
+                      custom_snackBar(context,"Fail");
                     }
+                      }catch(e){
+                        custom_snackBar(context, e.toString());
+                      }
+                   
                       
                     }
                   },

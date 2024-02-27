@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/snack_bar.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:provider/provider.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  TextEditingController emailController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -30,27 +43,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: TextStyle(color: Colors.grey[800]),
+              textFormField(
+                textEditingController: emailController,
+                decoration: defaultInputDecoration(hintText: "Email"),
+                keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
                   }
-                  if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+                  if (!RegExp(
+                          r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+                      .hasMatch(value)) {
                     return 'Please enter a valid email';
                   }
                   return null;
@@ -59,9 +62,17 @@ class ForgotPasswordScreen extends StatelessWidget {
               const SizedBox(height: 20.0),
               basicButton(
                 onPressed: () {
-                  // forgot password logic to be performed later
-                  Navigator.pushReplacementNamed(context, RouteName.welcomeRoute);
-                 
+                  try {
+                    _authProvider.forgetPassowrd(emailController.text);
+
+                    custom_snackBar(context, 'Password reset email sent');
+                  } catch (e) {
+                    print('Error sending password reset email: $e');
+                    custom_snackBar(
+                        context, 'Failed to send password reset email');
+                  }
+                  Navigator.pushReplacementNamed(
+                      context, RouteName.welcomeRoute);
                 },
                 text: 'Reset Password',
                 width: double.infinity,
