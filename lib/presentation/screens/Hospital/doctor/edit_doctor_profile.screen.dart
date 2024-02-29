@@ -36,13 +36,13 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
     lastNameController = TextEditingController(text: widget.doctor.lastName);
     
     selectedSpecialty = widget.doctor.specialization;
-    if (widget.doctor.profilePhoto != null) {
-      _selectedFile = PlatformFile(
-        path: widget.doctor.profilePhoto!,
-        name: 'profile_picture',
-        size: 50,
-      );
-    }
+    // if (widget.doctor.profilePhoto != null) {
+    //   _selectedFile = PlatformFile(
+    //     path: widget.doctor.profilePhoto!,
+    //     name: 'profile_picture',
+    //     size: 50,
+    //   );
+    // }
   }
 
   Future<void> _selectFiles() async {
@@ -122,7 +122,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: ImageWidget(selectedFile: _selectedFile), // Use ImageWidget to display profile picture
+                      child: ImageWidget(selectedFile: _selectedFile), 
                     ),
                   ),
                   const SizedBox(height: 16),

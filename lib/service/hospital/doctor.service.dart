@@ -13,16 +13,21 @@ class DoctorService extends DisposableService {
   final CollectionReference doctorsCollection =
       FirebaseFirestore.instance.collection(ServiceUtils.collection_doctor);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
+  Doctor? doctor;
   @override
   void dispose() {
     // TODO: implement dispose
+    doctor = null;
   }
 
   @override
   dynamic noSuchMethod(Invocation invocation) {
     // Handle calls to unimplemented methods here
     return super.noSuchMethod(invocation);
+  }
+  Future<void> setDoctor(Doctor _doctor)async{
+    doctor =   _doctor;
+    notifyListeners();
   }
 
   Future<bool> checkDoctorExists(String doctorName) async {

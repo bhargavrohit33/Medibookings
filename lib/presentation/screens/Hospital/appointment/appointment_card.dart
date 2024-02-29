@@ -64,7 +64,7 @@ class AppointcardWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(DateFormat('MMMM dd, yyyy, hh, mm').format(appointment.appointmentDate!), style: const TextStyle(color: bottomBarColor)),
+                        Expanded(child: FittedBox(child: Text(customDateFormat(dateTime: appointment.appointmentDate!), style: const TextStyle(color: bottomBarColor)))),
                         Row(
                           children: [
                             IconButton(

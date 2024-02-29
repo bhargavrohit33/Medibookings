@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/EDAppointment/emergency_appointmentModel.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 
@@ -42,7 +43,7 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 5),
-                        Text('Time: ${appointment.appointmentTime.toString()}'),
+                        Text('Time: ${customDateFormat(dateTime: appointment.appointmentTime,format: 'hh:mm a').toString()}'),
                         const SizedBox(height: 5),
                         Row(
                           children: [

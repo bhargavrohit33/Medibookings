@@ -1,8 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
+import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
+import 'package:medibookings/presentation/widget/snack_bar.dart';
+import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentPreviewScreen extends StatefulWidget {
-  final List<DateTime> appointments;
+  final List<Appointment> appointments;
 
   const AppointmentPreviewScreen({super.key, required this.appointments});
 
@@ -11,13 +19,49 @@ class AppointmentPreviewScreen extends StatefulWidget {
 }
 
 class _AppointmentPreviewScreenState extends State<AppointmentPreviewScreen> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final appointmentProvider = Provider.of<HospitalAppointmentService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Appointment Preview'),
       ),
-      body: _buildAppointmentGrid(context),
+      body: Stack(
+        children: [
+          _buildAppointmentGrid(context),
+          if(isLoading)
+            commonLoading()
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: basicButton(onPressed: ()async{
+          if(!isLoading){
+ setState(() {
+            isLoading = true;
+          });
+         try{
+          await appointmentProvider.uploadAppointment(widget.appointments);
+           custom_snackBar(context, "Appointments successfully added");
+           Navigator.popUntil(
+              context,
+              ModalRoute.withName(RouteName.hospital_doctorList_Screen),
+            );
+         }
+         catch(e){
+          custom_snackBar(context, "Fail to add appointments");
+         }finally{
+          setState(() {
+            isLoading = false;
+          });
+         }
+          }
+         
+
+
+        }, text: "Generate Appointment"),
+      ),
     );
   }
 
@@ -37,7 +81,7 @@ class _AppointmentPreviewScreenState extends State<AppointmentPreviewScreen> {
       final appointmentTime = widget.appointments[index];
       
       return AppointmentTile(
-        appointmentTime: appointmentTime,
+        appointment: appointmentTime,
         onDelete: () {
           setState(() {
             widget.appointments.remove(appointmentTime);
@@ -50,10 +94,10 @@ class _AppointmentPreviewScreenState extends State<AppointmentPreviewScreen> {
 }
 
 class AppointmentTile extends StatelessWidget {
-  final DateTime appointmentTime;
+  final Appointment appointment;
   final VoidCallback onDelete;
 
-  const AppointmentTile({super.key, required this.appointmentTime, required this.onDelete});
+  const AppointmentTile({super.key, required this.appointment, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +112,11 @@ class AppointmentTile extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(DateFormat('hh:mm a').format(appointmentTime)),
+                Text(DateFormat('hh:mm a').format(appointment.appointmentDate)),
+                Text(DateFormat('hh:mm a').format(appointment.appointmentDate.add(Duration(minutes: appointment.timeSlotDuration)))),
+                 
                
                 InkWell(
                   onTap: onDelete,

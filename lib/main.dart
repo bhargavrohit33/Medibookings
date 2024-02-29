@@ -5,6 +5,7 @@ import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/firebase_options.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
           ChangeNotifierProvider(create: (_) => HospitalService()),
            ChangeNotifierProvider(create: (_) => DoctorService()),
+            ChangeNotifierProvider(create: (_) => HospitalAppointmentService()),
       ],
       child: MaterialApp(
       

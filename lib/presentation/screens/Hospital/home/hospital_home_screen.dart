@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
+import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/EDAppointment/emergency_appointmentModel.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
@@ -55,28 +56,22 @@ class HomeBasicContent extends StatelessWidget {
   // Dummy data for appointments (you can replace this with actual data)
   final List<Appointment> normalAppointments = [
     Appointment(
-      id: 1,
-      patientId: 1,
-      hospitalId: 1,
+      id: "1",
+      patientId: "",
+      hospitalId: "",
       timeSlotDuration: 30,
-      doctor: 1,
+      doctor:"",
       appointmentDate: DateTime.now().add(const Duration(days: 1)),
+      isBooked: false
     ),
     Appointment(
-      id: 1,
-      patientId: 1,
-      hospitalId: 1,
+      id: "1",
+      patientId: "",
+      hospitalId: "",
       timeSlotDuration: 30,
-      doctor: 1,
+      doctor:"",
       appointmentDate: DateTime.now().add(const Duration(days: 1)),
-    ),
-    Appointment(
-      id: 1,
-      patientId: 1,
-      hospitalId: 1,
-      timeSlotDuration: 30,
-      doctor: 1,
-      appointmentDate: DateTime.now().add(const Duration(days: 1)),
+      isBooked: false
     ),
   ];
 
@@ -114,7 +109,9 @@ class HomeBasicContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        titleBar("Doctors:",(){}),
+        titleBar("Doctors:",(){
+          Navigator.pushNamed(context, RouteName.hospital_doctorList_Screen);
+        }),
         const SizedBox(height: 8),
         doctorList(context),const SizedBox(height: 8),
           const SizedBox(height: 8),
@@ -236,28 +233,29 @@ Widget doctorList(BuildContext context){
       child: StreamBuilder<List<Doctor>>(
         stream: _doctorService.getDoctorsByHospitalIdStream(),
         builder: (context, snapshot) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return commonLoading();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: '));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No doctors found.'));
           }else{
+          return  ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              
+              
             return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: HomeDoctorCard(doctor: snapshot.data![index]),
               );
           }
               
-            },
+            ,
           );
         }
-      ),
+}),
     );
     
 }

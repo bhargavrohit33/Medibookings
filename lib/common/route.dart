@@ -5,10 +5,10 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_detail_screen.dart';
-import 'package:medibookings/presentation/screens/Hospital/department/appointments_preview.dart';
-import 'package:medibookings/presentation/screens/Hospital/department/generate_appointment_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/doctor/appointments/appointments_preview.dart';
+import 'package:medibookings/presentation/screens/Hospital/doctor/appointments/generate_appointment_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/create_doctor_profile_screen.dart';
-import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_appointment_list_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/doctor/appointments/doctor_appointment_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/edit_doctor_profile.screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_wrapper_screen.dart';
@@ -39,13 +39,19 @@ Map<String,WidgetBuilder> routes ={
     final Doctor  doctor=  ModalRoute.of(context)!.settings.arguments as Doctor;
     return EditDoctorProfileScreen(doctor: doctor,);
   } ,
-  RouteName.hospital_generate_appointment:(context) => const GenerateAppointmentScreen(),
-  RouteName.hospital_doctorAppointmentListRoute:(context) => const DoctorAppointmentListScreen(),
+  RouteName.hospital_generate_appointment:(context) {
+    Doctor doctor = ModalRoute.of(context)!.settings.arguments as Doctor;
+    return  GenerateAppointmentScreen(doctor: doctor,);
+  },
+  RouteName.hospital_doctorAppointmentListRoute:(context){
+    Doctor doctor = ModalRoute.of(context)!.settings.arguments as Doctor;
+    return DoctorAppointmentListScreen(doctor: doctor,);
+  },
   
   
   // apointments
   RouteName.appointmentPreviewScreen: (context) {
-    final List<DateTime> appointments = ModalRoute.of(context)!.settings.arguments as List<DateTime>;
+    final List<Appointment> appointments = ModalRoute.of(context)!.settings.arguments as List<Appointment>;
     return AppointmentPreviewScreen(appointments: appointments);
   },
 // appointment

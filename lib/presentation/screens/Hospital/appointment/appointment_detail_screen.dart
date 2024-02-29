@@ -50,12 +50,12 @@ decoration: BoxDecoration(
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Start Time: ${appointment.appointmentDate}',
+                    'Start Time: ${customDateFormat(dateTime: appointment.appointmentDate)}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Duration: 15',
+                   Text(
+                    'Duration:  ${appointment.timeSlotDuration}',
                     style: TextStyle(fontSize: 16),
                   ),
                 ],

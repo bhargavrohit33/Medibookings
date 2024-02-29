@@ -103,7 +103,7 @@ class DoctorWidget extends StatelessWidget {
                 IconButton(
                   key: iconKey,
                   onPressed: () {
-                    showPopUp(context);
+                    showPopUp(context,doctor);
                   },
                   icon: const Icon(Icons.more_vert),
                 )
@@ -124,7 +124,7 @@ class DoctorWidget extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                     Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute);
+                     Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute,arguments: doctor);
                     },
                     child: const FittedBox(child: Text('Appointments')),
                   ),
@@ -138,7 +138,7 @@ class DoctorWidget extends StatelessWidget {
   }
 
   
-  showPopUp(BuildContext context){
+  showPopUp(BuildContext context,Doctor doctor){
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
                     final RenderBox button = iconKey.currentContext!.findRenderObject() as RenderBox;
 
@@ -158,7 +158,7 @@ class DoctorWidget extends StatelessWidget {
                       items: [
                         PopupMenuItem(
                           onTap: (){
-                            Navigator.pushNamed(context, RouteName.hospital_generate_appointment);
+                            Navigator.pushNamed(context, RouteName.hospital_generate_appointment,arguments: doctor );
                           },
                           value: 1,
                           child: const Text("Generate"),

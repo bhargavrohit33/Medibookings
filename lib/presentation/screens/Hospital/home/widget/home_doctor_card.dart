@@ -13,7 +13,7 @@ class HomeDoctorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute);
+        Navigator.pushNamed(context, RouteName.hospital_doctorAppointmentListRoute,arguments: doctor);
       },
       child: Card(
         elevation: 1,

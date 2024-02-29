@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
@@ -17,41 +18,20 @@ String nurseDemoImageURL =
  List<Appointment> generateDummyAppointments() {
     return List.generate(20, (index) {
       return Appointment(
-        id: index + 1,
-        patientId: index % 5 + 1,
-        hospitalId: 1,
+        id: (index + 1).toString(),
+        patientId: (index % 5 + 1).toString(),
+        hospitalId: "",
         timeSlotDuration: 30,
-        doctor: index % 3 == 0 ? index % 5 + 1 : null,
+        doctor: "",
         prescriptionId: null,
         referralAppointmentId: null,
-        appointmentDate: DateTime.now()
+        appointmentDate: DateTime.now(),
+        isBooked:false
       );
     });
   }
 
- final List<Doctor> doctors = [
-  Doctor(
-    id: "1",
-    firstName: 'Dr. Smith',
-    lastName: '',
-    specialization: 'Cardiology',
-    hospitalId: '', // Provide the hospitalId here
-  ),
-  Doctor(
-    id: "2",
-    firstName: 'Dr. Johnson',
-    lastName: '',
-    specialization: 'Pediatrics',
-    hospitalId: '', // Provide the hospitalId here
-  ),
-  Doctor(
-    id: "3",
-    firstName: 'Dr. Williams',
-    lastName: '',
-    specialization: 'Orthopedics',
-    hospitalId: '', // Provide the hospitalId here
-  ),
-];
+
 
 
   List<String> specialtyOptions = [
@@ -182,4 +162,9 @@ final cardShape = RoundedRectangleBorder(
     
   );
 }
+const String defaultDateFormat ='MMMM dd, yyyy, hh:mm a';
+String customDateFormat({required DateTime dateTime,   String? format =  defaultDateFormat}) {
 
+  final date = DateFormat(format);
+  return date.format(dateTime);
+}

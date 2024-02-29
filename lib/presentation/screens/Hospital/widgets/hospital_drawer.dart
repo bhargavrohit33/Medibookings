@@ -10,6 +10,7 @@ class HospitalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     final _authProvider = Provider.of<AuthService>(context );
     final _hospitalProvider = Provider.of<HospitalService>(context );
     return Drawer(
@@ -17,8 +18,8 @@ class HospitalDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: const Text('John Doe'),
-            accountEmail: const Text('johndoe@example.com'),
+            accountName:  Text(_hospitalProvider.hospitalModel!.name),
+            accountEmail:  Text(_hospitalProvider.hospitalModel!.email),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(nurseDemoImageURL),
             ),

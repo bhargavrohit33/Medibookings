@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
+import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
+import 'package:medibookings/presentation/widget/snack_bar.dart';
+import 'package:provider/provider.dart';
 
 class GenerateAppointmentScreen extends StatefulWidget {
-  const GenerateAppointmentScreen({super.key});
+  Doctor doctor;
+   GenerateAppointmentScreen({super.key,required this.doctor});
 
   @override
   _GenerateAppointmentScreenState createState() => _GenerateAppointmentScreenState();
@@ -18,7 +23,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
   TimeOfDay _selectedOpeningTime = const TimeOfDay(hour: 9, minute: 0);
   final TimeOfDay _selectedClosingTime = const TimeOfDay(hour: 17, minute: 0);
   final List<TimeOfDayRange> _selectedBreakTimes = [];
-  final List<DateTime> _generatedAppointments = [];
+   List<Appointment> _generatedAppointments = [];
   final TextEditingController _durationOfAppointment = TextEditingController();
   final key = GlobalKey<FormState>();
   @override
@@ -124,11 +129,15 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                   final startTime = await showTimePicker(
                         context: context,
                         initialTime: TimeOfDay.now(),
+                        helpText: "Break Start Time",
+
                       );
                       if (startTime != null) {
                         final endTime = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay.now(),
+                          helpText: "Break end Time",
+
                         );
                         if (endTime != null) {
                           setState(() {
@@ -154,7 +163,13 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
         padding: const EdgeInsets.all(8.0),
         child: basicButton(onPressed: ()async{
           if (key.currentState!.validate()){
-        await generateAppointments();
+      _generatedAppointments =  generateAppointments(
+        selectedDate: _selectedDate,
+        duration: int.parse(_durationOfAppointment.text),
+        selectedOpeningTime: _selectedOpeningTime,
+        selectedClosingTime:_selectedClosingTime ,
+        selectedBreakTimes: _selectedBreakTimes,
+        doctor: widget.doctor);
         
            Navigator.of(context).pushNamed(
   RouteName.appointmentPreviewScreen,
@@ -216,21 +231,24 @@ Widget listOfBreakTime() {
  return Expanded(
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.schedule),
-                                const SizedBox(width: 5,),
-                                FittedBox(
-                                  child: Text(
-                                   text,
-                                   
+                            FittedBox(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Icon(Icons.schedule),
+                                 
+                                  FittedBox(
+                                    child: Text(
+                                     text,
+                                     
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 10),
                             GestureDetector(
@@ -248,31 +266,76 @@ Widget listOfBreakTime() {
                   );
   }
 
-  Future<void> generateAppointments() async{
-    int? duration  = int.tryParse(_durationOfAppointment.text);
-    _generatedAppointments.clear();
-
-    DateTime startTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedOpeningTime.hour, _selectedOpeningTime.minute);
-    DateTime endTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedClosingTime.hour, _selectedClosingTime.minute);
+  
+  static List<Appointment> generateAppointments({
+    required DateTime selectedDate,
+    required TimeOfDay selectedOpeningTime,
+    required TimeOfDay selectedClosingTime,
+    required List<TimeOfDayRange> selectedBreakTimes,
+    required int duration,
+    required Doctor doctor
+  }) {
+    
+    List<Appointment> appointments = [];
+    DateTime startTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedOpeningTime.hour,
+      selectedOpeningTime.minute,
+    );
+    DateTime endTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedClosingTime.hour,
+      selectedClosingTime.minute,
+    );
 
     while (startTime.isBefore(endTime)) {
+      Duration adjustedTime = Duration(minutes: duration);
       bool isBreakTime = false;
-      for (TimeOfDayRange breakTime in _selectedBreakTimes) {
-        DateTime breakStart = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, breakTime.start.hour, breakTime.start.minute);
-        DateTime breakEnd = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, breakTime.end.hour, breakTime.end.minute);
-        if (startTime.isAtSameMomentAs(breakStart) || (startTime.isAfter(breakStart) && startTime.isBefore(breakEnd))) {
+      for (TimeOfDayRange breakTime in selectedBreakTimes) {
+        DateTime breakStart = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          breakTime.start.hour,
+          breakTime.start.minute,
+        );
+        DateTime breakEnd = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          breakTime.end.hour,
+          breakTime.end.minute,
+        );
+       DateTime breakending  = startTime.add(Duration(minutes: duration));
+        if (startTime.isAtSameMomentAs(breakStart) ||
+            (startTime.isAfter(breakStart) && startTime.isBefore(breakEnd)) || (breakending.isAfter(breakStart) && breakending.isBefore(breakEnd))) {
           isBreakTime = true;
+          adjustedTime = breakEnd.difference(startTime);
           break;
+        }
+        if (breakending.isAfter(endTime)){
+          isBreakTime = true;
         }
       }
       if (!isBreakTime) {
-        _generatedAppointments.add(startTime);
+        appointments.add(Appointment(
+          hospitalId: doctor.hospitalId!, 
+          timeSlotDuration: duration,
+          doctor: doctor.id, 
+          appointmentDate: startTime,
+          isBooked: false
+        ));
       }
-      startTime = startTime.add(Duration(minutes:duration! )); // Adjust appointment duration here
+      startTime = startTime.add(adjustedTime);
     }
 
-    setState(() {});
+    return appointments;
   }
+
   
 
   String formatTimeOfDay(TimeOfDay time) {
