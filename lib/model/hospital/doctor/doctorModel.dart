@@ -19,7 +19,7 @@ class Doctor {
     required this.hospitalId,
   });
 
-  factory Doctor.fromSnapshot(DocumentSnapshot snapshot, User user) {
+  factory Doctor.fromSnapshot(DocumentSnapshot snapshot,) {
     return Doctor(
       id: snapshot.id,
       firstName: snapshot[ServiceUtils.doctorModel_FirstName] ?? '',

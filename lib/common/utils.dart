@@ -15,21 +15,7 @@ String hospitalDemoImage =
 String nurseDemoImageURL =
         "https://images.pexels.com/photos/6749773/pexels-photo-6749773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
 
- List<Appointment> generateDummyAppointments() {
-    return List.generate(20, (index) {
-      return Appointment(
-        id: (index + 1).toString(),
-        patientId: (index % 5 + 1).toString(),
-        hospitalId: "",
-        timeSlotDuration: 30,
-        doctor: "",
-        prescriptionId: null,
-        referralAppointmentId: null,
-        appointmentDate: DateTime.now(),
-        isBooked:false
-      );
-    });
-  }
+
 
 
 

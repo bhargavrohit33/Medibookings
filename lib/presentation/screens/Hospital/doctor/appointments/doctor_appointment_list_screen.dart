@@ -22,7 +22,7 @@ class _DoctorAppointmentListScreenState extends State<DoctorAppointmentListScree
   void initState() {
     // TODO: implement initState
     super.initState();
-    appointments = generateDummyAppointments();
+    appointments = [];
   }
   
   @override
@@ -48,7 +48,7 @@ class _DoctorAppointmentListScreenState extends State<DoctorAppointmentListScree
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               
-              return AppointcardWidget(appointment: snapshot.data![index]);
+              return AppointcardWidget(appointment: snapshot.data![index],);
             },
           );
         }}

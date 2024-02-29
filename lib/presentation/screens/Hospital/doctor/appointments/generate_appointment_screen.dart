@@ -21,7 +21,7 @@ class GenerateAppointmentScreen extends StatefulWidget {
 class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedOpeningTime = const TimeOfDay(hour: 9, minute: 0);
-  final TimeOfDay _selectedClosingTime = const TimeOfDay(hour: 17, minute: 0);
+   TimeOfDay _selectedClosingTime = const TimeOfDay(hour: 17, minute: 0);
   final List<TimeOfDayRange> _selectedBreakTimes = [];
    List<Appointment> _generatedAppointments = [];
   final TextEditingController _durationOfAppointment = TextEditingController();
@@ -80,6 +80,7 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                           final TimeOfDay? pickedTime = await showTimePicker(
                             context: context,
                             initialTime: _selectedOpeningTime,
+                            helpText: "Opening time"
                           );
                           if (pickedTime != null && pickedTime != _selectedOpeningTime) {
                             setState(() {
@@ -93,10 +94,11 @@ class _GenerateAppointmentScreenState extends State<GenerateAppointmentScreen> {
                           final TimeOfDay? pickedTime = await showTimePicker(
                             context: context,
                             initialTime: _selectedOpeningTime,
+                            helpText: "Closing time"
                           );
                           if (pickedTime != null && pickedTime != _selectedOpeningTime) {
                             setState(() {
-                              _selectedOpeningTime = pickedTime;
+                              _selectedClosingTime = pickedTime;
                             });
                           }
                         
@@ -325,7 +327,7 @@ Widget listOfBreakTime() {
         appointments.add(Appointment(
           hospitalId: doctor.hospitalId!, 
           timeSlotDuration: duration,
-          doctor: doctor.id, 
+          doctorid: doctor.id, 
           appointmentDate: startTime,
           isBooked: false
         ));

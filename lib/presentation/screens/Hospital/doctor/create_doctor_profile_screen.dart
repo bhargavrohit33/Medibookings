@@ -8,6 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:provider/provider.dart';
 
 class CreateDoctorProfileScreen extends StatefulWidget {
   const CreateDoctorProfileScreen({super.key});
@@ -41,6 +43,7 @@ bool _isSaving = false;
 
   @override
   Widget build(BuildContext context) {
+    final  doctorService = Provider.of<DoctorService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Doctor Profile'),
@@ -127,7 +130,7 @@ bool _isSaving = false;
                         try {
                           String? profilePhotoUrl;
                           if (_selectedFile != null) {}
-                          await DoctorService().createDoctorProfile(
+                          await doctorService.createDoctorProfile(
                               firstName, lastName, specialty,
                               file: _selectedFile);
                           custom_snackBar(context, 'Doctor profile created successfully');

@@ -45,7 +45,7 @@ decoration: BoxDecoration(
                   ),
                   const Divider(),
                   Text(
-                    'Doctor: ${appointment.doctor}',
+                    'Doctor: ${appointment.doctorid}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),

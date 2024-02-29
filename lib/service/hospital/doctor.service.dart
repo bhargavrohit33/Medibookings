@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/disposable_service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:medibookings/service/service_utils.dart';
 
 class DoctorService extends DisposableService {
@@ -14,11 +15,23 @@ class DoctorService extends DisposableService {
       FirebaseFirestore.instance.collection(ServiceUtils.collection_doctor);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Doctor? doctor;
+ 
+   HospitalService? hospitalService;
+
+   DoctorService(HospitalService service){
+    hospitalService =service;
+    
+   }
   @override
   void dispose() {
     // TODO: implement dispose
     doctor = null;
+   
   }
+  // fetch all the doctor data
+  
+
+
 
   @override
   dynamic noSuchMethod(Invocation invocation) {
@@ -66,7 +79,7 @@ class DoctorService extends DisposableService {
           .doc(doctorId)
           .get() as DocumentSnapshot<Map<String, dynamic>>;
       if (snapshot.exists) {
-        return Doctor.fromSnapshot(snapshot, firebaseAuth.currentUser!);
+        return Doctor.fromSnapshot(snapshot,);
       } else {
         return null;
       }
@@ -75,14 +88,30 @@ class DoctorService extends DisposableService {
       throw e;
     }
   }
+  Stream<Doctor>  getDoctorByIdStream(String doctorId){
+    return doctorsCollection.doc(doctorId).snapshots().map((event) => Doctor.fromSnapshot(event));
+  }
 
   Stream<List<Doctor>> getDoctorsByHospitalIdStream() {
     
     return doctorsCollection
         .where(ServiceUtils.doctorModel_HospitalId, isEqualTo: firebaseAuth.currentUser!.uid)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => Doctor.fromSnapshot(doc, firebaseAuth.currentUser!)).toList());
+        .map((snapshot) => snapshot.docs.map((doc) => Doctor.fromSnapshot(doc, )).toList());
   }
+
+  Future<List<Doctor>> getDoctorList(String hospitalId)async{
+     List<Doctor> _doctorList = [];
+    try {
+      QuerySnapshot querySnapshot = await doctorsCollection.where(ServiceUtils.doctorModel_HospitalId, isEqualTo: hospitalId).get();
+
+      _doctorList = querySnapshot.docs.map((doc) => Doctor.fromSnapshot(doc,)).toList();
+    } catch (e) {
+      print("Error fetching doctors: $e");
+    }
+    return _doctorList;
+  }
+  
 
 
   Future<void> editDoctorProfile(String doctorId, String firstName, String lastName, String specialization, {PlatformFile? file}) async {

@@ -8,9 +8,9 @@ class Appointment {
   final String hospitalId;
   final int timeSlotDuration;
   final String? prescriptionId;
-  final String doctor;
+  final String doctorid;
   final DateTime appointmentDate;
-  final String? referralAppointmentId;
+  final DateTime? referralAppointmentId;
   final bool isBooked;
 
   Appointment({
@@ -18,7 +18,7 @@ class Appointment {
     this.patientId,
     required this.hospitalId,
     required this.timeSlotDuration,
-    required this.doctor,
+    required this.doctorid,
     required this.appointmentDate,
     this.prescriptionId,
     this.referralAppointmentId,
@@ -32,9 +32,9 @@ class Appointment {
       hospitalId: snapshot[ServiceUtils.appointmentModel_HospitalId]?? "",
       timeSlotDuration: snapshot[ServiceUtils.appointmentModel_TimeSlotDuration],
       prescriptionId: snapshot[ServiceUtils.appointmentModel_PrescriptionId]?? "",
-      doctor: snapshot[ServiceUtils.appointmentModel_Doctor]?? "",
-      appointmentDate: DateTime.parse(snapshot[ServiceUtils.appointmentModel_AppointmentDate]?? ""),
-      referralAppointmentId: snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId]?? "",
+      doctorid: snapshot[ServiceUtils.appointmentModel_Doctor]?? "",
+      appointmentDate: (snapshot[ServiceUtils.appointmentModel_AppointmentDate]as Timestamp).toDate(),
+      referralAppointmentId: snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId] != null ? (snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId] as Timestamp).toDate() : null,
       isBooked: snapshot[ServiceUtils.appointmentModel_isBooked]?? ""
     );
   }
@@ -46,8 +46,8 @@ class Appointment {
       ServiceUtils.appointmentModel_HospitalId: hospitalId,
       ServiceUtils.appointmentModel_TimeSlotDuration: timeSlotDuration,
       ServiceUtils.appointmentModel_PrescriptionId: prescriptionId,
-      ServiceUtils.appointmentModel_Doctor: doctor,
-      ServiceUtils.appointmentModel_AppointmentDate: appointmentDate.toIso8601String(),
+      ServiceUtils.appointmentModel_Doctor: doctorid,
+      ServiceUtils.appointmentModel_AppointmentDate: appointmentDate,
       ServiceUtils.appointmentModel_ReferralAppointmentId: referralAppointmentId,
       ServiceUtils.appointmentModel_isBooked:isBooked
     };

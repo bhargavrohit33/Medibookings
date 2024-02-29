@@ -11,6 +11,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
+import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:provider/provider.dart';
 
 class hospitalHomeScreen extends StatefulWidget {
@@ -54,26 +56,26 @@ class _hospitalHomeScreenState extends State<hospitalHomeScreen> {
 
 class HomeBasicContent extends StatelessWidget {
   // Dummy data for appointments (you can replace this with actual data)
-  final List<Appointment> normalAppointments = [
-    Appointment(
-      id: "1",
-      patientId: "",
-      hospitalId: "",
-      timeSlotDuration: 30,
-      doctor:"",
-      appointmentDate: DateTime.now().add(const Duration(days: 1)),
-      isBooked: false
-    ),
-    Appointment(
-      id: "1",
-      patientId: "",
-      hospitalId: "",
-      timeSlotDuration: 30,
-      doctor:"",
-      appointmentDate: DateTime.now().add(const Duration(days: 1)),
-      isBooked: false
-    ),
-  ];
+  // final List<Appointment> normalAppointments = [
+  //   Appointment(
+  //     id: "1",
+  //     patientId: "",
+  //     hospitalId: "",
+  //     timeSlotDuration: 30,
+  //     doctorid:"",
+  //     appointmentDate: DateTime.now().add(const Duration(days: 1)),
+  //     isBooked: false
+  //   ),
+  //   Appointment(
+  //     id: "1",
+  //     patientId: "",
+  //     hospitalId: "",
+  //     timeSlotDuration: 30,
+  //     doctorid:"",
+  //     appointmentDate: DateTime.now().add(const Duration(days: 1)),
+  //     isBooked: false
+  //   ),
+  // ];
 
   final List<EmergencyDepartmentAppointment> emergencyAppointments = [
     EmergencyDepartmentAppointment(
@@ -106,26 +108,39 @@ class HomeBasicContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        titleBar("Doctors:",(){
-          Navigator.pushNamed(context, RouteName.hospital_doctorList_Screen);
-        }),
-        const SizedBox(height: 8),
-        doctorList(context),const SizedBox(height: 8),
-          const SizedBox(height: 8),
-        titleBar("Upcoming Emergency Department Appointments:",(){}),
-        const SizedBox(height: 8),
-        buildEmergencyAppointmentCarousel(emergencyAppointments,context),
-         const SizedBox(height: 8),
-        titleBar("Upcoming Appointments:",(){}),
-        const SizedBox(height: 8),
-        buildAppointmentCarousel(normalAppointments,context),
-        const SizedBox(height: 8),
-        
-        
-      ],
+    final normalAppointment = Provider.of<HospitalAppointmentService>(context);
+    final hospitalService = Provider.of<HospitalService>(context);
+    return StreamBuilder<List<Appointment>>(
+      stream: normalAppointment.getAppointmentsNearCurrentTime(hospitalService.hospitalModel!.id),
+      builder: (context, normalAppointments) {
+
+         if (normalAppointments.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (normalAppointments.hasError) {
+              return Center(child: Text('Error: ${normalAppointments.error}'));
+            } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            titleBar("Doctors:",(){
+              Navigator.pushNamed(context, RouteName.hospital_doctorList_Screen);
+            }),
+            const SizedBox(height: 8),
+            doctorList(context),const SizedBox(height: 8),
+              const SizedBox(height: 8),
+            titleBar("Upcoming Emergency Department Appointments:",(){}),
+            const SizedBox(height: 8),
+            buildEmergencyAppointmentCarousel(emergencyAppointments,context),
+             const SizedBox(height: 8),
+            titleBar("Upcoming Appointments:",(){}),
+            const SizedBox(height: 8),
+            buildAppointmentCarousel(normalAppointments.data!,context),
+            const SizedBox(height: 8),
+            
+            
+          ],
+        );
+            }}
     );
   }
 

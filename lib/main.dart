@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
           ChangeNotifierProvider(create: (_) => HospitalService()),
-           ChangeNotifierProvider(create: (_) => DoctorService()),
+           ChangeNotifierProvider(create: (contextP) => DoctorService(Provider.of<HospitalService>(contextP, listen: false))),
             ChangeNotifierProvider(create: (_) => HospitalAppointmentService()),
       ],
       child: MaterialApp(
