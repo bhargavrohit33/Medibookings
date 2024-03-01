@@ -27,8 +27,15 @@ class HospitalDrawer extends StatelessWidget {
          box("Doctor",(){
           Navigator.pushNamed(context, RouteName.hospital_doctorList_Screen);
          }),
-          box("Profile",(){}),
-          box("Setting",(){}),
+          box("Profile",(){
+            Navigator.pushNamed(context, RouteName.hospital_profile_update);
+          }),
+          box("Privacy & Policy",(){
+         }),
+         box("Contact us",(){
+         }),
+         
+
           box("Log out",()async{
             
             await _authProvider.logout();

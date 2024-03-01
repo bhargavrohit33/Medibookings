@@ -12,6 +12,7 @@ import 'package:medibookings/presentation/screens/Hospital/doctor/appointments/d
 import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_list_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/doctor/edit_doctor_profile.screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_wrapper_screen.dart';
+import 'package:medibookings/presentation/screens/Hospital/profile/hospital_profile_update.dart';
 import 'package:medibookings/presentation/screens/auth/account_not_verified_screen.dart';
 import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/screens/auth/login_screen.dart';
@@ -47,6 +48,9 @@ Map<String,WidgetBuilder> routes ={
     Doctor doctor = ModalRoute.of(context)!.settings.arguments as Doctor;
     return DoctorAppointmentListScreen(doctor: doctor,);
   },
+  RouteName.hospital_profile_update:(context) => HospitalProfileUpdatePage(),
+
+
   
   
   // apointments

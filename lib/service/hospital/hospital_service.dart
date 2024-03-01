@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +26,15 @@ class HospitalService   extends DisposableService {
 
     return querySnapshot.docs.isNotEmpty;
   }
-
+  setHospitalModel (String hospitalId)async{
+     hospitalModel = await getHospitalById(hospitalId);
+     
+  }
   Future<bool> checkHospitalExistsByUID(String hospitalId) async {
     try {
       final snapshot = await hospitalsCollection.doc(hospitalId).get();
-      hospitalModel = await getHospitalById(hospitalId);
-      ChangeNotifier();
+   await  setHospitalModel(hospitalId);
+      //ChangeNotifier();
       return snapshot.exists;
     } catch (e) {
       print('Error checking hospital existence: $e');
@@ -40,12 +45,16 @@ class HospitalService   extends DisposableService {
   Future<void> createHospitalDocument(
       String userId, String hospitalName, String email) async {
     try {
+    
       HospitalModel _dummy = HospitalModel(
           documentLinks: [],
           email: email,
           id: userId,
           isVerified: false,
-          name: hospitalName);
+          name: hospitalName,
+          contactNumber: 0,
+         
+          );
       await _firestore
           .collection(ServiceUtils.collection_hospital)
           .doc(userId)
@@ -82,6 +91,24 @@ class HospitalService   extends DisposableService {
     }
     catch(e){
       throw e;
+    }}
+    Future<void> updateHospitalProfile(String hospitalName,int contactNumber, GeoPoint address)async{
+    try{
+      
+       await hospitalsCollection.doc(firebaseAuth.currentUser!.uid).update({
+          ServiceUtils.hospitalModel_Name:hospitalName,
+           ServiceUtils.hospitalModel_ContactNumber:contactNumber,
+            ServiceUtils.hospitalModel_Address:address,
+
+        });
+        await setHospitalModel(firebaseAuth.currentUser!.uid);
+        notifyListeners();
+       
+    }
+    catch(e){
+       log("eroor in as"+ e.toString());
+      throw e;
+     
     }
   }
   

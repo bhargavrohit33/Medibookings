@@ -14,6 +14,7 @@ TextFormField textFormField({
   bool showLengthCount = false,
   String? Function(String?)? validator,
   bool obscureText = false,void Function(String)? onChanged,
+  List<TextInputFormatter>? inputFormatters
 }) {
   final inputDecoration = decoration ?? defaultInputDecoration();
   final hasLengthCounter = maxLength != TextField.noMaxLength && showLengthCount;
@@ -29,9 +30,10 @@ TextFormField textFormField({
     textCapitalization: textCapitalization,
     autocorrect: autocorrect,
     enableSuggestions: enableSuggestions,
-    maxLength: maxLength,
+    maxLength: 10,
     validator: validator,
     maxLengthEnforcement: showLengthCount ? MaxLengthEnforcement.enforced : MaxLengthEnforcement.none,
     onChanged: onChanged,
+    inputFormatters: inputFormatters,
   );
 }

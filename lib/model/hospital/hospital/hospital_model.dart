@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medibookings/service/service_utils.dart';
@@ -7,6 +9,7 @@ class HospitalModel {
   final String name;
   final String email;
   final GeoPoint? address;
+  final int contactNumber;
   List<String> documentLinks;
   final bool isVerified;
   final User? firebaseUser;
@@ -16,6 +19,7 @@ class HospitalModel {
     required this.name,
     required this.email,
     this.address,
+    required this.contactNumber,
     required this.documentLinks,
     required this.isVerified,
     this.firebaseUser,
@@ -27,6 +31,7 @@ class HospitalModel {
       name: snapshot.data()![ServiceUtils.hospitalModel_Name] ?? '',
       email: snapshot.data()![ServiceUtils.hospitalModel_Email] ?? '',
       address: snapshot.data()![ServiceUtils.hospitalModel_Address] ?? GeoPoint(0, 0),
+      contactNumber: snapshot.data()![ServiceUtils.hospitalModel_ContactNumber] ,
       documentLinks: List<String>.from(snapshot.data()![ServiceUtils.hospitalModel_DocumentLinks] ?? []),
       isVerified: snapshot.data()![ServiceUtils.hospitalModel_IsVerified] ?? false,
       firebaseUser: user,
@@ -38,6 +43,7 @@ class HospitalModel {
       ServiceUtils.hospitalModel_Name: name,
       ServiceUtils.hospitalModel_Email: email,
       ServiceUtils.hospitalModel_Address: address,
+      ServiceUtils.hospitalModel_ContactNumber: contactNumber,
       ServiceUtils.hospitalModel_DocumentLinks: documentLinks,
       ServiceUtils.hospitalModel_IsVerified: isVerified,
     };

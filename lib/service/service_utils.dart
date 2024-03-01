@@ -5,6 +5,7 @@ class ServiceUtils{
   static const String hospitalModel_Address = "address";
   static const String hospitalModel_DocumentLinks = "documentLinks"; 
   static const String hospitalModel_IsVerified = "isVerified";
+  static const String hospitalModel_ContactNumber = "contactNumber";
 
   // doctor
 static const String collection_doctor= 'doctors';

@@ -5,8 +5,7 @@ import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 
-
-
+final google_place_key = "AIzaSyBgvkw61jj5ZU5tvWvrno5Cv-Q04LW4b9k";
 // dummy data
 
 String hospitalDemoImage =
@@ -143,6 +142,7 @@ final cardShape = RoundedRectangleBorder(
     contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     fillColor: textFormFieldText,
     hintText: hintText,
+    label:  Text(hintText??""),
     filled: true
     
     
