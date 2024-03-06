@@ -10,7 +10,7 @@ class SetChargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Set Charge'),
+        title: const Text('Set Charge', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
       body: const SetChargeForm(),
     );

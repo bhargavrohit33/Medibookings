@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
-import 'package:medibookings/presentation/screens/auth/login_screen.dart';
-import 'package:medibookings/presentation/screens/auth/register_screen.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
 class WelcomeScreen extends StatelessWidget {

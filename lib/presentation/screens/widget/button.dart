@@ -5,10 +5,10 @@ import 'package:medibookings/common/route_name.dart';
 var primaryColor = const Color(0xFF92A3FD);
 var buttonGradient = const Color(0xFF9DCEFF);
 Widget basicButton({
-  required Function() onPressed,
+  required Function()? onPressed,
   double? width,
-  double? height=50,
- required String text,
+  double height = 50,
+  required String text,
   Color? color,
   double borderRadius = 40,
 }) {
@@ -27,7 +27,7 @@ Widget basicButton({
       ),
       child: Center(
         child: Text(
-          text ?? '',
+          text,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -40,6 +40,7 @@ Widget basicButton({
     ),
   );
 }
+
 
 Widget backLogin(BuildContext context){
   return Center(

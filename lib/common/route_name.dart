@@ -7,5 +7,7 @@ class RouteName{
   static const String homePageRoute = "/home";
   static const String setChargeRoute = "/set_charge";
   static const String appointmentPageRoute = "/appointment";
-  static const String uploadDocumentPageRoute = "/uploadDocumentPage";
+  static const String uploadDocumentPageRoute = "/upload_document";
+  static const String profileRoute = "/profile";
+  static const String setAvailabilityRoute = "/set_availability";
 }
