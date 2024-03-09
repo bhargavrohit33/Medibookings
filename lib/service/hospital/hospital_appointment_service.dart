@@ -15,7 +15,6 @@ class HospitalAppointmentService extends DisposableService{
 
     
   HospitalAppointmentService(){
-    
   }
       
   Future<void> uploadAppointment(List<Appointment> appointments) async {

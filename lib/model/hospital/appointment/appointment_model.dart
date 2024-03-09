@@ -44,7 +44,7 @@ class Appointment {
 
   Map<String, dynamic> toMap() {
     return {
-      ServiceUtils.appointmentModel_Id: id,
+     
       ServiceUtils.appointmentModel_PatientId: patientId,
       ServiceUtils.appointmentModel_HospitalId: hospitalId,
       ServiceUtils.appointmentModel_TimeSlotDuration: timeSlotDuration,
