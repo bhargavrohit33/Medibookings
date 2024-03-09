@@ -42,7 +42,7 @@ Stream<List<Appointment>> getAppointmentsForDoctor(String doctorId) {
       .orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: false)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromMap(doc))
+          .map((doc) => Appointment.fromSnapshot(doc))
           .toList());
 }
 Stream<List<Appointment>> getAppointmentsByHospitalId(String hospitalId) {
@@ -50,7 +50,7 @@ Stream<List<Appointment>> getAppointmentsByHospitalId(String hospitalId) {
       .where(ServiceUtils.appointmentModel_HospitalId, isEqualTo: hospitalId).orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: true)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromMap(doc))
+          .map((doc) => Appointment.fromSnapshot(doc))
           .toList());
 }
 
@@ -67,7 +67,7 @@ Stream<List<Appointment>> getAppointmentsNearCurrentTime(String hospitalId) {
       .orderBy(ServiceUtils.appointmentModel_AppointmentDate).limit(3)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromMap(doc))
+          .map((doc) => Appointment.fromSnapshot(doc))
           .toList());
 }
 

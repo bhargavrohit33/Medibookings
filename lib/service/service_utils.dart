@@ -27,4 +27,8 @@ static const String doctorModel_FirstName = "firstName";
   static const String appointmentModel_AppointmentDate = 'appointmentDate';
   static const String appointmentModel_ReferralAppointmentId = 'referralAppointmentId';
   static const String appointmentModel_isBooked = 'isBooked';
+    static const String appointmentModel_familyMember = 'familyMember';
+  static const String appointmentModel_familyMember_firstName = 'firstName';
+  static const String appointmentModel_familyMember_lastName = 'lastName';
+  static const String appointmentModel_familyMember_phone_number = 'phoneNumber';
 }

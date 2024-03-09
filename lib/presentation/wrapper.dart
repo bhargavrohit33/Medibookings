@@ -50,14 +50,16 @@ class _WrapperState extends State<Wrapper> {
               } 
               else {
                 
-                return  Center(child: Column(
-                  children: [
-                   const Text("Nurse Wrapper"),
-                    basicButton(onPressed: (){
-                      _authService.logout();
-                    }, text: "log out")
-                  ],
-                ),);
+                return  Scaffold(
+                  body: Center(child: Column(
+                    children: [
+                     const Text("Nurse Wrapper"),
+                      basicButton(onPressed: (){
+                        _authService.logout();
+                      }, text: "log out")
+                    ],
+                  ),),
+                );
               }
             },
           );

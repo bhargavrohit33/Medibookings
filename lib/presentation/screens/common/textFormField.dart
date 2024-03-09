@@ -23,6 +23,7 @@ TextFormField textFormField({
   );
 
   return TextFormField(
+    style: textStyleForFormField,
     obscureText: obscureText,
     controller: textEditingController,
     decoration: effectiveDecoration,

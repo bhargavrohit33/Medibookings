@@ -3,6 +3,7 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
@@ -19,6 +20,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  
 
   @override
   void initState() {
@@ -63,7 +65,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
-
+  bool isLoading = false;
   void _toggleObscurePassword() {
     setState(() {
       _obscurePassword = !_obscurePassword;
@@ -74,93 +76,106 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
   Widget build(BuildContext context) {
     final _authService = Provider.of<AuthService>(context);
     final _hospitalService = Provider.of<HospitalService>(context);
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Hospital name field
-              textFormField(
-                textEditingController: _hospitalNameController,
-                decoration: defaultInputDecoration(hintText: 'Hospital Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the hospital name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              // Email field
-              textFormField(
-                textEditingController: _emailController,
-                decoration: defaultInputDecoration(hintText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  // Add more validation if needed
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              // Password field
-              textFormField(
-                textEditingController: _passwordController,
-                decoration:
-                    defaultInputDecoration(hintText: "Password").copyWith(
-                  suffixIcon: IconButton(
-                    icon: Icon(_obscurePassword
-                        ? Icons.visibility
-                        : Icons.visibility_off),
-                    onPressed: _toggleObscurePassword,
-                  ),
-                ),
-                obscureText: _obscurePassword,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  // Add more validation if needed
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-
-              basicButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      try {
-                        await _authService.register(
-                            _emailController.text,
-                            _passwordController.text,
-                            _hospitalNameController.text,
-                            _hospitalService);
-                        Navigator.pushReplacementNamed(
-                            context, RouteName.appWrapper);
-                      } catch (e) {
-                        // Handle registration error
-                        if (e
-                            .toString()
-                            .contains('Hospital name already exists')) {
-                          custom_snackBar(
-                              context, 'Hospital name already exists');
-                        } else {
-                          custom_snackBar(context, e.toString());
-                        }
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Hospital name field
+                  textFormField(
+                    textEditingController: _hospitalNameController,
+                    decoration: defaultInputDecoration(hintText: 'Hospital Name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter the hospital name';
                       }
-                    }
-                  },
-                  text: "Register"),
-              backLogin(context)
-            ],
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Email field
+                  textFormField(
+                    textEditingController: _emailController,
+                    decoration: defaultInputDecoration(hintText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      // Add more validation if needed
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Password field
+                  textFormField(
+                    textEditingController: _passwordController,
+                    decoration:
+                        defaultInputDecoration(hintText: "Password").copyWith(
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: _toggleObscurePassword,
+                      ),
+                    ),
+                    obscureText: _obscurePassword,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      // Add more validation if needed
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+        
+                  basicButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          try {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await _authService.register(
+                                _emailController.text,
+                                _passwordController.text,
+                                _hospitalNameController.text,
+                                _hospitalService);
+                            Navigator.pushReplacementNamed(
+                                context, RouteName.appWrapper);
+                          } catch (e) {
+                            // Handle registration error
+                            if (e
+                                .toString()
+                                .contains('Hospital name already exists')) {
+                              custom_snackBar(
+                                  context, 'Hospital name already exists');
+                            } else {
+                              custom_snackBar(context, e.toString());
+                            }
+                          }finally{
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        }
+                      },
+                      text: "Register"),
+                  backLogin(context)
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        if( isLoading )
+        commonLoading()
+      ],
     );
   }
 }

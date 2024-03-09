@@ -28,7 +28,7 @@ String nurseDemoImageURL =
     'Neurology',
     'Oncology',
     'Pediatrics',
-    // Add more specialties as needed
+   
   ];
 // remove above line
 
@@ -148,6 +148,7 @@ final cardShape = RoundedRectangleBorder(
     
   );
 }
+ TextStyle textStyleForFormField= TextStyle(color: Colors.black);
 const String defaultDateFormat ='MMMM dd, yyyy, hh:mm a';
 String customDateFormat({required DateTime dateTime,   String? format =  defaultDateFormat}) {
 

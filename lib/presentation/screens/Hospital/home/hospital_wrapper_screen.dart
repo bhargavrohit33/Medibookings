@@ -37,11 +37,13 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
       drawer: const HospitalDrawer(),
       body: list[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
             label: 'Department',
