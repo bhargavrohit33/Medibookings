@@ -20,7 +20,7 @@ static const String doctorModel_FirstName = "firstName";
   static const String collection_appointment = "appointments";
   static const String appointmentModel_Id = 'id';
   static const String appointmentModel_PatientId = 'patientId';
-  static const String appointmentModel_HospitalId = 'hospitalId';
+  static const String appointmentModel_providerId = 'providerId';
   static const String appointmentModel_TimeSlotDuration = 'timeSlotDuration';
   static const String appointmentModel_PrescriptionId = 'prescriptionId';
   static const String appointmentModel_Doctor = 'doctorId';
@@ -31,4 +31,5 @@ static const String doctorModel_FirstName = "firstName";
   static const String appointmentModel_familyMember_firstName = 'firstName';
   static const String appointmentModel_familyMember_lastName = 'lastName';
   static const String appointmentModel_familyMember_phone_number = 'phoneNumber';
+    static const String appointmentModel_isNurseProvider = "isNurseProvider";
 }

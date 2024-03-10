@@ -324,17 +324,19 @@ Widget listOfBreakTime() {
         }
       }
       if (!isBreakTime) {
+
         appointments.add(Appointment(
-          hospitalId: doctor.hospitalId!, 
+          providerId: doctor.hospitalId!, 
           timeSlotDuration: duration,
           doctorid: doctor.id, 
           appointmentDate: startTime,
-          isBooked: false
+          isBooked: false,
+         
         ));
       }
       startTime = startTime.add(adjustedTime);
     }
-
+    return [];
     return appointments;
   }
 

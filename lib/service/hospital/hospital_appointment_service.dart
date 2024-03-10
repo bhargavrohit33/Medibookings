@@ -23,7 +23,7 @@ class HospitalAppointmentService extends DisposableService{
   try {
     for (Appointment appointment in appointments) {
       // Convert appointment object to map
-      Map<String, dynamic> appointmentMap = appointment.toMap();
+      Map<String, dynamic> appointmentMap = appointment.toMapForHospital();
 
       // Add appointment to Firestore
       await appointmentCollection.add(appointmentMap);
@@ -41,15 +41,15 @@ Stream<List<Appointment>> getAppointmentsForDoctor(String doctorId) {
       .orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: false)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromSnapshot(doc))
+          .map((doc) => Appointment.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList());
 }
 Stream<List<Appointment>> getAppointmentsByHospitalId(String hospitalId) {
   return appointmentCollection
-      .where(ServiceUtils.appointmentModel_HospitalId, isEqualTo: hospitalId).orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: true)
+      .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId).orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: true)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromSnapshot(doc))
+          .map((doc) => Appointment.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList());
 }
 
@@ -59,14 +59,14 @@ Stream<List<Appointment>> getAppointmentsNearCurrentTime(String hospitalId) {
  
 
   return appointmentCollection
-      .where(ServiceUtils.appointmentModel_HospitalId, isEqualTo: hospitalId)
+      .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId)
       .where(ServiceUtils.appointmentModel_isBooked, isEqualTo: true)
       .where(ServiceUtils.appointmentModel_AppointmentDate, isGreaterThanOrEqualTo: currentTime)
       .where(ServiceUtils.appointmentModel_AppointmentDate, isLessThanOrEqualTo: oneHourLater)
       .orderBy(ServiceUtils.appointmentModel_AppointmentDate).limit(3)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Appointment.fromSnapshot(doc))
+          .map((doc) => Appointment.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList());
 }
 
