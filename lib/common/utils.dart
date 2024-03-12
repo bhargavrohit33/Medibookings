@@ -155,3 +155,10 @@ String customDateFormat({required DateTime dateTime,   String? format =  default
   final date = DateFormat(format);
   return date.format(dateTime);
 }
+
+  String capitalizeFirstLetter(String input) {
+  if (input.isEmpty) {
+    return input;
+  }
+  return input.substring(0, 1).toUpperCase() + input.substring(1);
+}

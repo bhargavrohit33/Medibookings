@@ -59,14 +59,16 @@ class DoctorService extends DisposableService {
       if (file != null) {
         profileURL = await authService.uploadFile(file);
       }
-
-      await doctorsCollection.add({
-        ServiceUtils.doctorModel_FirstName: firstName,
-        ServiceUtils.doctorModel_LastName: lastName,
-        ServiceUtils.doctorModel_Specialization: specialization,
-        ServiceUtils.doctorModel_HospitalId: firebaseAuth.currentUser!.uid,
-        ServiceUtils.doctorModel_ProfilePhoto: profileURL,
-      });
+      Doctor dummy = Doctor(id: '', firstName: firstName, lastName: lastName, specialization: specialization, hospitalId: firebaseAuth.currentUser!.uid,profilePhoto: profileURL);
+       await doctorsCollection.add(dummy.toMap());
+    //
+      // await doctorsCollection.add({
+      //   ServiceUtils.doctorModel_FirstName: firstName,
+      //   ServiceUtils.doctorModel_LastName: lastName,
+      //   ServiceUtils.doctorModel_Specialization: specialization,
+      //   ServiceUtils.doctorModel_HospitalId: firebaseAuth.currentUser!.uid,
+      //   ServiceUtils.doctorModel_ProfilePhoto: profileURL,
+      // });
     } catch (e) {
       print('Error creating doctor profile: $e');
       throw e;

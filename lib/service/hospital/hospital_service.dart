@@ -53,6 +53,8 @@ class HospitalService   extends DisposableService {
           isVerified: false,
           name: hospitalName,
           contactNumber: 0,
+          description: "",
+          hospitalImages: []
          
           );
       await _firestore

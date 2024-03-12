@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/service/service_utils.dart';
 
 class Doctor {
@@ -22,9 +23,9 @@ class Doctor {
   factory Doctor.fromSnapshot(DocumentSnapshot snapshot,) {
     return Doctor(
       id: snapshot.id,
-      firstName: snapshot[ServiceUtils.doctorModel_FirstName] ?? '',
-      lastName: snapshot[ServiceUtils.doctorModel_LastName] ?? '',
-      specialization: snapshot[ServiceUtils.doctorModel_Specialization] ?? '',
+      firstName: capitalizeFirstLetter( snapshot[ServiceUtils.doctorModel_FirstName] ?? ''),
+      lastName:capitalizeFirstLetter( snapshot[ServiceUtils.doctorModel_LastName] ?? ''),
+      specialization: capitalizeFirstLetter(snapshot[ServiceUtils.doctorModel_Specialization] ?? ''),
       profilePhoto: snapshot[ServiceUtils.doctorModel_ProfilePhoto],
       hospitalId: snapshot[ServiceUtils.doctorModel_HospitalId] ?? '',
     );
@@ -32,10 +33,10 @@ class Doctor {
 
   Map<String, dynamic> toMap() {
     return {
-      ServiceUtils.doctorModel_FirstName: firstName,
-      ServiceUtils.doctorModel_LastName: lastName,
-      ServiceUtils.doctorModel_Specialization: specialization,
-      if (profilePhoto != null) ServiceUtils.doctorModel_ProfilePhoto: profilePhoto,
+      ServiceUtils.doctorModel_FirstName: firstName.toLowerCase(),
+      ServiceUtils.doctorModel_LastName: lastName.toLowerCase(),
+      ServiceUtils.doctorModel_Specialization: specialization.toLowerCase(),
+       ServiceUtils.doctorModel_ProfilePhoto: profilePhoto,
       ServiceUtils.doctorModel_HospitalId: hospitalId,
     };
   }
