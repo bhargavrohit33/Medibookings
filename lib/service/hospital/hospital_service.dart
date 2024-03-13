@@ -94,15 +94,12 @@ class HospitalService   extends DisposableService {
     catch(e){
       throw e;
     }}
-    Future<void> updateHospitalProfile(String hospitalName,int contactNumber, GeoPoint address)async{
+    Future<void> updateHospitalProfile(String hospitalName,int contactNumber, GeoPoint address,HospitalModel hospitalModel)async{
     try{
-      
-       await hospitalsCollection.doc(firebaseAuth.currentUser!.uid).update({
-          ServiceUtils.hospitalModel_Name:hospitalName,
-           ServiceUtils.hospitalModel_ContactNumber:contactNumber,
-            ServiceUtils.hospitalModel_Address:address,
-
-        });
+        hospitalModel.name = hospitalName.toLowerCase();
+        hospitalModel.contactNumber = contactNumber;
+        hospitalModel.address = address;
+       await hospitalsCollection.doc(firebaseAuth.currentUser!.uid).update(hospitalModel.toMap());
         await setHospitalModel(firebaseAuth.currentUser!.uid);
         notifyListeners();
        

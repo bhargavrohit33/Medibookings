@@ -177,7 +177,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
                   isLoading = true;
                 });
                try{
-                await hospitalProvider.updateHospitalProfile(_nameController.text, int.parse(_contactController.text), addressGeoPoint!);
+                await hospitalProvider.updateHospitalProfile(_nameController.text, int.parse(_contactController.text), addressGeoPoint!,hospitalProvider.hospitalModel!);
                }catch(e){
                 print(e.toString());
                  custom_snackBar(context, "Failed to update data");
