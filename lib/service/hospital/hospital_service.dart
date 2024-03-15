@@ -72,7 +72,7 @@ class HospitalService   extends DisposableService {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await hospitalsCollection.doc(hospitalId).get()  as DocumentSnapshot<Map<String, dynamic>>;
       if (snapshot.exists) {
-        return HospitalModel.fromSnapshot(snapshot,firebaseAuth.currentUser!);
+        return HospitalModel.fromSnapshot(snapshot);
         
       } else {
         throw Exception('Hospital with ID $hospitalId not found');
@@ -115,5 +115,20 @@ class HospitalService   extends DisposableService {
   
 
   
-  
+  Stream<List<HospitalModel>> hospitalsByPartialNameStream(String partialName) {
+    return hospitalsCollection
+        .where(ServiceUtils.hospitalModel_Name,
+            isGreaterThanOrEqualTo: partialName.toLowerCase())
+        .where(ServiceUtils.hospitalModel_Name,
+            isLessThanOrEqualTo: partialName.toLowerCase() + '\uf8ff')
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return HospitalModel.fromSnapshot(
+          doc as DocumentSnapshot<Map<String, dynamic>>,
+          
+        );
+      }).toList();
+    });
+  }
 }

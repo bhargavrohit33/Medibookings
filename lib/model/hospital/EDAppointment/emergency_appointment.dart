@@ -10,7 +10,7 @@ class EmergencyAppointmentModel {
   final String patientId;
   final DateTime appointmentDate;
   final String notes;
-  final bool isCancelled;
+   bool isCancelled;
    EmergencyType type;
 
   EmergencyAppointmentModel({

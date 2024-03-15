@@ -10,7 +10,7 @@ class Appointment {
   final String? prescriptionId;
   final String doctorid;
   final DateTime appointmentDate;
-  final DateTime? referralAppointmentId;
+  final String? referralAppointmentId;
   final bool isBooked;
   final bool? isNurseProvider;
   final Map<String, dynamic>? familyMember;
@@ -38,13 +38,26 @@ class Appointment {
       prescriptionId: snapshot[ServiceUtils.appointmentModel_PrescriptionId] ?? "",
       doctorid: snapshot[ServiceUtils.appointmentModel_Doctor] ?? "",
       appointmentDate: (snapshot[ServiceUtils.appointmentModel_AppointmentDate] as Timestamp).toDate(),
-      referralAppointmentId: snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId] != null ? (snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId] as Timestamp).toDate() : null,
+      referralAppointmentId:snapshot[ServiceUtils.appointmentModel_ReferralAppointmentId] ??"",
       isBooked: snapshot[ServiceUtils.appointmentModel_isBooked] ?? "",
       isNurseProvider: snapshot[ServiceUtils.appointmentModel_isNurseProvider] ?? false,
       familyMember: snapshot[ServiceUtils.appointmentModel_familyMember] as Map<String, dynamic>? ?? {},
     );
   }
-
+ Map<String, dynamic> toMap() {
+    return {
+      ServiceUtils.appointmentModel_PatientId: patientId,
+      ServiceUtils.appointmentModel_providerId: providerId,
+      ServiceUtils.appointmentModel_TimeSlotDuration: timeSlotDuration,
+      ServiceUtils.appointmentModel_PrescriptionId: prescriptionId,
+      ServiceUtils.appointmentModel_Doctor: doctorid,
+      ServiceUtils.appointmentModel_AppointmentDate: appointmentDate,
+      ServiceUtils.appointmentModel_ReferralAppointmentId: referralAppointmentId,
+      ServiceUtils.appointmentModel_isBooked: isBooked,
+      ServiceUtils.appointmentModel_isNurseProvider: isNurseProvider,
+      ServiceUtils.appointmentModel_familyMember: familyMember,
+    };
+  }
   Map<String, dynamic> toMapForHospital() {
     return {
       ServiceUtils.appointmentModel_PatientId: patientId,
@@ -83,6 +96,28 @@ class Appointment {
       isBooked: false,
       familyMember: {},
       patientId: null
+
+    );
+  }
+  Appointment copyWith({
+   String? patientId,
+   
+    bool? isBooked,
+    bool? isNurseProvider,
+     Map<String, dynamic>? familyMember
+  }) {
+    return Appointment(
+      id: this.id,
+      providerId:  this.providerId,
+      doctorid:  this.doctorid,
+      timeSlotDuration:  this.timeSlotDuration,
+      appointmentDate:  this.appointmentDate,
+      isBooked: isBooked ?? this.isBooked,
+      familyMember: familyMember??this.familyMember,
+      patientId: patientId?? this.patientId,
+      isNurseProvider: isNurseProvider??this.isNurseProvider,
+
+
 
     );
   }

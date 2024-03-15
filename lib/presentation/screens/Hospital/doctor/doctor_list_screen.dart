@@ -28,7 +28,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Doctor List'),
       body: StreamBuilder<List<Doctor>>(
-        stream: doctorService.getDoctorsByHospitalIdStream(),
+        stream: doctorService.getDoctorsByHospitalIdStream(hospitalId: doctorService.firebaseAuth.currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return commonLoading();
@@ -167,7 +167,7 @@ class DoctorWidget extends StatelessWidget {
                         PopupMenuItem(
                           onTap: (){
                             DoctorArugument doctorArugument = DoctorArugument(doctorId: doctor.id, hospitalId: doctor.hospitalId, isUSerCanBookAppointment: false);
-                            Navigator.pushNamed(context, RouteName.doctorAppointmentCalendarRoute,arguments: doctorArugument );
+                            Navigator.pushNamed(context, RouteName.doctorAppointmentForHospitalCalendarRoute,arguments: doctorArugument );
                           },
                           value: 1,
                           child: const Text("Calender"),

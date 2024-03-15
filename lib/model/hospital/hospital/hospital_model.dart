@@ -11,7 +11,7 @@ class HospitalModel {
   int _contactNumber;
   List<String> documentLinks;
   final bool isVerified;
-  final User? firebaseUser;
+
   String description;
   List<String> hospitalImages;
 
@@ -23,7 +23,7 @@ class HospitalModel {
     required int contactNumber,
     required this.documentLinks,
     required this.isVerified,
-    this.firebaseUser,
+   
     required this.description,
     required this.hospitalImages,
   })   : _name = name,
@@ -31,7 +31,7 @@ class HospitalModel {
         _contactNumber = contactNumber;
 
   factory HospitalModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot, User user) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot, ) {
     return HospitalModel(
       id: snapshot.id,
       name: capitalizeFirstLetter(
@@ -50,7 +50,7 @@ class HospitalModel {
           []),
       isVerified:
           snapshot.data()![ServiceUtils.hospitalModel_IsVerified] ?? false,
-      firebaseUser: user,
+     
       description: snapshot.data()![
               ServiceUtils.hospitalModel_Description] ??
           '',

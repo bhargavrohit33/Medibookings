@@ -18,7 +18,9 @@ class HospitalAppointmentService extends DisposableService{
     
   HospitalAppointmentService(){
   }
-      
+
+
+
   Future<void> uploadAppointment(List<Appointment> appointments) async {
  
 
@@ -58,6 +60,11 @@ Stream<List<Appointment>> getAppointmentsByHospitalId(String hospitalId) {
           .toList());
 }
 
+Future<Appointment> getAppointmentById(String id)async{
+  final DocumentSnapshot snapshot =await appointmentCollection.doc(id).get();
+
+  return Appointment.fromSnapshot(snapshot as DocumentSnapshot<Map<String, dynamic>>) ;
+}
 Stream<List<Appointment>> getAppointmentsNearCurrentTime(String hospitalId) {
   DateTime currentTime = DateTime.now();
   DateTime oneHourLater = currentTime.add(Duration(hours: 1));

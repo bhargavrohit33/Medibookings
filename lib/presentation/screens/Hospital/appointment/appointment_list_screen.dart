@@ -4,6 +4,7 @@ import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
+import 'package:medibookings/presentation/screens/Hospital/widgets/%20no_appointment_found.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/date_selection_bar.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
@@ -21,7 +22,7 @@ class AppointmentListScreen extends StatefulWidget {
 }
 
 class _AppointmentListScreenState extends State<AppointmentListScreen>  {
-   final List<String> filterOptions = ['All', 'Today', 'Tomorrow', 'Next 7 Days',"By date"];
+   final List<String> filterOptions = ['All', 'Today', 'Tomorrow', "By date"];
   DateTime? _selectedDate = DateTime.now();
    int _selectedFilterIndex = 0;
   @override
@@ -69,7 +70,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen>  {
               },
             ),
           ),
-          if (_selectedFilterIndex == 4) // Step 4: Show the date picker if "By date" is selected
+          if (_selectedFilterIndex == filterOptions.length -1) // Step 4: Show the date picker if "By date" is selected
             DateSelectionCard(selectedDate:  _selectedDate!, onSelectDate: (v){
                _selectDate(context);
             }),
@@ -80,15 +81,15 @@ class _AppointmentListScreenState extends State<AppointmentListScreen>  {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: commonLoading());
                     } else if (snapshot.hasError) {
-                      return SomethingWentWrongWidget(superContext: context);
+                      return SomethingWentWrongWidget(superContext: context,message: snapshot.error.toString(),);
                     } 
                     else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text('No appointment found.'));
+                      return const NoAppointmentsFound();
                     }
                     else {
                       final filteredAppointments = filterAppointments(snapshot.data!);
                   if (filteredAppointments.isEmpty){
-                     return Center(child: Text('No appointment found.'));
+                     return const NoAppointmentsFound();
                   }
                  
                   
@@ -127,12 +128,8 @@ Future<void> _selectDate(BuildContext context) async {
         return appointments.where((appointment) => isToday(appointment.appointmentDate)).toList();
       case 2: 
         return appointments.where((appointment) => isTomorrow(appointment.appointmentDate)).toList();
-      case 3:
-        final next7Days = DateTime.now().add(Duration(days: 7));
-        final today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-        final next7DaysRange = today.add(Duration(days: 7));
-        return appointments.where((appointment) => appointment.appointmentDate.isAfter(today) && appointment.appointmentDate.isBefore(next7DaysRange)).toList();
-      case 4: // Filter by selected date
+     
+      case 3: // Filter by selected date
         return appointments.where((appointment) => isSameDate(appointment.appointmentDate, _selectedDate!)).toList();
     }
     return appointments;
@@ -164,8 +161,8 @@ class AppointmentListView extends StatelessWidget {
       itemCount: appointments.length,
       itemBuilder: (context, index) {
         final appointment = appointments[index];
-       
-         
+        print("object ${appointment.id}");
+         print(appointment.referralAppointmentId);
         return AppointcardWidget(appointment: appointment,);
       },
     );

@@ -142,7 +142,7 @@ final cardShape = RoundedRectangleBorder(
     ),
     contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     fillColor: textFormFieldText,
-    hintText: hintText,
+    
     label:  Text(hintText??""),
     filled: true
     

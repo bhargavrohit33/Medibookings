@@ -97,10 +97,10 @@ class DoctorService extends DisposableService {
     .snapshots().map((event) => Doctor.fromSnapshot(event));
   }
 
-  Stream<List<Doctor>> getDoctorsByHospitalIdStream() {
+  Stream<List<Doctor>> getDoctorsByHospitalIdStream({required String hospitalId  }) {
     
     return doctorsCollection
-        .where(ServiceUtils.doctorModel_HospitalId, isEqualTo: firebaseAuth.currentUser!.uid)
+        .where(ServiceUtils.doctorModel_HospitalId, isEqualTo: hospitalId)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => Doctor.fromSnapshot(doc, )).toList());
   }
@@ -169,6 +169,29 @@ bool isCurrentDate(DateTime date) {
   final now = DateTime.now();
   return date.year == now.year && date.month == now.month && date.day == now.day;
 }
+Stream<List<Appointment>> getDoctorAllAppointmentsByDate({required DateTime date,required String doctorId,required String hospitalId}) {
+  DateTime startDate = DateTime(date.year, date.month, date.day, date.hour, date.minute, date.second);
+  DateTime endDate = DateTime(date.year, date.month, date.day, 23, 59, 59);
+  if(isCurrentDate(date)){
+    DateTime currentDay = DateTime.now();
+          startDate = DateTime(date.year, date.month, date.day, currentDay.hour, currentDay.minute, currentDay.second);
+   endDate = DateTime(date.year, date.month, date.day, 23, 59, 59);
+  }
+  
+ 
+
+  return appointmentCollection
+    .where(ServiceUtils.appointmentModel_AppointmentDate, isGreaterThanOrEqualTo: startDate)
+    .where(ServiceUtils.appointmentModel_AppointmentDate, isLessThanOrEqualTo: endDate)
+   
+     .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId)
+      .where(ServiceUtils.appointmentModel_Doctor, isEqualTo: doctorId)
+    .snapshots()
+    .map((event) => List<Appointment>.from(
+      event.docs.map((e) => Appointment.fromSnapshot(e as DocumentSnapshot<Map<String, dynamic>>,)).toList()));
+}
+
+
 Stream<List<Appointment>> getAppointmentsForDate({required DateTime date,required String doctorId,required String hospitalId}) {
   DateTime startDate = DateTime(date.year, date.month, date.day, date.hour, date.minute, date.second);
   DateTime endDate = DateTime(date.year, date.month, date.day, 23, 59, 59);

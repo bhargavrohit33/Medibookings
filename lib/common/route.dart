@@ -19,6 +19,9 @@ import 'package:medibookings/presentation/screens/auth/account_not_verified_scre
 import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/screens/auth/login_screen.dart';
 import 'package:medibookings/presentation/screens/auth/register_screen.dart';
+import 'package:medibookings/presentation/screens/reference/doctor_calendar_reference.dart';
+import 'package:medibookings/presentation/screens/reference/doctor_list_for%20reference.dart';
+import 'package:medibookings/presentation/screens/reference/hospital_list_byName.dart';
 import 'package:medibookings/presentation/screens/splash/splash_screen.dart';
 import 'package:medibookings/presentation/screens/upload_document/upload_documents_screen.dart';
 import 'package:medibookings/presentation/screens/welcome/welcome_screen.dart';
@@ -63,7 +66,7 @@ Map<String,WidgetBuilder> routes ={
     return AppointmentDetailScreeen(appointment: model.appointment,patientModel: model.patientModel,doctor: model.doctor,);
 
   },
- RouteName.doctorAppointmentCalendarRoute:(context) {
+ RouteName.doctorAppointmentForHospitalCalendarRoute:(context) {
   final DoctorArugument args = ModalRoute.of(context)!.settings.arguments as DoctorArugument;
   return DoctorAppointmentCalendar(
     doctodID: args.doctorId,
@@ -73,6 +76,13 @@ Map<String,WidgetBuilder> routes ={
   );
   },
 
-  
- 
-};
+  // reference hospital
+  RouteName.hospitalListByName:(context) =>  const HospitalList(),
+ RouteName.doctorListForReferenceScreen:(context) {
+   final String args = ModalRoute.of(context)!.settings.arguments as String;
+  return  DoctorListForReferenceWidget(hospitalId: args,);
+ }  ,
+ RouteName.doctorCalenderInreference:(context) { 
+    final DoctorArugument args = ModalRoute.of(context)!.settings.arguments as DoctorArugument;
+  return DoctorAppointmentCalendarInReference(doctodID: args.doctorId, hospitalID: args.hospitalId);
+}};

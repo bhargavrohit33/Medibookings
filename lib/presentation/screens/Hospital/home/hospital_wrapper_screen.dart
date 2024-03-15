@@ -4,6 +4,8 @@ import 'package:medibookings/presentation/screens/Hospital/department/emergency_
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_home_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_drawer.dart';
 import 'package:medibookings/presentation/widget/custom_appBar_without_backbutton.dart';
+import 'package:medibookings/service/homeTab_service.dart';
+import 'package:provider/provider.dart';
 
 class HospitalWrapperScreen extends StatefulWidget {
   const HospitalWrapperScreen({super.key});
@@ -13,13 +15,9 @@ class HospitalWrapperScreen extends StatefulWidget {
 }
 
 class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
-  int _selectedIndex = 0;
+  
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+ 
 
   var titles = ['Home',"Emergency",'Appointment'];
   var list = [
@@ -30,12 +28,13 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final homeTabe = Provider.of<HomeTabService>(context);
     return Scaffold(
       appBar: CustomAppBarWithoutBackButton(
-      title: titles[_selectedIndex],
+      title: titles[homeTabe.bottomTab],
       ),
       drawer: const HospitalDrawer(),
-      body: list[_selectedIndex],
+      body: list[homeTabe.bottomTab],
       bottomNavigationBar: BottomNavigationBar(
         
         items: const <BottomNavigationBarItem>[
@@ -53,9 +52,11 @@ class _HospitalWrapperScreenState extends State<HospitalWrapperScreen> {
             label: 'Appointment',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: homeTabe.bottomTab,
         
-        onTap: _onItemTapped,
+        onTap: (v)async{
+        await  homeTabe.updateTab(v);
+        },
       ),
       
     );

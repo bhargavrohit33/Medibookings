@@ -12,6 +12,7 @@ import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
 import 'package:medibookings/service/hospital/patient_service_hospital.dart';
+import 'package:medibookings/service/reference_service.dart';
 import 'package:provider/provider.dart';
 
 class AppointcardWidget extends StatelessWidget {
@@ -27,6 +28,7 @@ class AppointcardWidget extends StatelessWidget {
     const bottomBarColor = Colors.white;
     final doctorService = Provider.of<DoctorService>(context);
     final patientService = Provider.of<PatientServiceHospital>(context);
+    final refereceAppointmentService = Provider.of<ReferenceService>(context);
     return StreamBuilder<Doctor>(
         stream: doctorService.getDoctorByIdStream(appointment.doctorid),
         builder: (context, snapshotDoctor) {
@@ -57,7 +59,7 @@ class AppointcardWidget extends StatelessWidget {
                                       color: primaryColor),
                                   const SizedBox(width: 8),
                                   Text(snapshotDoctor.data!.firstName
-                                      .toString()),
+                                      .toString() +" "+ snapshotDoctor.data!.lastName),
                                 ],
                               ),
                             ),
@@ -118,7 +120,10 @@ class AppointcardWidget extends StatelessWidget {
                                       const SizedBox(width: 8),
                                       IconButton(
                                         padding: const EdgeInsets.all(0),
-                                        onPressed: () {},
+                                        onPressed: ()async {
+                                        await  refereceAppointmentService.setAppointment(appointment);
+                                          Navigator.pushNamed(context, RouteName.hospitalListByName);
+                                        },
                                         icon: const Icon(Icons.swap_horiz,
                                             color: bottomBarColor),
                                       ),

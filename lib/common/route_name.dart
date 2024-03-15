@@ -15,12 +15,18 @@ class RouteName {
   static const String hospital_editDoctorProfile = "/hospitalEditDoctorProfileScreen";
   static const String hospital_doctorAppointmentListRoute = "/doctorAppointmentListScreen";
   static const String hospital_generate_appointment = "/generate_appointemntScreen";
-  static const String doctorAppointmentCalendarRoute = "/DoctorAppointmentCalendarPage";
+  static const String doctorAppointmentForHospitalCalendarRoute = "/DoctorAppointmentForHospitalCalendarRoute";
   static const String hospital_profile_update = "/hospitalProfileUpdate";
 
   
   static const String appointmentPreviewScreen = "/appointmentPreviewScreen";
  static const String appointmentRoute = "/appointmentPage";
+
+ /// reference hospital
+  static const String hospitalListByName = "/hospitalListByName";
+   static const String hospitalItem = "/hospitalItem";
+   static const String  doctorListForReferenceScreen = '/doctorListForReferenceScreen';
+   static const String doctorCalenderInreference  = '/doctorCalenderInreference';
  
   // static const String appointmentListViewRoute = "/appointListViewPage";
 }

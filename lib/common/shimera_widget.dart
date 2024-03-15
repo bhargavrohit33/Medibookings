@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/utils.dart';
 
 import 'package:shimmer/shimmer.dart';
@@ -94,6 +95,87 @@ class ShimmerWidget extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerAppointmentCard extends StatelessWidget {
+ 
+  const ShimmerAppointmentCard({
+    Key? key,
+    
+  }) : super(key: key);
+
+  final Color color = Colors.grey;
+  final Color shimmerColor= Colors.white;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    return Container(
+      width: size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(cardRadius),
+        color: primaryColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Shimmer.fromColors(
+          baseColor: shimmerColor.withOpacity(0.5),
+          highlightColor: shimmerColor.withOpacity(0.3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.event_note, color: color, size: 30),
+                  Expanded(
+                    child: Container(
+                      height: 24,
+                      color: shimmerColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.calendar_today, color: color, size: 30),
+                  Expanded(
+                    child: Container(
+                      height: 24,
+                      color: shimmerColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(cardRadius),
+                  color: theme.scaffoldBackgroundColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  child: Row(
+                    children: [
+                      Icon(Icons.timer, size: 20),
+                      SizedBox(width: 8),
+                      Container(
+                        height: 24,
+                        width: 100,
+                        color: shimmerColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

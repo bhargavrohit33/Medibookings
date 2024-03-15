@@ -7,44 +7,44 @@ import 'package:medibookings/service/service_utils.dart';
 class EmergencyAppointmentService extends DisposableService{
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final CollectionReference edCollection = FirebaseFirestore.instance.collection(ServiceUtils.collection_emergency);
-  Stream<List<EmergencyAppointmentModel>> fetchOrderedHospitalEmergencyAppointmentsStream(DateTime dateTime) {
-  final startOfDay = DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
-  final endOfDay = DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59);
+ Stream<List<EmergencyAppointmentModel>> fetchOrderedHospitalEmergencyAppointmentsStream({required DateTime dateTime, bool allAppoinment = false,int limit = 0}) {
+    final startOfDay = DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
+    final endOfDay = DateTime(dateTime.year, dateTime.month, dateTime.day, 23, 59, 59);
+
+    Query query = edCollection
+        .where(ServiceUtils.ed_hospitalId, isEqualTo: firebaseAuth.currentUser!.uid)
+        .where(ServiceUtils.ed_appointmentDate, isGreaterThanOrEqualTo: startOfDay)
+        .where(ServiceUtils.ed_appointmentDate, isLessThanOrEqualTo: endOfDay);
+
+    if (!allAppoinment) {
+      query = query.where(ServiceUtils.ed_isCancelled, isEqualTo: false);
+    }
   
-  return edCollection
-      .where(ServiceUtils.ed_hospitalId, isEqualTo: firebaseAuth.currentUser!.uid)
-      .where(ServiceUtils.ed_appointmentDate, isGreaterThanOrEqualTo: startOfDay)
-      .where(ServiceUtils.ed_appointmentDate, isLessThanOrEqualTo: endOfDay)
-      .where(ServiceUtils.ed_isCancelled, isEqualTo: false)
-      .orderBy(ServiceUtils.ed_appointmentDate,descending: true)
-      .snapshots()
-      .map((snapshot) {
-        List<EmergencyAppointmentModel> appointments = snapshot.docs
-            .map((doc) => EmergencyAppointmentModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>> ))
-            .toList();
+    query = query.orderBy(ServiceUtils.ed_appointmentDate, descending: true);
+    if (limit > 0){
+    query = query.limit(limit);
+  }
+    return query.snapshots().map((snapshot) {
+      List<EmergencyAppointmentModel> appointments = snapshot.docs
+          .map((doc) => EmergencyAppointmentModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
 
-        // Filter appointments by type
-        List<EmergencyAppointmentModel> emergencyAppointments = appointments
-            .where((appointment) => appointment.type == EmergencyType.emergency)
-            .toList();
+      // Sort appointments by type
+      appointments.sort((a, b) => a.type.index.compareTo(b.type.index));
 
-        List<EmergencyAppointmentModel> urgentAppointments = appointments
-            .where((appointment) => appointment.type == EmergencyType.urgent)
-            .toList();
+      return appointments;
+    });
+  }
 
-        List<EmergencyAppointmentModel> normalAppointments = appointments
-            .where((appointment) => appointment.type == EmergencyType.normal)
-            .toList();
-
-        // Combine all appointments and sort them
-        List<EmergencyAppointmentModel> orderedAppointments = [];
-        orderedAppointments.addAll(emergencyAppointments);
-        orderedAppointments.addAll(urgentAppointments);
-        orderedAppointments.addAll(normalAppointments);
-
-        return orderedAppointments;
-      });
-}
+Future<void> updateAPpointmentStatus({required EmergencyAppointmentModel model, required bool isCancelled})async{
+  try{
+    model.isCancelled = isCancelled; 
+     await updateAppointmentType(model);
+    }
+    catch(e){
+      throw e;
+    }
+  }
 
 
   Future<void> updateAppointmentType(EmergencyAppointmentModel model)async{
