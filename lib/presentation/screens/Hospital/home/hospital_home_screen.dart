@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/shimera_widget.dart';
 import 'package:medibookings/common/utils.dart';
-import 'package:medibookings/model/hospital/EDAppointment/emergency_appointmentModel.dart';
+import 'package:medibookings/model/hospital/EDAppointment/emergency_appointment.dart';
+
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
+import 'package:medibookings/model/hospital/patient/patient_model.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/widget/home_doctor_card.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,6 +16,7 @@ import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
 import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:medibookings/service/hospital/patient_service_hospital.dart';
 import 'package:provider/provider.dart';
 
 class hospitalHomeScreen extends StatefulWidget {
@@ -77,32 +81,7 @@ class HomeBasicContent extends StatelessWidget {
   //   ),
   // ];
 
-  final List<EmergencyDepartmentAppointment> emergencyAppointments = [
-    EmergencyDepartmentAppointment(
-      id: 1,
-      patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
-      priority: 'Urgent',
-    ),
-    EmergencyDepartmentAppointment(
-      id: 1,
-      patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
-      priority: 'Urgent',
-    ),
-    EmergencyDepartmentAppointment(
-      id: 1,
-      patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
-      priority: 'Urgent',
-    ),
-    EmergencyDepartmentAppointment(
-      id: 1,
-      patientName: 'John Doe',
-      appointmentTime: DateTime.now().add(const Duration(hours: 2)),
-      priority: 'Urgent',
-    ),
-  ];
+  
 
    HomeBasicContent({super.key});
 
@@ -130,7 +109,7 @@ class HomeBasicContent extends StatelessWidget {
               const SizedBox(height: 8),
             titleBar("Upcoming Emergency Department Appointments:",(){}),
             const SizedBox(height: 8),
-            buildEmergencyAppointmentCarousel(emergencyAppointments,context),
+            buildEmergencyAppointmentCarousel([],context),
              const SizedBox(height: 8),
             titleBar("Upcoming Appointments:",(){}),
             const SizedBox(height: 8),
@@ -168,7 +147,7 @@ class HomeBasicContent extends StatelessWidget {
   final size = MediaQuery.of(context).size;
   final theme = Theme.of(context);
   const color = Colors.white;
-
+  final patientService = Provider.of<PatientServiceHospital>(context);
   return CarouselSlider.builder(
     itemCount: appointments.length,
     options: CarouselOptions(
@@ -179,64 +158,73 @@ class HomeBasicContent extends StatelessWidget {
     ),
     itemBuilder: (BuildContext context, int index, int realIndex) {
       final appointment = appointments[index];
-      return Container(
-        width: size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(cardRadius),
-          color: primaryColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+      return FutureBuilder<PatientModel?>(
+        future: patientService.getPatientById(appointment.patientId!),
+        builder: (context, patientsnapshot) {
+          if (patientsnapshot.hasData){
+          return Container(
+            width: size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(cardRadius),
+              color: primaryColor,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.event_note, color: color, size: 30),
-                  Expanded(
-                    child: Text(
-                      'Appointment ID: ${appointment.id}',
-                      style: const TextStyle(color: color),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_today, color: color, size: 30),
-                  Expanded(
-                    child: Text(
-                      'Date: ${DateFormat('MMMM dd, yyyy').format(appointment.appointmentDate!)}',
-                      style: const TextStyle(color: color),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(cardRadius),
-                  color: theme.scaffoldBackgroundColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  child: Row(
+                  Row(
                     children: [
-                      const Icon(Icons.timer, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Time Slot Duration: ${appointment.timeSlotDuration} minutes',
-                        
+                      const Icon(Icons.event_note, color: color, size: 30),
+                      Expanded(
+                        child: Text(
+                          ' ${patientsnapshot.data!.firstName} ${patientsnapshot.data!.lastName}',
+                          style: const TextStyle(color: color),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.calendar_today, color: color, size: 30),
+                      Expanded(
+                        child: Text(
+                          'Date: ${DateFormat('MMMM dd, yyyy').format(appointment.appointmentDate!)}',
+                          style: const TextStyle(color: color),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(cardRadius),
+                      color: theme.scaffoldBackgroundColor,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.timer, size: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${appointment.timeSlotDuration} minutes',
+                            
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }else{
+          return ShimmerWidget();
+        }
+        }
       );
     },
   );
@@ -276,7 +264,8 @@ Widget doctorList(BuildContext context){
 }
 
   Widget buildEmergencyAppointmentCarousel(
-      List<EmergencyDepartmentAppointment> appointments,BuildContext context) {
+      List<EmergencyAppointmentModel> appointments,BuildContext context) {
+        final patientService = Provider.of<PatientServiceHospital>(context);
         final size = MediaQuery.of(context).size;
         final theme = Theme.of(context);
         const color = Colors.white;
@@ -290,55 +279,64 @@ Widget doctorList(BuildContext context){
       ),
       itemBuilder: (BuildContext context, int index, int realIndex) {
         final appointment = appointments[index];
-        return Container(
-          width: size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(cardRadius),
-              color: primaryColor),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [
-                  const Icon(Icons.personal_injury,color: color,size: 30),
-                  Expanded(
-                    child: Text(appointment.patientName,
-                                    style: const TextStyle(color: color),
-                                    ),
+        return FutureBuilder<PatientModel?>(
+          future: patientService.getPatientById(appointment.patientId),
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+            return Container(
+              width: size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(cardRadius),
+                  color: primaryColor),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      const Icon(Icons.personal_injury,color: color,size: 30),
+                      Expanded(
+                        child: Text(snapshot.data!.firstName.toString() +" " + snapshot.data!.lastName.toString(),
+                                        style: const TextStyle(color: color),
+                                        ),
+                      ),
+                    
+                    ],),
+                     const SizedBox(height: 5,),
+                     Row(children: [
+                      const Icon(Icons.lock_clock,color: color,size: 30),
+                      Expanded(
+                        child: Text(
+                        ' ${DateFormat('hh:mm a').format(appointment.appointmentDate)}',style: const TextStyle(color: color),),
+                      ),
+                    
+                    ],),
+                    
+                  const SizedBox(height: 5,),
+                  Container(
+                    width: size.width,
+                    decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(cardRadius),
+                  color: theme.scaffoldBackgroundColor),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:8,vertical: 2),
+                      child: Row(
+                        children: [
+                           const Icon(Icons.lock_clock,size: 20),
+                          const SizedBox(width: 8),
+                          Text('Priority: ${appointment.type}'),
+                        ],
+                      ),
+                    ),
                   ),
-                
-                ],),
-                 const SizedBox(height: 5,),
-                 Row(children: [
-                  const Icon(Icons.lock_clock,color: color,size: 30),
-                  Expanded(
-                    child: Text(
-                    ' ${DateFormat('hh:mm a').format(appointment.appointmentTime)}',style: const TextStyle(color: color),),
-                  ),
-                
-                ],),
-                
-              const SizedBox(height: 5,),
-              Container(
-                width: size.width,
-                decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(cardRadius),
-              color: theme.scaffoldBackgroundColor),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:8,vertical: 2),
-                  child: Row(
-                    children: [
-                       const Icon(Icons.lock_clock,size: 20),
-                      const SizedBox(width: 8),
-                      Text('Priority: ${appointment.priority}'),
-                    ],
-                  ),
+                  ]
                 ),
               ),
-              ]
-            ),
-          ),
+            );
+          } else{
+            return ShimmerWidget();
+          }
+          }
         );
       },
     );

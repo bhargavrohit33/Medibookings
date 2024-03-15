@@ -15,6 +15,7 @@ class RouteName {
   static const String hospital_editDoctorProfile = "/hospitalEditDoctorProfileScreen";
   static const String hospital_doctorAppointmentListRoute = "/doctorAppointmentListScreen";
   static const String hospital_generate_appointment = "/generate_appointemntScreen";
+  static const String doctorAppointmentCalendarRoute = "/DoctorAppointmentCalendarPage";
   static const String hospital_profile_update = "/hospitalProfileUpdate";
 
   

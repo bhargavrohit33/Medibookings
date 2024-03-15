@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
+import 'package:medibookings/model/hospital/patient/patient_model.dart';
 import 'package:medibookings/service/disposable_service.dart';
 import 'package:medibookings/service/service_utils.dart';
 
@@ -38,6 +40,7 @@ class HospitalAppointmentService extends DisposableService{
 Stream<List<Appointment>> getAppointmentsForDoctor(String doctorId) {
   return appointmentCollection
       .where(ServiceUtils.appointmentModel_Doctor, isEqualTo: doctorId)
+      .where(ServiceUtils.appointmentModel_isBooked, isEqualTo: true)
       .orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: false)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
@@ -46,7 +49,9 @@ Stream<List<Appointment>> getAppointmentsForDoctor(String doctorId) {
 }
 Stream<List<Appointment>> getAppointmentsByHospitalId(String hospitalId) {
   return appointmentCollection
-      .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId).orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: true)
+      .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId).
+      where(ServiceUtils.appointmentModel_isBooked,isEqualTo: true).
+      orderBy(ServiceUtils.appointmentModel_AppointmentDate,descending: true)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs
           .map((doc) => Appointment.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
@@ -69,5 +74,27 @@ Stream<List<Appointment>> getAppointmentsNearCurrentTime(String hospitalId) {
           .map((doc) => Appointment.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList());
 }
-
+Future<void> cancelAppointment(Appointment appointment,) async {
+    try {
+      appointment = appointment.cancelAppointment();
+      DateTime now = DateTime.now();
+      
+        await updateAppointment(appointment);
+    
+      
+    } catch (e) {
+      throw e;
+    }
+  }
+  Future<void> updateAppointment(Appointment appointment) async {
+    try {
+      log(appointment.toMapForHospital().toString());
+      await appointmentCollection
+          .doc(appointment.id)
+          .update(appointment.toMapForHospital());
+    } catch (error) {
+      print('Error updating appointment: $error');
+      throw error;
+    }
+  }
 }

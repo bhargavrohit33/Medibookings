@@ -12,5 +12,5 @@ var bottomBarContentColor = Colors.white;
 //color 
 var blueColor = Colors.blue;
 
-var textFormFieldText = const Color(0xFFf3f4f7);
+Color textFormFieldText = const Color(0xFFf3f4f7);
 

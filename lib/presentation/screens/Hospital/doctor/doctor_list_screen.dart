@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
+import 'package:medibookings/model/route_model.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 import 'package:medibookings/presentation/widget/profile_photo_card.dart';
@@ -162,6 +163,14 @@ class DoctorWidget extends StatelessWidget {
                           },
                           value: 1,
                           child: const Text("Generate"),
+                        ),
+                        PopupMenuItem(
+                          onTap: (){
+                            DoctorArugument doctorArugument = DoctorArugument(doctorId: doctor.id, hospitalId: doctor.hospitalId, isUSerCanBookAppointment: false);
+                            Navigator.pushNamed(context, RouteName.doctorAppointmentCalendarRoute,arguments: doctorArugument );
+                          },
+                          value: 1,
+                          child: const Text("Calender"),
                         ),
                         
                       ],

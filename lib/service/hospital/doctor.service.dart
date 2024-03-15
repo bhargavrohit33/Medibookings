@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/disposable_service.dart';
@@ -13,6 +14,7 @@ class DoctorService extends DisposableService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference doctorsCollection =
       FirebaseFirestore.instance.collection(ServiceUtils.collection_doctor);
+      final CollectionReference appointmentCollection = FirebaseFirestore.instance.collection(ServiceUtils.collection_appointment);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Doctor? doctor;
  
@@ -91,7 +93,8 @@ class DoctorService extends DisposableService {
     }
   }
   Stream<Doctor>  getDoctorByIdStream(String doctorId){
-    return doctorsCollection.doc(doctorId).snapshots().map((event) => Doctor.fromSnapshot(event));
+    return doctorsCollection.doc(doctorId)
+    .snapshots().map((event) => Doctor.fromSnapshot(event));
   }
 
   Stream<List<Doctor>> getDoctorsByHospitalIdStream() {
@@ -136,5 +139,55 @@ class DoctorService extends DisposableService {
     print('Error editing doctor profile: $e');
     throw e;
   }
+}
+Future<DateTime> getLastAppointmentDate() async {
+  DateTime defaultReturnDate = DateTime.now().add(Duration(days: DateTime.now().weekday +1));
+  try {
+    // Query appointments collection
+    QuerySnapshot<Map<String, dynamic>> snapshot = await appointmentCollection
+        .orderBy(ServiceUtils.appointmentModel_AppointmentDate, descending: true) 
+        .limit(1) 
+        .get() as QuerySnapshot<Map<String, dynamic>> ;
+
+    // Check if any appointments were found
+    if (snapshot.docs.isNotEmpty) {
+      // Get the first document (the latest appointment)
+      DocumentSnapshot<Map<String, dynamic>> latestAppointment = snapshot.docs.first;
+      // Extract the appointment date from the document
+      DateTime lastAppointmentDate = (latestAppointment['appointmentDate'] as Timestamp).toDate();
+      return lastAppointmentDate;
+    } else {
+      // No appointments found
+      return defaultReturnDate;
+    }
+  } catch (e) {
+    print('Error getting last appointment date: $e');
+    return defaultReturnDate;
+  }
+}
+bool isCurrentDate(DateTime date) {
+  final now = DateTime.now();
+  return date.year == now.year && date.month == now.month && date.day == now.day;
+}
+Stream<List<Appointment>> getAppointmentsForDate({required DateTime date,required String doctorId,required String hospitalId}) {
+  DateTime startDate = DateTime(date.year, date.month, date.day, date.hour, date.minute, date.second);
+  DateTime endDate = DateTime(date.year, date.month, date.day, 23, 59, 59);
+  if(isCurrentDate(date)){
+    DateTime currentDay = DateTime.now();
+          startDate = DateTime(date.year, date.month, date.day, currentDay.hour, currentDay.minute, currentDay.second);
+   endDate = DateTime(date.year, date.month, date.day, 23, 59, 59);
+  }
+  
+ 
+
+  return appointmentCollection
+    .where(ServiceUtils.appointmentModel_AppointmentDate, isGreaterThanOrEqualTo: startDate)
+    .where(ServiceUtils.appointmentModel_AppointmentDate, isLessThanOrEqualTo: endDate)
+    .where(ServiceUtils.appointmentModel_isBooked, isEqualTo: false)
+     .where(ServiceUtils.appointmentModel_providerId, isEqualTo: hospitalId)
+      .where(ServiceUtils.appointmentModel_Doctor, isEqualTo: doctorId)
+    .snapshots()
+    .map((event) => List<Appointment>.from(
+      event.docs.map((e) => Appointment.fromSnapshot(e as DocumentSnapshot<Map<String, dynamic>>,)).toList()));
 }
 }

@@ -73,4 +73,17 @@ class Appointment {
       ServiceUtils.appointmentModel_familyMember: familyMember,
     };
   }
+  Appointment cancelAppointment() {
+    return Appointment(
+      id: this.id,
+      providerId:  this.providerId,
+      doctorid:  this.doctorid,
+      timeSlotDuration: this.timeSlotDuration,
+      appointmentDate: this.appointmentDate,
+      isBooked: false,
+      familyMember: {},
+      patientId: null
+
+    );
+  }
 }

@@ -115,6 +115,7 @@ final themeData = ThemeData(
 
 // variables
 double cardRadius = 20.0;
+double cardElevation = 5;
 
 final cardShape = RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(cardRadius),
@@ -161,4 +162,16 @@ String customDateFormat({required DateTime dateTime,   String? format =  default
     return input;
   }
   return input.substring(0, 1).toUpperCase() + input.substring(1);
-}
+}  String showDate({required DateTime time,}) {
+    return DateFormat('MMMM dd yyyy').format(time);
+    
+  }
+  String showTime({required DateTime time,required BuildContext context}) {
+    final bool is24HourFormat = MediaQuery.of(context).alwaysUse24HourFormat;
+   if (is24HourFormat) {
+      return DateFormat('hh:mm ').format(time);
+    } else {
+       return DateFormat('hh:mm a').format(time);
+    }
+    
+  }

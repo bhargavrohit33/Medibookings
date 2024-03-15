@@ -34,4 +34,22 @@ static const String doctorModel_FirstName = "firstName";
   static const String appointmentModel_familyMember_lastName = 'lastName';
   static const String appointmentModel_familyMember_phone_number = 'phoneNumber';
     static const String appointmentModel_isNurseProvider = "isNurseProvider";
+
+
+  // Emergency Appointment 
+  static const String collection_emergency ='emergencyAppointments';
+  static const String ed_hospitalId = 'hospitalId';
+  static const String ed_patientId = 'patientId';
+  static const String ed_appointmentDate = 'appointmentDate';
+  static const String ed_notes = 'notes';
+  static const String ed_isCancelled = 'isCancelled';
+  static const String ed_type = 'type';
+  //patient
+  static const String collection_patient = "patient";
+  static const String patient_firstName =  "firstName";
+  static const String patient_lastName = 'lastName';
+  static const String patient_phoneNumber = "phoneNumber";
+  static const String  patient_fcmToken = "fcmToken";
+  static const String patient_notification = "notification";
+
 }
