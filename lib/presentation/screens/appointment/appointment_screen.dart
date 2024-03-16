@@ -34,7 +34,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Book Appointment',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        title: const Text('Appointment',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),
       body: SingleChildScrollView(
         child: Column(
