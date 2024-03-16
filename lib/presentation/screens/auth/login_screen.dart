@@ -5,7 +5,7 @@ import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key });
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -58,39 +58,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  
                 ),
                 const SizedBox(height: 16.0),
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    textFormField(
-                      textEditingController: TextEditingController(),
-                      obscureText: true,
-                      decoration: defaultInputDecoration(hintText: "Password"),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                     
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(context, RouteName.forgetPasswordRoute);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ),
-                  ],
+                textFormField(
+                  textEditingController: TextEditingController(),
+                  obscureText: true,
+                  decoration: defaultInputDecoration(hintText: "Password"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 2.0),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, RouteName.forgetPasswordRoute);
+                    },
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 basicButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

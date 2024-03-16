@@ -6,8 +6,8 @@ class AppointmentListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve appointments data from a service or provider
-    final List<Appointment> appointments = []; // Get appointments from service/provider
+
+    final List<Appointment> appointments = [];
 
     return Scaffold(
       appBar: AppBar(

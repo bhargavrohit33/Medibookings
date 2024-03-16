@@ -29,11 +29,11 @@ class _SetAvailabilityPageState extends State<SetAvailabilityPage> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
+            basicButton(
               onPressed: () {
                 _selectDate(context);
               },
-              child: Text(_selectedDate.toString().substring(0, 10)),
+              text : _selectedDate.toString().substring(0, 10)
             ),
             const SizedBox(height: 20),
             Text(
@@ -44,29 +44,30 @@ class _SetAvailabilityPageState extends State<SetAvailabilityPage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
+                  child: basicButton(
                     onPressed: () {
                       _selectTime(context, isStartTime: true);
                     },
-                    child: Text(_startTime.format(context)),
+                    text:(_startTime.format(context)),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: ElevatedButton(
+                  child: basicButton(
                     onPressed: () {
                       _selectTime(context, isStartTime: false);
                     },
-                    child: Text(_endTime.format(context)),
+                    text:(_endTime.format(context)),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             basicButton(
               onPressed: () {
                 //
               },
+              color: Colors.blue,
               text: 'Set Availability',
             ),
           ],

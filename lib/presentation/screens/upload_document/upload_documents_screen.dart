@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:medibookings/presentation/screens/widget/button.dart';
 
 class UploadDocumentsScreen extends StatefulWidget {
   const UploadDocumentsScreen({super.key});
@@ -32,10 +33,12 @@ class _UploadDocumentsScreenState extends State<UploadDocumentsScreen> {
         title: const Text('Upload Documents'),
       ),
       body: ListView(
-        children: <Widget>[
-          ElevatedButton(
+        children:
+        <Widget>[
+          const SizedBox(height:20),
+          basicButton(
             onPressed: _selectFiles,
-            child: const Text('Select Documents to Upload'),
+            text: "Select Documents to Upload",
           ),
           if (_selectedFiles != null)
             Column(
@@ -51,11 +54,11 @@ class _UploadDocumentsScreenState extends State<UploadDocumentsScreen> {
                   ListTile(
                     title: Text(file.name),
                   ),
-                ElevatedButton(
+                basicButton(
                   onPressed: () {
                     //  upload functionality to be implemented
                   },
-                  child: const Text('Upload'),
+                  text:"Upload",
                 ),
               ],
             ),

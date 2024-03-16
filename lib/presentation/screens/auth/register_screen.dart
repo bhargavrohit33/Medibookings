@@ -23,10 +23,10 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registration'),
+        title: const Text('Registration'),
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(text: 'Hospital'),
             Tab(text: 'Nurse'),
           ],
@@ -53,9 +53,9 @@ class HospitalRegistration extends StatefulWidget {
 
 class _HospitalRegistrationState extends State<HospitalRegistration> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _hospitalNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _hospitalNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Email field
               textFormField(
                 textEditingController: _emailController,
@@ -92,7 +92,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Password field
               textFormField(
                 textEditingController: _passwordController,
@@ -106,7 +106,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               
 
               basicButton(onPressed: (){if (_formKey.currentState!.validate()) {
@@ -130,11 +130,11 @@ class NurseRegistration extends StatefulWidget {
 
 class _NurseRegistrationState extends State<NurseRegistration> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Last name field
               textFormField(
                 textEditingController: _lastNameController,
@@ -169,7 +169,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Phone number field
               textFormField(
                 textEditingController: _phoneNumberController,
@@ -183,7 +183,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Email field
               textFormField(
                 textEditingController: _emailController,
@@ -197,7 +197,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Password field
               textFormField(
                 textEditingController: _passwordController,
@@ -211,7 +211,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // Add document submission widget for nurse
               // Example: File picker or document upload button
               // Add submit button

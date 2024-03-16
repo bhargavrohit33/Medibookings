@@ -54,6 +54,11 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              title: const Text('Upload Documents', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.uploadDocumentPageRoute);
+              },
+            ),ListTile(
               title: const Text('Settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {
                 // Navigate to settings screen or handle other actions
@@ -62,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: const Text('About', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {
-                // Navigate to about screen or handle other actions
+                Navigator.pushNamed(context, RouteName.aboutRoute);
               },
             ),
             ListTile(

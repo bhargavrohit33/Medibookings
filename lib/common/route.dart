@@ -1,10 +1,10 @@
 
 
+
 import 'package:flutter/material.dart';
-import 'package:medibookings/Models/appointment.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/presentation/screens/about/about_screen.dart';
 import 'package:medibookings/presentation/screens/appointment/appointment_screen.dart';
-import 'package:medibookings/presentation/screens/appointment_list/appointment_list_page.dart';
 import 'package:medibookings/presentation/screens/auth/forgot_password_screen.dart';
 import 'package:medibookings/presentation/screens/auth/login_screen.dart';
 import 'package:medibookings/presentation/screens/auth/register_screen.dart';
@@ -28,6 +28,7 @@ Map<String,WidgetBuilder> routes ={
   RouteName.forgetPasswordRoute:(context) => const ForgotPasswordScreen(),
   RouteName.uploadDocumentPageRoute:(context)=>const UploadDocumentsScreen(),
   RouteName.profileRoute:(context)=>const ProfileScreen(),
-  RouteName.setAvailabilityRoute:(context)=>const SetAvailabilityPage()
+  RouteName.setAvailabilityRoute:(context)=>const SetAvailabilityPage(),
+  RouteName.aboutRoute:(context)=>const AboutPage()
 };
 

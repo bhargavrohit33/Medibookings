@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/widget/button.dart';
 
-
 class SetChargeScreen extends StatelessWidget {
-  const SetChargeScreen({super.key});
+  const SetChargeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SetChargeScreen extends StatelessWidget {
 }
 
 class SetChargeForm extends StatefulWidget {
-  const SetChargeForm({super.key});
+  const SetChargeForm({Key? key}) : super(key: key);
 
   @override
   _SetChargeFormState createState() => _SetChargeFormState();
@@ -40,7 +40,7 @@ class _SetChargeFormState extends State<SetChargeForm> {
           children: [
             textFormField(
               textEditingController: _chargeAmountController,
-              decoration: const InputDecoration(labelText: 'Charge Amount'),
+              decoration: defaultInputDecoration(hintText: "Charge Amount"),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -49,9 +49,10 @@ class _SetChargeFormState extends State<SetChargeForm> {
                 return null;
               },
             ),
+            const SizedBox(height: 20),
             textFormField(
               textEditingController: _timeAllottedController,
-              decoration: const InputDecoration(labelText: 'Time Allotted (minutes)'),
+              decoration: defaultInputDecoration(hintText: "Time Allotted(minutes)"),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty) {

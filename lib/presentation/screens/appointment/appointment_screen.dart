@@ -127,7 +127,6 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
     // Add your logic here to book the appointment
     final selectedTimeSlot = _availableTimeSlots[_selectedIndex!];
     final formattedDate = '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}';
-    print('Appointment Confirmed on $formattedDate at $selectedTimeSlot');
     // Show a popup message for booking confirmation
     showDialog(
       context: context,

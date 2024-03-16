@@ -10,4 +10,5 @@ class RouteName{
   static const String uploadDocumentPageRoute = "/upload_document";
   static const String profileRoute = "/profile";
   static const String setAvailabilityRoute = "/set_availability";
+  static const String aboutRoute = "/about";
 }
