@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/common/route_name.dart';
-import 'package:medibookings/Models/appointment.dart';
+
+import 'package:medibookings/model/nurse/appointment.dart';
+import 'package:medibookings/presentation/screens/Nurse/profile/profile_screen.dart';
 import 'package:medibookings/presentation/screens/nurse/appointment/appointment_screen.dart';
 import 'package:medibookings/presentation/screens/nurse/widget/nurse_drawer.dart';
-import 'package:medibookings/presentation/screens/profile/profile_screen.dart';
+
 
 class NurseHomePage extends StatefulWidget {
   const NurseHomePage({super.key});
@@ -21,12 +22,12 @@ class _NurseHomePageState extends State<NurseHomePage> {
     const ProfileScreen(),
   ];
 
-  List<Appointment> upcomingAppointments = [
-    Appointment(dateTime: DateTime(2024, 2, 26, 10, 0), timeSlot: '10:00 AM', status: 'Upcoming'),
-    Appointment(dateTime: DateTime(2024, 2, 27, 11, 0), timeSlot: '11:00 AM', status: 'Upcoming'),
+  List<NurseAppointment> upcomingAppointments = [
+    NurseAppointment(dateTime: DateTime(2024, 2, 26, 10, 0), timeSlot: '10:00 AM', status: 'Upcoming'),
+    NurseAppointment(dateTime: DateTime(2024, 2, 27, 11, 0), timeSlot: '11:00 AM', status: 'Upcoming'),
   ];
 
-  List<Appointment> currentAppointments = [];
+  List<NurseAppointment> currentAppointments = [];
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _NurseHomePageState extends State<NurseHomePage> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: NurseDrawer(),
+      drawer: const NurseDrawer(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
@@ -97,7 +98,7 @@ class UpcomingAppointmentsScreen extends StatelessWidget {
           child: ListView.builder(
             itemCount: 2, // Adjust the count according to your actual list of appointments
             itemBuilder: (context, index) {
-              final appointment = Appointment(dateTime: DateTime.now(), timeSlot: '9:00 AM', status: 'Upcoming'); // Replace this with your actual appointment data
+              final appointment = NurseAppointment(dateTime: DateTime.now(), timeSlot: '9:00 AM', status: 'Upcoming'); // Replace this with your actual appointment data
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 elevation: 4,

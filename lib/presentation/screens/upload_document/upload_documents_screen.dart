@@ -6,11 +6,13 @@ import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:medibookings/service/nurse/nurse_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class UploadDocumentsScreen extends StatefulWidget {
-  const UploadDocumentsScreen({super.key});
+  bool isFromNurse;
+   UploadDocumentsScreen({required this.isFromNurse , super.key});
 
   @override
   _UploadDocumentsScreenState createState() => _UploadDocumentsScreenState();
@@ -85,6 +87,7 @@ final theme = Theme.of(context);
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final hospitalService = Provider.of<HospitalService>(context);
+    final nurseService = Provider.of<NurseService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Upload Documents'),
@@ -129,7 +132,13 @@ final theme = Theme.of(context);
               _isUploading = true;
             });
             try {
-              await authService.documentsupload(_selectedFiles!, hospitalService);
+              if(widget.isFromNurse){
+                  await authService.documentsuploadForNurse(_selectedFiles!, nurseService);
+              }
+              else{
+                  await authService.documentsuploadForHospital(_selectedFiles!, hospitalService);
+              }
+            
               if (!context.mounted) return;
               custom_snackBar(context, "Files successfully uploaded");
               Navigator.pushReplacementNamed(context, RouteName.appWrapper);

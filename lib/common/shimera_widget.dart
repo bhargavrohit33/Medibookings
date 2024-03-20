@@ -5,6 +5,8 @@ import 'package:medibookings/common/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
+  const ShimmerWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -105,9 +107,9 @@ class ShimmerWidget extends StatelessWidget {
 class ShimmerAppointmentCard extends StatelessWidget {
  
   const ShimmerAppointmentCard({
-    Key? key,
+    super.key,
     
-  }) : super(key: key);
+  });
 
   final Color color = Colors.grey;
   final Color shimmerColor= Colors.white;
@@ -164,8 +166,8 @@ class ShimmerAppointmentCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   child: Row(
                     children: [
-                      Icon(Icons.timer, size: 20),
-                      SizedBox(width: 8),
+                      const Icon(Icons.timer, size: 20),
+                      const SizedBox(width: 8),
                       Container(
                         height: 24,
                         width: 100,

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:medibookings/model/hospital/hospital/hospital_model.dart';
 import 'package:medibookings/service/disposable_service.dart';
 import 'package:medibookings/service/service_utils.dart';
@@ -38,7 +37,7 @@ class HospitalService   extends DisposableService {
       return snapshot.exists;
     } catch (e) {
       print('Error checking hospital existence: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -46,7 +45,7 @@ class HospitalService   extends DisposableService {
       String userId, String hospitalName, String email) async {
     try {
     
-      HospitalModel _dummy = HospitalModel(
+      HospitalModel dummy = HospitalModel(
           documentLinks: [],
           email: email,
           id: userId,
@@ -60,10 +59,10 @@ class HospitalService   extends DisposableService {
       await _firestore
           .collection(ServiceUtils.collection_hospital)
           .doc(userId)
-          .set(_dummy.toMap());
+          .set(dummy.toMap());
     } catch (e) {
       print('Error creating hospital document: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -79,7 +78,7 @@ class HospitalService   extends DisposableService {
       }
     } catch (e) {
       print('Error getting hospital: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -92,7 +91,7 @@ class HospitalService   extends DisposableService {
         await getHospitalById(firebaseAuth.currentUser!.uid);
     }
     catch(e){
-      throw e;
+      rethrow;
     }}
     Future<void> updateHospitalProfile(String hospitalName,int contactNumber, GeoPoint address,HospitalModel hospitalModel)async{
     try{
@@ -105,8 +104,8 @@ class HospitalService   extends DisposableService {
        
     }
     catch(e){
-       log("eroor in as"+ e.toString());
-      throw e;
+       log("eroor in as$e");
+      rethrow;
      
     }
   }
@@ -120,7 +119,7 @@ class HospitalService   extends DisposableService {
         .where(ServiceUtils.hospitalModel_Name,
             isGreaterThanOrEqualTo: partialName.toLowerCase())
         .where(ServiceUtils.hospitalModel_Name,
-            isLessThanOrEqualTo: partialName.toLowerCase() + '\uf8ff')
+            isLessThanOrEqualTo: '${partialName.toLowerCase()}\uf8ff')
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {

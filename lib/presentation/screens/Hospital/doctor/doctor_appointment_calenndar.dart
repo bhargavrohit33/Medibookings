@@ -133,7 +133,7 @@ class _DoctorAppointmentCalendarState extends State<DoctorAppointmentCalendar> {
     return TableCalendar(
       currentDay: _selectedDate,
       focusedDay: _selectedDate,
-      firstDay: DateTime.now().subtract(Duration(days: 365)),
+      firstDay: DateTime.now().subtract(const Duration(days: 365)),
       lastDay: lastDate0,
       calendarFormat: _isExpanded ? CalendarFormat.month : CalendarFormat.week,
       onDaySelected: (selectedDay, focusedDay) {
@@ -172,7 +172,7 @@ class AppointmentSlotList extends StatelessWidget {
               superContext: context,
             );
           } else {
-            if (snapshot.data!.length == 0) {
+            if (snapshot.data!.isEmpty) {
               return const NoAppointmentsFound();
             }
 
@@ -219,7 +219,7 @@ class AppointmentSlotCard extends StatelessWidget {
           }
         } catch (e) {
           custom_snackBar(context, "Unable to retrieve data at the moment");
-          throw e;
+          rethrow;
           
         }
       },

@@ -8,38 +8,41 @@ class SomethingWentWrongWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.error_outline,
-            color: Colors.red,
-            size: 40,
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Something went wrong!',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 40,
             ),
-          ),
-          if (message != null) ...[
-            const SizedBox(height: 8),
-            Expanded(
-              child: Text(
-                message!,
-                style: const TextStyle(fontSize: 16),
+            const SizedBox(height: 16),
+            const Text(
+              'Something went wrong!',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            if (message != null) ...[
+              const SizedBox(height: 8),
+              Expanded(
+                child: Text(
+                  message!,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => rebuildAllChildren(superContext),
+              child: const Text('Retry'),
+            ),
           ],
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => rebuildAllChildren(superContext),
-            child: const Text('Retry'),
-          ),
-        ],
+        ),
       ),
     );
   }

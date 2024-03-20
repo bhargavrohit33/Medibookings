@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/hospital/hospital_model.dart';
-import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/screens/nurse/reference/hospital_item.dart';
-import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class HospitalList extends StatefulWidget {

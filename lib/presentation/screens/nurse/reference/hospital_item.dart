@@ -35,14 +35,14 @@ class HospitalItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 hospitalModel.hospitalImages.isEmpty
-                    ? NoImageWidget(
+                    ? const NoImageWidget(
                         height: 80,
                         width: 80,
                       )
                     : Container(
                         width: 80,
                         height: 80,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
                         child: ClipOval(

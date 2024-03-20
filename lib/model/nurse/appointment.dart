@@ -1,11 +1,11 @@
 // appointment.dart
 
-class Appointment {
+class NurseAppointment {
   final DateTime dateTime;
   final String timeSlot;
   final String status;
 
-  Appointment({
+  NurseAppointment({
     required this.dateTime,
     required this.timeSlot,
     required this.status,

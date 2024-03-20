@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:medibookings/common/utils.dart';
 // Import your Firebase services
-import 'package:medibookings/model/hospital/hospital/hospital_model.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
@@ -17,9 +15,9 @@ import 'package:provider/provider.dart';
 // Import your Hospital model
 
 class HospitalProfileUpdatePage extends StatefulWidget {
-  HospitalProfileUpdatePage({
-    Key? key,
-  }) : super(key: key);
+  const HospitalProfileUpdatePage({
+    super.key,
+  });
 
   @override
   _HospitalProfileUpdatePageState createState() =>
@@ -39,7 +37,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final hospitalProvider =
           Provider.of<HospitalService>(context, listen: false);
       // Populate the text controllers with current hospital data
@@ -67,7 +65,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
           Provider.of<HospitalService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Hospital'),
+        title: const Text('Update Hospital'),
       ),
       body: Form(
          key: _formKey,
@@ -124,16 +122,16 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
                             child: commonLoadingBase(),
                           )
                         : IconButton(
-                            icon: Icon(Icons.location_on),
+                            icon: const Icon(Icons.location_on),
                             onPressed: _getCurrentLocation,
                           ),
                   ),
                   debounceTime: 800,
-                  boxDecoration: BoxDecoration(
+                  boxDecoration: const BoxDecoration(
                     color: Colors.transparent,
                   ),
                   containerVerticalPadding: 0,
-                  countries: ["ca"],
+                  countries: const ["ca"],
                   isLatLngRequired: true,
                   getPlaceDetailWithLatLng: (Prediction prediction) {
                     addressGeoPoint = GeoPoint(double.tryParse(prediction.lat!)!,
@@ -147,21 +145,21 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
                   },
                   itemBuilder: (context, index, Prediction prediction) {
                     return Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                         children: [
-                          Icon(Icons.location_on),
-                          SizedBox(width: 7),
+                          const Icon(Icons.location_on),
+                          const SizedBox(width: 7),
                           Expanded(
-                              child: Text("${prediction.description ?? ""}")),
+                              child: Text(prediction.description ?? "")),
                         ],
                       ),
                     );
                   },
-                  seperatedBuilder: Divider(),
+                  seperatedBuilder: const Divider(),
                   isCrossBtnShown: false,
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                
               ],
             ),
@@ -208,7 +206,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
       setState(() {
         currentLocation = position;
         _addressController.text = address;
-        print("address as ${address}");
+        print("address as $address");
       });
     } catch (e) {
       print('Error getting current location: $e');

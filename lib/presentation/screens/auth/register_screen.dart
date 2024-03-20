@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/model/nurse/nurse/nurse_model.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:medibookings/service/nurse/nurse_service.dart';
 import 'package:provider/provider.dart';
 // Import the widget for nurse registration
 
@@ -64,6 +66,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
   final TextEditingController _hospitalNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool isLoading = false;
   void _toggleObscurePassword() {
@@ -74,8 +77,8 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    final _authService = Provider.of<AuthService>(context);
-    final _hospitalService = Provider.of<HospitalService>(context);
+    final authService = Provider.of<AuthService>(context);
+    final hospitalService = Provider.of<HospitalService>(context);
     return Stack(
       children: [
         SingleChildScrollView(
@@ -133,6 +136,30 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                       return null;
                     },
                   ),
+                   const SizedBox(height: 16.0),
+              // Confirm Password field
+              textFormField(
+                textEditingController: _confirmPasswordController,
+                obscureText: _obscurePassword,
+                decoration:
+                    defaultInputDecoration(hintText: "Confirm Password").copyWith(
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: _toggleObscurePassword,
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your confirm password';
+                  }
+                  if (value != _passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
                   const SizedBox(height: 16.0),
         
                   basicButton(
@@ -142,11 +169,11 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                             setState(() {
                               isLoading = true;
                             });
-                            await _authService.register(
+                            await authService.registerHospital(
                                 _emailController.text,
                                 _passwordController.text,
                                 _hospitalNameController.text,
-                                _hospitalService);
+                                hospitalService);
                             Navigator.pushReplacementNamed(
                                 context, RouteName.appWrapper);
                           } catch (e) {
@@ -194,8 +221,9 @@ class _NurseRegistrationState extends State<NurseRegistration> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
-
+  bool isLoading = false;
   void _toggleObscurePassword() {
     setState(() {
       _obscurePassword = !_obscurePassword;
@@ -204,7 +232,9 @@ class _NurseRegistrationState extends State<NurseRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    final authService = Provider.of<AuthService>(context);
+    final nurseService = Provider.of<NurseService>(context);
+    return isLoading?commonLoading(): SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -242,11 +272,18 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                 decoration: defaultInputDecoration(hintText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  // Add more validation if needed
-                  return null;
+                  if (value != null ) {
+                      if (int.tryParse(value)== null){
+                          return 'Must be number';
+                      }
+                      else if (value.length > 10) {
+                        return 'Contact number must be less than 10 digits long.';
+                      }
+                      else if (value.length < 10) {
+                        return 'Contact number must be at least 10 digits long.';
+                      }
+                    }
+                    return null;
                 },
               ),
               const SizedBox(height: 16.0),
@@ -286,18 +323,58 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                 },
               ),
               const SizedBox(height: 16.0),
+              // Confirm Password field
+              textFormField(
+                textEditingController: _confirmPasswordController,
+                obscureText: _obscurePassword,
+                decoration:
+                    defaultInputDecoration(hintText: "Confirm Password").copyWith(
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: _toggleObscurePassword,
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your confirm password';
+                  }
+                  if (value != _passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16.0),
               // Add document submission widget for nurse
               // Example: File picker or document upload button
               // Add submit button
               basicButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, RouteName.uploadDocumentPageRoute);
-                    if (_formKey.currentState!.validate()) {}
-                  },
-                  text: "Register"),
-
-              backLogin(context)
+                onPressed: () async{
+                  if (_formKey.currentState!.validate()) {
+                    try{
+                      setState(() {
+                        isLoading = true;
+                      });
+                      NurseModel nurseModel = NurseModel(firstName: _firstNameController.text, lastName: _lastNameController.text, phoneNumber: int.parse(_phoneNumberController.text), serviceRadius: 25);
+                      await authService.registerNurse(nurse: nurseModel, email: _emailController.text, password: _passwordController.text, nurseService: nurseService);
+                       Navigator.pushReplacementNamed(
+                                context, RouteName.appWrapper);
+                    }
+                    catch(e){
+                      custom_snackBar(context, "Fail to create profile");
+                    }
+                    finally{
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  }
+                },
+                text: "Register",
+              ),
+              backLogin(context),
             ],
           ),
         ),

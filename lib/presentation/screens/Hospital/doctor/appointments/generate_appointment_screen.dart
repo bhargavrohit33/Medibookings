@@ -7,8 +7,6 @@ import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
-import 'package:medibookings/presentation/widget/snack_bar.dart';
-import 'package:provider/provider.dart';
 
 class GenerateAppointmentScreen extends StatefulWidget {
   Doctor doctor;
@@ -326,7 +324,7 @@ Widget listOfBreakTime() {
       if (!isBreakTime) {
 
         appointments.add(Appointment(
-          providerId: doctor.hospitalId!, 
+          providerId: doctor.hospitalId, 
           timeSlotDuration: duration,
           doctorid: doctor.id, 
           appointmentDate: startTime,

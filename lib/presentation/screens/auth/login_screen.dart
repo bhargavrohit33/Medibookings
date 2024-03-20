@@ -76,39 +76,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       
                     ),
                     const SizedBox(height: 16.0),
-                    Stack(
-                      alignment: Alignment.centerRight,
-                      children: [
-                        textFormField(
-                          textEditingController: passwordController,
-                           obscureText: _obscurePassword,
-                          decoration:  defaultInputDecoration(hintText: "Password").copyWith(
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
-                            onPressed: _toggleObscurePassword,
-                          ),
-                        ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                         
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(context, RouteName.forgetPasswordRoute);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: const Text(
-                              'Forgot Password?',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ],
+                    textFormField(
+                      textEditingController: passwordController,
+                       obscureText: _obscurePassword,
+                      decoration:  defaultInputDecoration(hintText: "Password").copyWith(
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
+                        onPressed: _toggleObscurePassword,
+                      ),
+                    ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                     
                     ),
                     const SizedBox(height: 32.0),
                     basicButton(
@@ -141,6 +124,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 48,
                     ),
                     const SizedBox(height: 16.0),
+                    Center(
+                      child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(context, RouteName.forgetPasswordRoute);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: const Text(
+                                'Forgot Password?',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                    ),
+                    const SizedBox(height: 16,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

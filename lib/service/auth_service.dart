@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:medibookings/model/nurse/nurse/nurse_model.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:medibookings/service/disposable_service.dart';
+import 'package:medibookings/service/nurse/nurse_service.dart';
 
 class AuthService extends DisposableService {
   User? user;
@@ -20,7 +20,7 @@ class AuthService extends DisposableService {
   }
 
   // Method to register a new user
-  Future<void> register(String email, String password,String hospitalName,HospitalService hospitalService) async {
+  Future<void> registerHospital(String email, String password,String hospitalName,HospitalService hospitalService) async {
     try {
       bool hospitalExists = await hospitalService.checkHospitalExists(hospitalName);
       if (hospitalExists) {
@@ -42,7 +42,7 @@ class AuthService extends DisposableService {
       throw Exception(e.message);
     } else {
       log('Error registering hospital: $e');
-      throw e;
+      rethrow;
     }
     }
   }
@@ -64,7 +64,7 @@ class AuthService extends DisposableService {
       throw Exception(e.message);
     } 
       
-      throw e;
+      rethrow;
     }
   }
 
@@ -77,7 +77,7 @@ class AuthService extends DisposableService {
     } catch (e) {
       
       print('Error logging out user: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -90,10 +90,16 @@ class AuthService extends DisposableService {
     } catch (e) {
       
       print('Error logging out user: $e');
-      throw e;
+      rethrow;
     }
   }
-Future<List<String>> documentsupload(List<PlatformFile> selectedFiles,HospitalService hospitalService) async {
+Future<List<String>> documentsuploadForNurse(List<PlatformFile> selectedFiles,NurseService nurseService) async {
+  final List<String> downloadUrls = await uploadFiles(selectedFiles);
+  await nurseService.updateDocumentList(downloadUrls);
+  return downloadUrls;
+}
+
+Future<List<String>> documentsuploadForHospital(List<PlatformFile> selectedFiles,HospitalService hospitalService) async {
   final List<String> downloadUrls = await uploadFiles(selectedFiles);
   await hospitalService.updateDocumentList(downloadUrls);
   return downloadUrls;
@@ -123,6 +129,21 @@ Future<String> uploadFile(PlatformFile file)async{
   }
 
 
+// nurse module 
+  Future<void> registerNurse({required NurseModel nurse,required String email, required String password,required NurseService nurseService}) async {
+    try {
+      // Register nurse with email and password
+      final authResult = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-  
+      // Add nurse data to Firestore
+    await  nurseService.createNurseProfile(nurseModel: nurse,user: firebaseAuth.currentUser!);
+    } catch (e) {
+      // Handle registration errors
+      print('Registration failed: $e');
+      rethrow; // Rethrow the error for handling in UI
+    }
+  }
 }

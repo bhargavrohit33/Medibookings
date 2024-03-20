@@ -20,7 +20,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _authProvider = Provider.of<AuthService>(context);
+    final authProvider = Provider.of<AuthService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -63,7 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               basicButton(
                 onPressed: () {
                   try {
-                    _authProvider.forgetPassowrd(emailController.text);
+                    authProvider.forgetPassowrd(emailController.text);
 
                     custom_snackBar(context, 'Password reset email sent');
                   } catch (e) {

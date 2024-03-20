@@ -54,7 +54,7 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
                         setState(() {
                           isCancelled = c;
                         });
-                      }), Text("All"),
+                      }), const Text("All"),
                 ],
               )
             ],
@@ -99,7 +99,7 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -157,7 +157,7 @@ class _EmergencyDepartmentScreenState extends State<EmergencyDepartmentScreen> {
                                 ),
                               );
                             } else {
-                              return ShimmerWidget();
+                              return const ShimmerWidget();
                             }
                           });
                     },
@@ -196,15 +196,15 @@ class NoteWidgetForAppointment extends StatelessWidget {
   Widget build(BuildContext context) {
     final size  = MediaQuery.of(context).size;
     return  SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         width: size.width,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Note by patient",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-              Divider(),
+              const Text("Note by patient",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+              const Divider(),
           
               Text(notes.toString())
             ],

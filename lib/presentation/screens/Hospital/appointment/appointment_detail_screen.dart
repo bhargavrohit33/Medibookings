@@ -21,7 +21,7 @@ class AppointmentDetailScreeen extends StatefulWidget {
   final PatientModel patientModel;
   final Doctor doctor;
 
-  AppointmentDetailScreeen(
+  const AppointmentDetailScreeen(
       {super.key,
       required this.appointment,
       required this.patientModel,
@@ -104,7 +104,6 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
                         .cancelAppointment(widget.appointment);
                     Navigator.pop(context);
                   }
-                } catch (e) {
                 } finally {
                   setState(() {
                     isLoading = false;
@@ -186,24 +185,24 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
               const Divider(),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.personal_injury_rounded),
+                  icon: const Icon(Icons.personal_injury_rounded),
                   value:
                       "${widget.patientModel.firstName} ${widget.patientModel.lastName}"),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.calendar_month),
+                  icon: const Icon(Icons.calendar_month),
                   value: showDate(
                     time: widget.appointment.appointmentDate,
                   )),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.schedule),
+                  icon: const Icon(Icons.schedule),
                   value: showTime(
                       time: widget.appointment.appointmentDate,
                       context: context)),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.timer),
+                  icon: const Icon(Icons.timer),
                   value: widget.appointment.timeSlotDuration.toString()),
             ],
           ),
@@ -241,17 +240,15 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
               const Divider(),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.personal_injury_rounded),
-                  value: capitalizeFirstLetter(widget.appointment.familyMember![
+                  icon: const Icon(Icons.personal_injury_rounded),
+                  value: "${capitalizeFirstLetter(widget.appointment.familyMember![
                           ServiceUtils
-                              .appointmentModel_familyMember_firstName]) +
-                      " " +
-                      capitalizeFirstLetter(widget.appointment.familyMember![
+                              .appointmentModel_familyMember_firstName])} ${capitalizeFirstLetter(widget.appointment.familyMember![
                           ServiceUtils
-                              .appointmentModel_familyMember_lastName])),
+                              .appointmentModel_familyMember_lastName])}"),
               cardRow(
                   context: context,
-                  icon: Icon(Icons.phone),
+                  icon: const Icon(Icons.phone),
                   value: widget
                       .appointment
                       .familyMember![ServiceUtils
@@ -270,7 +267,7 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
       required BuildContext context}) {
     double constDistance = 10;
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -311,21 +308,21 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "Appointment",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 shimmerCardRow(
                     context: context,
-                    icon: Icon(Icons.personal_injury_rounded)),
+                    icon: const Icon(Icons.personal_injury_rounded)),
                 shimmerCardRow(
-                    context: context, icon: Icon(Icons.calendar_month)),
-                shimmerCardRow(context: context, icon: Icon(Icons.schedule)),
-                shimmerCardRow(context: context, icon: Icon(Icons.timer)),
+                    context: context, icon: const Icon(Icons.calendar_month)),
+                shimmerCardRow(context: context, icon: const Icon(Icons.schedule)),
+                shimmerCardRow(context: context, icon: const Icon(Icons.timer)),
               ],
             ),
           ),
@@ -340,7 +337,7 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
       child: Row(
         children: [
           icon,
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Container(
               height: 20,

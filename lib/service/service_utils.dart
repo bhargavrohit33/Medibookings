@@ -1,4 +1,5 @@
 class ServiceUtils{
+  static const String  fcmToken = "fcmToken";
   static const String collection_hospital = "hospital";
  static const String hospitalModel_Name = "name";
   static const String hospitalModel_Email = "email"; 
@@ -49,7 +50,23 @@ static const String doctorModel_FirstName = "firstName";
   static const String patient_firstName =  "firstName";
   static const String patient_lastName = 'lastName';
   static const String patient_phoneNumber = "phoneNumber";
-  static const String  patient_fcmToken = "fcmToken";
+
   static const String patient_notification = "notification";
+
+  // nurse 
+  static const String collection_nurse  = 'nurse';
+   
+  static const String nurse_firstName = "firstName";
+  static const String nurse_lastName = "lastName";
+  static const String nurse_phoneNumber = "phoneNumber";
+  static const String nurse_isVerify = "isVerified";
+  static const String nurse_isOnline = "isOnline";
+  static const String nurse_address = "address";
+  static const String nurse_documentLinks = "documentLinks";
+  static const String nurse_serviceRadius = "serviceRadius";
+  static const String nurse_dateOfBirth = "dataOfBirth";
+  static const String nurse_startDateOfService = "startDateOfService";
+  static const String nurse_biography = "biography";
+  static const String nurse_profileUrl = "profileUrl";
 
 }

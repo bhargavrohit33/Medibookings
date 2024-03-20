@@ -6,7 +6,7 @@ import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/custom_appbar.dart';
 import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
-import 'package:medibookings/service/reference_service.dart';
+
 
 import 'package:provider/provider.dart'; 
 
@@ -14,7 +14,7 @@ class DoctorListForReferenceWidget extends StatelessWidget {
   
   String hospitalId;
 
-   DoctorListForReferenceWidget({required this.hospitalId});
+   DoctorListForReferenceWidget({super.key, required this.hospitalId});
 
   @override
   Widget build(BuildContext context) {

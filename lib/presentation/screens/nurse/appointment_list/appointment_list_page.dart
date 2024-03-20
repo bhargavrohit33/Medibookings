@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/models/appointment.dart';
+import 'package:medibookings/model/nurse/appointment.dart';
+
 
 class AppointmentListPage extends StatelessWidget {
   const AppointmentListPage({super.key});
@@ -7,7 +8,7 @@ class AppointmentListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final List<Appointment> appointments = [];
+    final List<NurseAppointment> appointments = [];
 
     return Scaffold(
       appBar: AppBar(

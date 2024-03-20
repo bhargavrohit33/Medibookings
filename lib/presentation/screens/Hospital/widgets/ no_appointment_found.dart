@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class NoAppointmentsFound extends StatelessWidget {
-  const NoAppointmentsFound({Key? key}) : super(key: key);
+  const NoAppointmentsFound({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -5,7 +5,7 @@ import 'package:medibookings/screens/button.dart';
 
 
 class SetChargeScreen extends StatelessWidget {
-  const SetChargeScreen({Key? key}) : super(key: key);
+  const SetChargeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SetChargeScreen extends StatelessWidget {
 }
 
 class SetChargeForm extends StatefulWidget {
-  const SetChargeForm({Key? key}) : super(key: key);
+  const SetChargeForm({super.key});
 
   @override
   _SetChargeFormState createState() => _SetChargeFormState();

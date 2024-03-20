@@ -4,7 +4,8 @@ import 'package:medibookings/presentation/screens/Hospital/department/emergency_
 import 'package:medibookings/presentation/screens/Hospital/home/hospital_home_screen.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/hospital_drawer.dart';
 import 'package:medibookings/presentation/widget/custom_appBar_without_backbutton.dart';
-import 'package:medibookings/service/homeTab_service.dart';
+import 'package:medibookings/service/hospital/hometab_service.dart';
+
 import 'package:provider/provider.dart';
 
 class HospitalWrapperScreen extends StatefulWidget {
