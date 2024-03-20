@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:provider/provider.dart';
 
 
 abstract class SplashScreenStateInterface {
@@ -18,13 +21,14 @@ class _SplashScreenState extends State<SplashScreen> implements SplashScreenStat
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, RouteName.welcomeRoute);
+        Navigator.pushReplacementNamed(context, RouteName.appWrapper);
       
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -36,3 +40,4 @@ class _SplashScreenState extends State<SplashScreen> implements SplashScreenStat
     );
   }
 }
+

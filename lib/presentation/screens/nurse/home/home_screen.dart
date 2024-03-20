@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/Models/appointment.dart';
-import 'package:medibookings/presentation/screens/appointment/appointment_screen.dart';
+import 'package:medibookings/presentation/screens/nurse/appointment/appointment_screen.dart';
+import 'package:medibookings/presentation/screens/nurse/widget/nurse_drawer.dart';
 import 'package:medibookings/presentation/screens/profile/profile_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class NurseHomePage extends StatefulWidget {
+  const NurseHomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _NurseHomePageState createState() => _NurseHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NurseHomePageState extends State<NurseHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -42,55 +43,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            const UserAccountsDrawerHeader(
-              accountName: Text('Nurse Name'),
-              accountEmail: Text('Nurse@example.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/Nurse1.jpg'),
-              ),
-            ),
-            ListTile(
-              title: const Text('Set charge', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.setChargeRoute);
-              },
-            ),
-            ListTile(
-              title: const Text('Set Availability', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.setAvailabilityRoute);
-              },
-            ),
-            ListTile(
-              title: const Text('Upload Documents', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.uploadDocumentPageRoute);
-              },
-            ),
-            ListTile(
-              title: const Text('Settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                // Navigate to settings screen or handle other actions
-              },
-            ),
-            ListTile(
-              title: const Text('About', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.aboutRoute);
-              },
-            ),
-            ListTile(
-              title: const Text('Logout', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.welcomeRoute);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: NurseDrawer(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/screens/button.dart';
+
 
 class AppointmentBookingPage extends StatefulWidget {
   const AppointmentBookingPage({super.key});
@@ -49,7 +50,9 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
             _buildTimeSlots(),
             const SizedBox(height: 20),
             basicButton(
-              onPressed: _selectedIndex != null ? _bookAppointment : null,
+              onPressed: (){
+                // _selectedIndex != null ? _bookAppointment : null
+              },
               text: 'Confirm Appointment',
             ),
           ],

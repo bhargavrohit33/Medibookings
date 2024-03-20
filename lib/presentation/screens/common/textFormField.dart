@@ -13,7 +13,8 @@ TextFormField textFormField({
   int maxLength = TextField.noMaxLength,
   bool showLengthCount = false,
   String? Function(String?)? validator,
-  bool obscureText = false,
+  bool obscureText = false,void Function(String)? onChanged,
+  List<TextInputFormatter>? inputFormatters
 }) {
   final inputDecoration = decoration ?? defaultInputDecoration();
   final hasLengthCounter = maxLength != TextField.noMaxLength && showLengthCount;
@@ -22,6 +23,7 @@ TextFormField textFormField({
   );
 
   return TextFormField(
+    style: textStyleForFormField,
     obscureText: obscureText,
     controller: textEditingController,
     decoration: effectiveDecoration,
@@ -29,8 +31,10 @@ TextFormField textFormField({
     textCapitalization: textCapitalization,
     autocorrect: autocorrect,
     enableSuggestions: enableSuggestions,
-    maxLength: maxLength,
+    maxLength: 10,
     validator: validator,
     maxLengthEnforcement: showLengthCount ? MaxLengthEnforcement.enforced : MaxLengthEnforcement.none,
+    onChanged: onChanged,
+    inputFormatters: inputFormatters,
   );
 }

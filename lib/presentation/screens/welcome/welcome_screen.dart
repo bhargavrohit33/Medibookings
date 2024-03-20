@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/common/route_name.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+// Import your login screen file
+// Import your register screen file
+import 'package:medibookings/presentation/widget/button.dart'; // Import your button file
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

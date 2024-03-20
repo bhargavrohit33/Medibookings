@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/screens/button.dart';
+
 
 class SetAvailabilityPage extends StatefulWidget {
   const SetAvailabilityPage({super.key});

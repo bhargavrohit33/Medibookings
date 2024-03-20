@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
-    // Import the widget for nurse registration
+import 'package:medibookings/presentation/widget/button.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
+import 'package:medibookings/presentation/widget/snack_bar.dart';
+import 'package:medibookings/service/auth_service.dart';
+import 'package:medibookings/service/hospital/hospital_service.dart';
+import 'package:provider/provider.dart';
+// Import the widget for nurse registration
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProviderStateMixin {
+class _RegisterScreenState extends State<RegisterScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  
 
   @override
   void initState() {
@@ -34,19 +43,18 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          HospitalRegistration(), // Widget for hospital registration
-          NurseRegistration(),    // Widget for nurse registration
+        children: const [
+          HospitalRegistration(),
+          NurseRegistration(),
         ],
       ),
     );
   }
 }
 
-
-
-
 class HospitalRegistration extends StatefulWidget {
+  const HospitalRegistration({super.key});
+
   @override
   _HospitalRegistrationState createState() => _HospitalRegistrationState();
 }
@@ -56,74 +64,125 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
   final TextEditingController _hospitalNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool isLoading = false;
+  void _toggleObscurePassword() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Hospital name field
-              textFormField(
-                textEditingController: _hospitalNameController,
-                decoration: defaultInputDecoration(hintText: 'Hospital Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the hospital name';
-                  }
-                  return null;
-                },
+    final _authService = Provider.of<AuthService>(context);
+    final _hospitalService = Provider.of<HospitalService>(context);
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Hospital name field
+                  textFormField(
+                    textEditingController: _hospitalNameController,
+                    decoration: defaultInputDecoration(hintText: 'Hospital Name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter the hospital name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Email field
+                  textFormField(
+                    textEditingController: _emailController,
+                    decoration: defaultInputDecoration(hintText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      // Add more validation if needed
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Password field
+                  textFormField(
+                    textEditingController: _passwordController,
+                    decoration:
+                        defaultInputDecoration(hintText: "Password").copyWith(
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: _toggleObscurePassword,
+                      ),
+                    ),
+                    obscureText: _obscurePassword,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      // Add more validation if needed
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+        
+                  basicButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          try {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await _authService.register(
+                                _emailController.text,
+                                _passwordController.text,
+                                _hospitalNameController.text,
+                                _hospitalService);
+                            Navigator.pushReplacementNamed(
+                                context, RouteName.appWrapper);
+                          } catch (e) {
+                            // Handle registration error
+                            if (e
+                                .toString()
+                                .contains('Hospital name already exists')) {
+                              custom_snackBar(
+                                  context, 'Hospital name already exists');
+                            } else {
+                              custom_snackBar(context, e.toString());
+                            }
+                          }finally{
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        }
+                      },
+                      text: "Register"),
+                  backLogin(context)
+                ],
               ),
-              const SizedBox(height: 16.0),
-              // Email field
-              textFormField(
-                textEditingController: _emailController,
-                decoration: defaultInputDecoration(hintText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  // Add more validation if needed
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              // Password field
-              textFormField(
-                textEditingController: _passwordController,
-                decoration: defaultInputDecoration(hintText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  // Add more validation if needed
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              
-
-              basicButton(onPressed: (){if (_formKey.currentState!.validate()) {
-                    // Submit logic
-                    // Example: Submit hospital registration data
-                  }}, text: "Register"),
-backLogin(context)
-                  
-              
-            ],
+            ),
           ),
         ),
-      ),
+        if( isLoading )
+        commonLoading()
+      ],
     );
   }
 }
+
 class NurseRegistration extends StatefulWidget {
+  const NurseRegistration({super.key});
+
   @override
   _NurseRegistrationState createState() => _NurseRegistrationState();
 }
@@ -135,6 +194,13 @@ class _NurseRegistrationState extends State<NurseRegistration> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  void _toggleObscurePassword() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +267,16 @@ class _NurseRegistrationState extends State<NurseRegistration> {
               // Password field
               textFormField(
                 textEditingController: _passwordController,
-                decoration: defaultInputDecoration(hintText: 'Password'),
-                obscureText: true,
+                obscureText: _obscurePassword,
+                decoration:
+                    defaultInputDecoration(hintText: "Password").copyWith(
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: _toggleObscurePassword,
+                  ),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your password';
@@ -215,11 +289,13 @@ class _NurseRegistrationState extends State<NurseRegistration> {
               // Add document submission widget for nurse
               // Example: File picker or document upload button
               // Add submit button
-              basicButton(onPressed: (){
-                Navigator.pushNamed(context, RouteName.uploadDocumentPageRoute);
-                if (_formKey.currentState!.validate()) {
-                    
-                  }},text: "Register"),
+              basicButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, RouteName.uploadDocumentPageRoute);
+                    if (_formKey.currentState!.validate()) {}
+                  },
+                  text: "Register"),
 
               backLogin(context)
             ],
@@ -229,5 +305,3 @@ class _NurseRegistrationState extends State<NurseRegistration> {
     );
   }
 }
-
-

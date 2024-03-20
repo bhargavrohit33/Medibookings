@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
-import 'package:medibookings/presentation/screens/widget/button.dart';
+import 'package:medibookings/screens/button.dart';
+
 
 class SetChargeScreen extends StatelessWidget {
   const SetChargeScreen({Key? key}) : super(key: key);
