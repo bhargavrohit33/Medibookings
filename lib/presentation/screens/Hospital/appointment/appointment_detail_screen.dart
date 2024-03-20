@@ -57,21 +57,20 @@ class _AppointmentDetailScreeenState extends State<AppointmentDetailScreeen> {
                     basicButton(
                         onPressed: () async {
                           try{
-                            print(widget.appointment.id.toString() +"origin");
-                              print(widget.appointment.referralAppointmentId);
-                          //   Appointment referralAppointment =
-                          //     await appointmentService.getAppointmentById(
-                          //         widget.appointment.referralAppointmentId!);
-                          // PatientModel? patientModel = await patientService
-                          //     .getPatientById(referralAppointment.patientId!);
-                          // Doctor? doctorModel = await doctorService
-                          //     .getDoctorById(referralAppointment.doctorid);
-                          // Navigator.pushNamed(
-                          //     context, RouteName.appointmentRoute,
-                          //     arguments: AppointmentDetailModel(
-                          //         appointment: referralAppointment,
-                          //         patientModel: patientModel!,
-                          //         doctor: doctorModel!));
+                            
+                            Appointment referralAppointment =
+                              await appointmentService.getAppointmentById(
+                                  widget.appointment.referralAppointmentId!);
+                          PatientModel? patientModel = await patientService
+                              .getPatientById(referralAppointment.patientId!);
+                          Doctor? doctorModel = await doctorService
+                              .getDoctorById(referralAppointment.doctorid);
+                          Navigator.pushNamed(
+                              context, RouteName.appointmentRoute,
+                              arguments: AppointmentDetailModel(
+                                  appointment: referralAppointment,
+                                  patientModel: patientModel!,
+                                  doctor: doctorModel!));
                           }
                           catch(e){
 
