@@ -39,7 +39,7 @@
   static const String appointmentPageRoute = "/appointment";
   static const String uploadDocumentPageRoute = "/upload_document";
   static const String profileRoute = "/profile";
-  static const String setAvailabilityRoute = "/set_availability";
+  static const String setServiceRoute = "/set_service";
   static const String aboutRoute = "/about";
   static const String nurseEditProfileScreen  = '/nurseEditProfile';
 }

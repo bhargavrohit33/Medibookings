@@ -202,7 +202,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       String address =
-          '${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}';
+          '${placemarks.first.name} ${placemarks.first.locality}, ${placemarks.first.country}';
       setState(() {
         currentLocation = position;
         _addressController.text = address;
@@ -222,7 +222,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
   List<Placemark> placemarks =
           await placemarkFromCoordinates(geoPoint.latitude, geoPoint.longitude);
       String address =
-          '${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}';
+          '${placemarks.first.street}, ${placemarks.first.locality}, ${placemarks.first.country}';
       setState(() {
         _addressController.text = address;
       });

@@ -58,4 +58,14 @@ Future<void> updateNurseProfile(NurseModel nurseModel)async{
       ServiceUtils.fcmToken:fcm
     });
   }
+  Future<void> updatePerHourCharge(double newPerHourCharge) async {
+    try {
+      await nurseCollection.doc(firebaseAuth.currentUser!.uid).update({
+        ServiceUtils.nurse_perHourCharge: newPerHourCharge,
+      });
+      print('Per hour charge updated successfully.');
+    } catch (error) {
+      print('Failed to update per hour charge: $error');
+    }
+  }
 }

@@ -383,8 +383,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       documentLinks: widget.nurse.documentLinks,
       fcmtoken: widget.nurse.fcmtoken,
       profileUrl: _selectedFile!= null ? profileUrl: widget.nurse.profileUrl,
-      address: address?? widget.nurse.address
-      
+      address: address?? widget.nurse.address,
+        listOfService:widget.nurse.listOfService,
+      perHourCharge: widget.nurse.perHourCharge,
     );
 
    
@@ -399,7 +400,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       String address =
-          '${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}';
+          '${placemarks.first.street}, ${placemarks.first.locality}, ${placemarks.first.country}';
       setState(() {
         currentLocation = position;
         _addressController.text = address;

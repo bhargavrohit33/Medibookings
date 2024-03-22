@@ -19,8 +19,19 @@ class NurseDrawer extends StatelessWidget {
         children: <Widget>[
              UserAccountsDrawerHeader(
               accountName: Text(capitalizeFirstLetter(_nurseService.nurseModel!.firstName).toString() +" " + capitalizeFirstLetter(_nurseService.nurseModel!.lastName)),
-              accountEmail: ClipOval(child: Text(_nurseService.firebaseAuth.currentUser!.email.toString())),
-              currentAccountPicture: ClipOval(child: ImageWithPlaceholder(height: 100,width: 100,imageUrl: _nurseService.nurseModel!.profileUrl!,))
+              accountEmail: Text(_nurseService.firebaseAuth.currentUser!.email.toString()),
+              currentAccountPicture: Stack(
+                alignment: Alignment(1,1),
+                children: [
+                  ClipOval(child: ImageWithPlaceholder(height: 100,width: 100,imageUrl: _nurseService.nurseModel!.profileUrl!,)),
+                  if(_nurseService.nurseModel!.isVerify)
+                      Row(
+                        children: [
+                          Icon(Icons.verified,color: Colors.green,),
+                        ],
+                      )
+                ],
+              )
             ),
             ListTile(
               title: const Text('Set charge', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -31,7 +42,7 @@ class NurseDrawer extends StatelessWidget {
             ListTile(
               title: const Text('Set Availability', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {
-                Navigator.pushNamed(context, RouteName.setAvailabilityRoute);
+                Navigator.pushNamed(context, RouteName.setServiceRoute);
               },
             ),
             ListTile(

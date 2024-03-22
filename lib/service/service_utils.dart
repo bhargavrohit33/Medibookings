@@ -68,5 +68,7 @@ static const String doctorModel_FirstName = "firstName";
   static const String nurse_startDateOfService = "startDateOfService";
   static const String nurse_biography = "biography";
   static const String nurse_profileUrl = "profileUrl";
+  static const String nurse_listOfService = 'listOfService';
+  static const String nurse_perHourCharge = 'perHourCharge';
 
 }

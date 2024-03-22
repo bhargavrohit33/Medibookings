@@ -5,7 +5,7 @@ var buttonGradient = const Color(0xFF9DCEFF);
 Widget basicButton({
   required Function() onPressed,
   double? width,
-  double? height,
+  double? height =50,
   String? text,
   Color? color,
   double borderRadius = 40,

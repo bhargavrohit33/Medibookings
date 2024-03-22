@@ -357,7 +357,7 @@ class _NurseRegistrationState extends State<NurseRegistration> {
                       setState(() {
                         isLoading = true;
                       });
-                      NurseModel nurseModel = NurseModel(firstName: _firstNameController.text, lastName: _lastNameController.text, phoneNumber: int.parse(_phoneNumberController.text), serviceRadius: 25);
+                      NurseModel nurseModel = NurseModel(firstName: _firstNameController.text, lastName: _lastNameController.text, phoneNumber: int.parse(_phoneNumberController.text), serviceRadius: 25,listOfService: Set(),perHourCharge: 0);
                       await authService.registerNurse(nurse: nurseModel, email: _emailController.text, password: _passwordController.text, nurseService: nurseService);
                        Navigator.pushReplacementNamed(
                                 context, RouteName.appWrapper);
