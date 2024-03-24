@@ -42,4 +42,5 @@
   static const String setServiceRoute = "/set_service";
   static const String aboutRoute = "/about";
   static const String nurseEditProfileScreen  = '/nurseEditProfile';
+  static const String nurseAppointmentDetail = '/nurseAppointmentDetail';
 }

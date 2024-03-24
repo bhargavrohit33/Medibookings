@@ -70,5 +70,16 @@ static const String doctorModel_FirstName = "firstName";
   static const String nurse_profileUrl = "profileUrl";
   static const String nurse_listOfService = 'listOfService';
   static const String nurse_perHourCharge = 'perHourCharge';
+// nurse booking/ appointment
 
+ static const String collection_nurseAppointment  = 'nurseAppointment';
+ static const String nurseAppointment_nurseID = 'nurseID';
+  static const String nurseAppointment_patientID = 'patientID';
+  static const String nurseAppointment_status = 'appointmentStatus';
+  static const String nurseAppointment_appointmentDate = 'appointmentDate';
+  static const String nurseAppointment_note = 'note';
+  static const String nurseAppointment_requestService = 'requestService';
+  static const String nurseAppointment_durationOfService = 'durationOfService';
+  static const String nurseAppointment_total = 'total';
+  
 }

@@ -40,7 +40,7 @@ class NurseDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Set Availability', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              title: const Text('Set Service', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {
                 Navigator.pushNamed(context, RouteName.setServiceRoute);
               },

@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                           
-                   //  if(snapshot.data!.isVerify == true)
+                   if(snapshot.data!.isVerify == true)
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: primaryColor),
