@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route.dart';
 import 'package:medibookings/common/route_name.dart';
@@ -18,11 +19,15 @@ import 'package:medibookings/service/nurse/nurse_service.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart'; 
-
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Handle background messages
+  print('Received background message: ${message.notification?.body}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+ await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
  
   runApp(const MyApp());
 }
@@ -53,7 +58,7 @@ class MyApp extends StatelessWidget {
        darkTheme: ThemeData.dark(
          useMaterial3:true 
         ),
-        initialRoute: RouteName.splashRoute, // Set initial screen to SplashScreen
+        initialRoute: RouteName.appWrapper, // Set initial screen to SplashScreen
       ),
     );
   }

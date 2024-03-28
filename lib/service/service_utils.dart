@@ -1,5 +1,6 @@
 class ServiceUtils{
   static const String  fcmToken = "fcmToken";
+    static const String createdAt = 'createdAt';
   static const String collection_hospital = "hospital";
  static const String hospitalModel_Name = "name";
   static const String hospitalModel_Email = "email"; 
@@ -72,14 +73,15 @@ static const String doctorModel_FirstName = "firstName";
   static const String nurse_perHourCharge = 'perHourCharge';
 // nurse booking/ appointment
 
- static const String collection_nurseAppointment  = 'nurseAppointment';
- static const String nurseAppointment_nurseID = 'nurseID';
+ static const String collection_nurseAppointment = 'nurseAppointment';
+  static const String nurseAppointment_nurseID = 'nurseID';
   static const String nurseAppointment_patientID = 'patientID';
   static const String nurseAppointment_status = 'appointmentStatus';
-  static const String nurseAppointment_appointmentDate = 'appointmentDate';
   static const String nurseAppointment_note = 'note';
   static const String nurseAppointment_requestService = 'requestService';
   static const String nurseAppointment_durationOfService = 'durationOfService';
   static const String nurseAppointment_total = 'total';
+  static const String nurseAppointment_serviceAddress = 'serviceAddress';
+  static const String nurseAppointment_serviceDateTime = 'serviceDateTime';
   
 }

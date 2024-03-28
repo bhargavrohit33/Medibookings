@@ -22,7 +22,7 @@ class NurseModel {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
-    this.isVerify = false,
+    this.isVerify = true,
     this.isOnline = false,
     this.dateOfBirth,
     this.startDateOfService,

@@ -9,7 +9,7 @@ class HospitalModel {
   GeoPoint? _address;
   int _contactNumber;
   List<String> documentLinks;
-  final bool isVerified;
+   bool? isVerified ;
 
   String description;
   List<String> hospitalImages;
@@ -21,7 +21,7 @@ class HospitalModel {
     GeoPoint? address,
     required int contactNumber,
     required this.documentLinks,
-    required this.isVerified,
+     this.isVerified = true,
    
     required this.description,
     required this.hospitalImages,

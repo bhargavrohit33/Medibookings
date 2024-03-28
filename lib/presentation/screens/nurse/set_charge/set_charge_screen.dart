@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/nurse/nurse/nurse_model.dart';
 import 'package:medibookings/presentation/screens/common/textFormField.dart';
+import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
-import 'package:medibookings/screens/button.dart';
+
 import 'package:medibookings/service/nurse/nurse_service.dart';
 import 'package:provider/provider.dart';
 

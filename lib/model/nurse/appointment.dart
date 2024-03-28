@@ -1,28 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medibookings/service/service_utils.dart';
 
-
 class NurseAppointment {
   final String? appointmentID;
   final String nurseID;
   final String patientID;
-   AppointmentStatus appointmentStatus;
-  final DateTime appointmentDate;
+  AppointmentStatus appointmentStatus;
+  final DateTime createdAt;
+  final DateTime serviceDateTime; 
   final String note;
   final String requestedService;
   final Duration durationOfService;
   final double total;
+  final GeoPoint? addressGeopoint;
 
   NurseAppointment({
-     this.appointmentID,
+    this.appointmentID,
     required this.nurseID,
     required this.patientID,
     required this.appointmentStatus,
-    required this.appointmentDate,
+    required this.createdAt,
+    required this.serviceDateTime, 
     required this.note,
     required this.requestedService,
     required this.durationOfService,
     required this.total,
+    required this.addressGeopoint,
   });
 
   static NurseAppointment fromSnapshot(
@@ -33,9 +36,12 @@ class NurseAppointment {
       patientID: snapshot.data()![ServiceUtils.nurseAppointment_patientID],
       appointmentStatus: appointmentStatusFromString(
           snapshot.data()![ServiceUtils.nurseAppointment_status]),
-      appointmentDate: snapshot
-          .data()![ServiceUtils.nurseAppointment_appointmentDate]
+      createdAt: snapshot
+          .data()![ServiceUtils.createdAt]
           .toDate(),
+      serviceDateTime: snapshot
+          .data()![ServiceUtils.nurseAppointment_serviceDateTime]
+          .toDate(), // Parse service date and time from snapshot
       note: snapshot.data()![ServiceUtils.nurseAppointment_note] ?? "",
       requestedService:
           snapshot.data()![ServiceUtils.nurseAppointment_requestService] ?? "",
@@ -43,6 +49,8 @@ class NurseAppointment {
           minutes: snapshot
               .data()![ServiceUtils.nurseAppointment_durationOfService]),
       total: snapshot.data()![ServiceUtils.nurseAppointment_total] ?? 0,
+      addressGeopoint: snapshot
+          .data()![ServiceUtils.nurseAppointment_serviceAddress], 
     );
   }
 
@@ -51,13 +59,16 @@ class NurseAppointment {
       ServiceUtils.nurseAppointment_nurseID: nurseID,
       ServiceUtils.nurseAppointment_patientID: patientID,
       ServiceUtils.nurseAppointment_status: appointmentStatus.stringValue,
-      ServiceUtils.nurseAppointment_appointmentDate: appointmentDate,
+      ServiceUtils.createdAt: createdAt,
+      ServiceUtils.nurseAppointment_serviceDateTime:
+          serviceDateTime, 
       ServiceUtils.nurseAppointment_note: note,
       ServiceUtils.nurseAppointment_requestService:
           requestedService.toLowerCase(),
       ServiceUtils.nurseAppointment_durationOfService:
           durationOfService.inMinutes,
       ServiceUtils.nurseAppointment_total: total,
+      ServiceUtils.nurseAppointment_serviceAddress: addressGeopoint,
     };
   }
 }

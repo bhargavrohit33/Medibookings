@@ -41,9 +41,9 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
       DateTime date, List<NurseAppointment> nurseBookings) {
     // Filter nurse bookings by date
     return nurseBookings.where((booking) {
-      return booking.appointmentDate.year == date.year &&
-          booking.appointmentDate.month == date.month &&
-          booking.appointmentDate.day == date.day;
+      return booking.serviceDateTime.year == date.year &&
+          booking.serviceDateTime.month == date.month &&
+          booking.serviceDateTime.day == date.day;
     }).toList();
   }
 
@@ -225,9 +225,9 @@ class BookingItem extends StatelessWidget {
                                       height: 8,
                                     ),
                                     Text(
-                                      formatTimeForAppintment(
-                                          context: context,
-                                          time: nurseAppointment.appointmentDate),
+                                      customDateFormat(
+                                       
+                                          dateTime: nurseAppointment.serviceDateTime),
                                       style: TextStyle(
                                         color: Colors.grey,
                                       ),

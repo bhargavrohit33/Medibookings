@@ -49,7 +49,7 @@ class HospitalService   extends DisposableService {
           documentLinks: [],
           email: email,
           id: userId,
-          isVerified: false,
+          
           name: hospitalName,
           contactNumber: 0,
           description: "",

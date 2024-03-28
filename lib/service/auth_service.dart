@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,6 +9,7 @@ import 'package:medibookings/model/nurse/nurse/nurse_model.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:medibookings/service/disposable_service.dart';
 import 'package:medibookings/service/nurse/nurse_service.dart';
+import 'package:medibookings/service/service_utils.dart';
 
 class AuthService extends DisposableService {
   User? user;
@@ -145,5 +147,21 @@ Future<String> uploadFile(PlatformFile file)async{
       print('Registration failed: $e');
       rethrow; // Rethrow the error for handling in UI
     }
+  }
+   Future<void> updateNurseFCM(String fcmToken)async{
+     final CollectionReference patientCollection =
+      FirebaseFirestore.instance.collection(ServiceUtils.collection_nurse);
+      print(fcmToken);
+    await  patientCollection.doc(firebaseAuth.currentUser!.uid).update({
+      ServiceUtils.fcmToken:fcmToken
+    });
+  }
+   Future<void> updateHospitalFCM(String fcmToken)async{
+     final CollectionReference patientCollection =
+      FirebaseFirestore.instance.collection(ServiceUtils.collection_hospital);
+      
+    await  patientCollection.doc(firebaseAuth.currentUser!.uid).update({
+      ServiceUtils.fcmToken:fcmToken
+    });
   }
 }
