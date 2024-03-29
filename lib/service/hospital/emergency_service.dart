@@ -42,7 +42,7 @@ Future<void> updateAPpointmentStatus({required EmergencyAppointmentModel model, 
      await updateAppointmentType(model);
     }
     catch(e){
-      throw e;
+      rethrow;
     }
   }
 
@@ -52,7 +52,7 @@ Future<void> updateAPpointmentStatus({required EmergencyAppointmentModel model, 
      await edCollection.doc(model.id).update(model.toMap());
     }
     catch(e){
-      throw e;
+      rethrow;
     }
   }
 

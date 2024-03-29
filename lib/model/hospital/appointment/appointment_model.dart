@@ -88,11 +88,11 @@ class Appointment {
   }
   Appointment cancelAppointment() {
     return Appointment(
-      id: this.id,
-      providerId:  this.providerId,
-      doctorid:  this.doctorid,
-      timeSlotDuration: this.timeSlotDuration,
-      appointmentDate: this.appointmentDate,
+      id: id,
+      providerId:  providerId,
+      doctorid:  doctorid,
+      timeSlotDuration: timeSlotDuration,
+      appointmentDate: appointmentDate,
       isBooked: false,
       familyMember: {},
       patientId: null
@@ -107,11 +107,11 @@ class Appointment {
      Map<String, dynamic>? familyMember
   }) {
     return Appointment(
-      id: this.id,
-      providerId:  this.providerId,
-      doctorid:  this.doctorid,
-      timeSlotDuration:  this.timeSlotDuration,
-      appointmentDate:  this.appointmentDate,
+      id: id,
+      providerId:  providerId,
+      doctorid:  doctorid,
+      timeSlotDuration:  timeSlotDuration,
+      appointmentDate:  appointmentDate,
       isBooked: isBooked ?? this.isBooked,
       familyMember: familyMember??this.familyMember,
       patientId: patientId?? this.patientId,

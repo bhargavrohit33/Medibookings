@@ -6,10 +6,10 @@ class DateSelectionCard extends StatelessWidget {
   final Function(BuildContext) onSelectDate;
 
   const DateSelectionCard({
-    Key? key,
+    super.key,
     required this.selectedDate,
     required this.onSelectDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class DateSelectionCard extends StatelessWidget {
               children: [
                 Text(
                   customDateFormat(dateTime: selectedDate),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 )
               ],
             ),

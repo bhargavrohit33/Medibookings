@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -40,8 +39,8 @@ class DoctorService extends DisposableService {
     // Handle calls to unimplemented methods here
     return super.noSuchMethod(invocation);
   }
-  Future<void> setDoctor(Doctor _doctor)async{
-    doctor =   _doctor;
+  Future<void> setDoctor(Doctor doctor)async{
+    doctor =   doctor;
     notifyListeners();
   }
 
@@ -73,7 +72,7 @@ class DoctorService extends DisposableService {
       // });
     } catch (e) {
       print('Error creating doctor profile: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -89,7 +88,7 @@ class DoctorService extends DisposableService {
       }
     } catch (e) {
       print('Error getting doctor profile: $e');
-      throw e;
+      rethrow;
     }
   }
   Stream<Doctor>  getDoctorByIdStream(String doctorId){
@@ -106,15 +105,15 @@ class DoctorService extends DisposableService {
   }
 
   Future<List<Doctor>> getDoctorList(String hospitalId)async{
-     List<Doctor> _doctorList = [];
+     List<Doctor> doctorList = [];
     try {
       QuerySnapshot querySnapshot = await doctorsCollection.where(ServiceUtils.doctorModel_HospitalId, isEqualTo: hospitalId).get();
 
-      _doctorList = querySnapshot.docs.map((doc) => Doctor.fromSnapshot(doc,)).toList();
+      doctorList = querySnapshot.docs.map((doc) => Doctor.fromSnapshot(doc,)).toList();
     } catch (e) {
       print("Error fetching doctors: $e");
     }
-    return _doctorList;
+    return doctorList;
   }
   
 
@@ -137,7 +136,7 @@ class DoctorService extends DisposableService {
     await doctorsCollection.doc(doctorId).update(updateData);
   } catch (e) {
     print('Error editing doctor profile: $e');
-    throw e;
+    rethrow;
   }
 }
 Future<DateTime> getLastAppointmentDate() async {

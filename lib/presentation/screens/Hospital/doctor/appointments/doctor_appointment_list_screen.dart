@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
-import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
@@ -15,8 +14,7 @@ import 'package:provider/provider.dart';
 class DoctorAppointmentListScreen extends StatefulWidget {
   final Doctor doctor;
 
-  const DoctorAppointmentListScreen({Key? key, required this.doctor})
-      : super(key: key);
+  const DoctorAppointmentListScreen({super.key, required this.doctor});
 
   @override
   State<DoctorAppointmentListScreen> createState() =>
@@ -49,7 +47,7 @@ class _DoctorAppointmentListScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Add the filter options above the list
-          Container(
+          SizedBox(
             height: 50,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -65,7 +63,7 @@ class _DoctorAppointmentListScreenState
                     },
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
                         color: _selectedFilterIndex == index
                             ? theme.primaryColor
@@ -180,7 +178,7 @@ class _DoctorAppointmentListScreenState
   }
 
   bool isTomorrow(DateTime dateTime) {
-    final tomorrow = DateTime.now().add(Duration(days: 1));
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
     return dateTime.year == tomorrow.year &&
         dateTime.month == tomorrow.month &&
         dateTime.day == tomorrow.day;

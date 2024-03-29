@@ -1,24 +1,33 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/route.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/firebase_options.dart';
 import 'package:medibookings/service/auth_service.dart';
-import 'package:medibookings/service/homeTab_service.dart';
+
 import 'package:medibookings/service/hospital/doctor.service.dart';
 import 'package:medibookings/service/hospital/emergency_service.dart';
+import 'package:medibookings/service/hospital/hometab_service.dart';
 import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:medibookings/service/hospital/patient_service_hospital.dart';
-import 'package:medibookings/service/reference_service.dart';
+import 'package:medibookings/service/hospital/reference_service.dart';
+import 'package:medibookings/service/nurse/nurse_appointmet_service.dart';
+import 'package:medibookings/service/nurse/nurse_service.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart'; 
-
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Handle background messages
+  print('Received background message: ${message.notification?.body}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+ await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
  
   runApp(const MyApp());
 }
@@ -37,7 +46,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => HospitalAppointmentService()),
             ChangeNotifierProvider(create: (_) => EmergencyAppointmentService()),
             ChangeNotifierProvider(create: (_)=>PatientServiceHospital()),
-            ChangeNotifierProvider(create: (_)=>ReferenceService())
+            ChangeNotifierProvider(create: (_)=>ReferenceService()),
+            ChangeNotifierProvider(create: (_)=>NurseService()),
+             ChangeNotifierProvider(create: (_)=>NurseAppointmentService())
       ],
       child: MaterialApp(
       
@@ -47,7 +58,7 @@ class MyApp extends StatelessWidget {
        darkTheme: ThemeData.dark(
          useMaterial3:true 
         ),
-        initialRoute: RouteName.splashRoute, // Set initial screen to SplashScreen
+        initialRoute: RouteName.appWrapper, // Set initial screen to SplashScreen
       ),
     );
   }

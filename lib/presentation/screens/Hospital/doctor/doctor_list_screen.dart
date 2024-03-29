@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 
 class DoctorListScreen extends StatefulWidget {
-  const DoctorListScreen({Key? key}) : super(key: key);
+  const DoctorListScreen({super.key});
 
   @override
   State<DoctorListScreen> createState() => _DoctorListScreenState();
@@ -33,9 +33,9 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return commonLoading();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: '));
+            return const Center(child: Text('Error: '));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No doctors found.'));
+            return const Center(child: Text('No doctors found.'));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,
@@ -86,7 +86,7 @@ class DoctorWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        doctor.firstName +" " + doctor.lastName,
+                        "${doctor.firstName} ${doctor.lastName}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

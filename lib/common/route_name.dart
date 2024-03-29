@@ -5,13 +5,7 @@
   static const String loginRoute = "/login";
   static const String registerRoute = "/register";
   static const String forgetPasswordRoute = "/forgetPassword";
-  static const String homePageRoute = "/home";
-  static const String setChargeRoute = "/set_charge";
-  static const String appointmentPageRoute = "/appointment";
-  static const String uploadDocumentPageRoute = "/upload_document";
-  static const String profileRoute = "/profile";
-  static const String setAvailabilityRoute = "/set_availability";
-  static const String aboutRoute = "/about";
+  
 
  
   static const String accountNotVerifiedScreen = "/accountNotVerifiedScreen";
@@ -36,4 +30,17 @@
    static const String doctorCalenderInreference  = '/doctorCalenderInreference';
  
   // static const String appointmentListViewRoute = "/appointListViewPage";
+
+
+  // nurse
+  
+  // static const String homePageRoute = "/home";
+  static const String setChargeRoute = "/set_charge";
+  static const String appointmentPageRoute = "/appointment";
+  static const String uploadDocumentPageRoute = "/upload_document";
+  static const String profileRoute = "/profile";
+  static const String setServiceRoute = "/set_service";
+  static const String aboutRoute = "/about";
+  static const String nurseEditProfileScreen  = '/nurseEditProfile';
+  static const String nurseAppointmentDetail = '/nurseAppointmentDetail';
 }

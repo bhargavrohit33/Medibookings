@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:medibookings/presentation/screens/Hospital/doctor/doctor_appointment_calenndar.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/%20no_appointment_found.dart';
 import 'package:medibookings/presentation/screens/nurse/reference/appointments_slots_card_reference.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
@@ -174,7 +173,7 @@ class AppointmentSlotListInReference extends StatelessWidget {
               message: snapshot.error.toString(),
             );
           } else {
-            if (snapshot.data!.length == 0){
+            if (snapshot.data!.isEmpty){
               return const NoAppointmentsFound();
             }
 

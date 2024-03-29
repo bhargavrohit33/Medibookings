@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:medibookings/common/app_colors.dart';
-import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 
-final google_place_key = "AIzaSyBgvkw61jj5ZU5tvWvrno5Cv-Q04LW4b9k";
+const google_place_key = "AIzaSyBgvkw61jj5ZU5tvWvrno5Cv-Q04LW4b9k";
 // dummy data
 
 String hospitalDemoImage =
@@ -149,7 +147,7 @@ final cardShape = RoundedRectangleBorder(
     
   );
 }
- TextStyle textStyleForFormField= TextStyle(color: Colors.black);
+ TextStyle textStyleForFormField= const TextStyle(color: Colors.black);
 const String defaultDateFormat ='MMMM dd, yyyy, hh:mm a';
 String customDateFormat({required DateTime dateTime,   String? format =  defaultDateFormat}) {
 
@@ -175,3 +173,4 @@ String customDateFormat({required DateTime dateTime,   String? format =  default
     }
     
   }
+  

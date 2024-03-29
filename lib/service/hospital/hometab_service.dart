@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:medibookings/service/disposable_service.dart';
 
 class HomeTabService extends DisposableService{

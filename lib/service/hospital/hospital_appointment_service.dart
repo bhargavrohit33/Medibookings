@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
-import 'package:medibookings/model/hospital/patient/patient_model.dart';
 import 'package:medibookings/service/disposable_service.dart';
 import 'package:medibookings/service/service_utils.dart';
 
@@ -16,8 +14,7 @@ class HospitalAppointmentService extends DisposableService{
 
 
     
-  HospitalAppointmentService(){
-  }
+  HospitalAppointmentService();
 
 
 
@@ -35,7 +32,7 @@ class HospitalAppointmentService extends DisposableService{
     print('Appointments updated successfully.');
   } catch (e) {
     print('Error updating appointments: $e');
-    throw e;
+    rethrow;
   }
 }
 
@@ -67,7 +64,7 @@ Future<Appointment> getAppointmentById(String id)async{
 }
 Stream<List<Appointment>> getAppointmentsNearCurrentTime(String hospitalId) {
   DateTime currentTime = DateTime.now();
-  DateTime oneHourLater = currentTime.add(Duration(hours: 1));
+  DateTime oneHourLater = currentTime.add(const Duration(hours: 1));
  
 
   return appointmentCollection
@@ -90,7 +87,7 @@ Future<void> cancelAppointment(Appointment appointment,) async {
     
       
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
   Future<void> updateAppointment(Appointment appointment) async {
@@ -101,7 +98,7 @@ Future<void> cancelAppointment(Appointment appointment,) async {
           .update(appointment.toMapForHospital());
     } catch (error) {
       print('Error updating appointment: $error');
-      throw error;
+      rethrow;
     }
   }
 }

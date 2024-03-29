@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medibookings/common/app_colors.dart';
-import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/presentation/screens/Hospital/appointment/appointment_card.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/%20no_appointment_found.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/date_selection_bar.dart';
@@ -40,7 +38,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen>  {
       
       body: Column(
         children: [
-           Container(
+           SizedBox(
             height: 50,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -55,7 +53,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen>  {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
                         color: _selectedFilterIndex == index ? theme.primaryColor : textFormFieldText,
                         borderRadius: BorderRadius.circular(20),
@@ -140,7 +138,7 @@ Future<void> _selectDate(BuildContext context) async {
   }
 
   bool isTomorrow(DateTime dateTime) {
-    final tomorrow = DateTime.now().add(Duration(days: 1));
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
     return dateTime.year == tomorrow.year && dateTime.month == tomorrow.month && dateTime.day == tomorrow.day;
   }
    bool isSameDate(DateTime date1, DateTime date2) {

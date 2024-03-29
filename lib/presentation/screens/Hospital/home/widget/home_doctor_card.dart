@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
-import 'package:medibookings/presentation/widget/profile_photo_card.dart';
 
 class HomeDoctorCard extends StatelessWidget {
   final Doctor doctor;

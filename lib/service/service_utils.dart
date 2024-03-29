@@ -1,4 +1,6 @@
 class ServiceUtils{
+  static const String  fcmToken = "fcmToken";
+    static const String createdAt = 'createdAt';
   static const String collection_hospital = "hospital";
  static const String hospitalModel_Name = "name";
   static const String hospitalModel_Email = "email"; 
@@ -49,7 +51,37 @@ static const String doctorModel_FirstName = "firstName";
   static const String patient_firstName =  "firstName";
   static const String patient_lastName = 'lastName';
   static const String patient_phoneNumber = "phoneNumber";
-  static const String  patient_fcmToken = "fcmToken";
+
   static const String patient_notification = "notification";
 
+  // nurse 
+  static const String collection_nurse  = 'nurse';
+   
+  static const String nurse_firstName = "firstName";
+  static const String nurse_lastName = "lastName";
+  static const String nurse_phoneNumber = "phoneNumber";
+  static const String nurse_isVerify = "isVerified";
+  static const String nurse_isOnline = "isOnline";
+  static const String nurse_address = "address";
+  static const String nurse_documentLinks = "documentLinks";
+  static const String nurse_serviceRadius = "serviceRadius";
+  static const String nurse_dateOfBirth = "dataOfBirth";
+  static const String nurse_startDateOfService = "startDateOfService";
+  static const String nurse_biography = "biography";
+  static const String nurse_profileUrl = "profileUrl";
+  static const String nurse_listOfService = 'listOfService';
+  static const String nurse_perHourCharge = 'perHourCharge';
+// nurse booking/ appointment
+
+ static const String collection_nurseAppointment = 'nurseAppointment';
+  static const String nurseAppointment_nurseID = 'nurseID';
+  static const String nurseAppointment_patientID = 'patientID';
+  static const String nurseAppointment_status = 'appointmentStatus';
+  static const String nurseAppointment_note = 'note';
+  static const String nurseAppointment_requestService = 'requestService';
+  static const String nurseAppointment_durationOfService = 'durationOfService';
+  static const String nurseAppointment_total = 'total';
+  static const String nurseAppointment_serviceAddress = 'serviceAddress';
+  static const String nurseAppointment_serviceDateTime = 'serviceDateTime';
+  
 }

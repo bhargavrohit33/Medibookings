@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/service/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,7 @@ class AccountNotVerifiedScreen extends StatelessWidget {
   const AccountNotVerifiedScreen({super.key});
   @override
   Widget build(BuildContext context) {
-     final _authProvider = Provider.of<AuthService>(context );
+     final authProvider = Provider.of<AuthService>(context );
     return  Scaffold(
      
       body: Center(
@@ -27,7 +26,7 @@ class AccountNotVerifiedScreen extends StatelessWidget {
             ),
            const SizedBox(height: 10),
             basicButton(onPressed: ()async{
-              await _authProvider.logout();
+              await authProvider.logout();
             }, text: 'Log out')
            
            

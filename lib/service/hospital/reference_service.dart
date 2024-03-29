@@ -26,7 +26,7 @@ Future<void> updateReferenceAppointment({required Appointment newAppointment})as
      await updateAppointment(newAppointment);
   }
   catch(e){
-    throw e;
+    rethrow;
   }
 }
 Future<void> updateAppointment(Appointment appointment) async {
@@ -37,7 +37,7 @@ Future<void> updateAppointment(Appointment appointment) async {
           .update(appointment.toMap());
     } catch (error) {
       print('Error updating appointment: $error');
-      throw error;
+      rethrow;
     }
   }
 }

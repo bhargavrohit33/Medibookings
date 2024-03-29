@@ -11,15 +11,15 @@ class HospitalDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   
-    final _authProvider = Provider.of<AuthService>(context );
-    final _hospitalProvider = Provider.of<HospitalService>(context );
+    final authProvider = Provider.of<AuthService>(context );
+    final hospitalProvider = Provider.of<HospitalService>(context );
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName:  Text(_hospitalProvider.hospitalModel!.name),
-            accountEmail:  Text(_hospitalProvider.hospitalModel!.email),
+            accountName:  Text(hospitalProvider.hospitalModel!.name),
+            accountEmail:  Text(hospitalProvider.hospitalModel!.email),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(nurseDemoImageURL),
             ),
@@ -38,8 +38,8 @@ class HospitalDrawer extends StatelessWidget {
 
           box("Log out",()async{
             
-            await _authProvider.logout();
-             _hospitalProvider.dispose();}),
+            await authProvider.logout();
+             hospitalProvider.dispose();}),
         ],
       ),
     );

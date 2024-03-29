@@ -8,7 +8,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/snack_bar.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
-import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:provider/provider.dart';
 
 class CreateDoctorProfileScreen extends StatefulWidget {
@@ -85,6 +84,7 @@ bool _isSaving = false;
                       if (value == null || value.isEmpty) {
                         return 'Please select the Specialty';
                       }
+                      return null;
                     },
                     onChanged: (newValue) {
                       setState(() {

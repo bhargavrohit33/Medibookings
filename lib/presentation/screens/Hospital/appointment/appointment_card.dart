@@ -4,21 +4,20 @@ import 'package:medibookings/common/route_name.dart';
 import 'package:medibookings/common/shimera_widget.dart';
 import 'package:medibookings/common/utils.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
-import 'package:intl/intl.dart';
 import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/model/hospital/patient/patient_model.dart';
 import 'package:medibookings/model/route_model.dart';
-import 'package:medibookings/presentation/widget/commonLoading.dart';
 import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
 import 'package:medibookings/service/hospital/doctor.service.dart';
 import 'package:medibookings/service/hospital/patient_service_hospital.dart';
-import 'package:medibookings/service/reference_service.dart';
+import 'package:medibookings/service/hospital/reference_service.dart';
+
 import 'package:provider/provider.dart';
 
 class AppointcardWidget extends StatelessWidget {
   Appointment appointment;
 
-  AppointcardWidget({
+  AppointcardWidget({super.key, 
     required this.appointment,
   });
 
@@ -58,8 +57,7 @@ class AppointcardWidget extends StatelessWidget {
                                   Icon(Icons.local_hospital,
                                       color: primaryColor),
                                   const SizedBox(width: 8),
-                                  Text(snapshotDoctor.data!.firstName
-                                      .toString() +" "+ snapshotDoctor.data!.lastName),
+                                  Text("${snapshotDoctor.data!.firstName} ${snapshotDoctor.data!.lastName}"),
                                 ],
                               ),
                             ),
@@ -71,11 +69,7 @@ class AppointcardWidget extends StatelessWidget {
                                   Icon(Icons.personal_injury_rounded,
                                       color: primaryColor),
                                   const SizedBox(width: 8),
-                                  Text(patientSnapshot.data!.firstName
-                                          .toString() +
-                                      " " +
-                                      patientSnapshot.data!.lastName
-                                          .toString()),
+                                  Text("${patientSnapshot.data!.firstName} ${patientSnapshot.data!.lastName}"),
                                 ],
                               ),
                             ),
@@ -98,7 +92,7 @@ class AppointcardWidget extends StatelessWidget {
                                           child: Text(
                                               customDateFormat(
                                                   dateTime: appointment
-                                                      .appointmentDate!),
+                                                      .appointmentDate),
                                               style: const TextStyle(
                                                   color: bottomBarColor)))),
                                   Row(
@@ -138,7 +132,7 @@ class AppointcardWidget extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return ShimmerWidget();
+                  return const ShimmerWidget();
                 }
               });
         });

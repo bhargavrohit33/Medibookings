@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 class EditDoctorProfileScreen extends StatefulWidget {
   final Doctor doctor;
 
-  const EditDoctorProfileScreen({Key? key, required this.doctor}) : super(key: key);
+  const EditDoctorProfileScreen({super.key, required this.doctor});
 
   @override
   State<EditDoctorProfileScreen> createState() => _EditDoctorProfileScreenState();
@@ -100,7 +100,7 @@ class _EditDoctorProfileScreenState extends State<EditDoctorProfileScreen> {
                     value: selectedSpecialty,
                     onChanged: (newValue) {
                       setState(() {
-                        selectedSpecialty = newValue as String?;
+                        selectedSpecialty = newValue;
                       });
                     },
                     items: specialtyOptions.map<DropdownMenuItem<String>>((String value) {

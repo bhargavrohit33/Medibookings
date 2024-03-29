@@ -5,5 +5,5 @@ Widget commonLoading(){
 }
 
 Widget commonLoadingBase(){
-  return CircularProgressIndicator();
+  return const CircularProgressIndicator();
 }

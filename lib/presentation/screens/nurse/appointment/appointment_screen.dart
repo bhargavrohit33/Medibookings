@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:medibookings/screens/button.dart';
+import 'package:medibookings/common/app_colors.dart';
+import 'package:medibookings/common/route_name.dart';
+import 'package:medibookings/common/shimera_widget.dart';
+import 'package:medibookings/common/utils.dart';
+import 'package:medibookings/model/hospital/patient/patient_model.dart';
+import 'package:medibookings/model/nurse/appointment.dart';
+import 'package:medibookings/model/nurse/nurse/nurse_model.dart';
+import 'package:medibookings/model/route_model.dart';
+import 'package:medibookings/presentation/screens/Nurse/reference/appointments_slots_card_reference.dart';
+import 'package:medibookings/presentation/widget/commonLoading.dart';
+import 'package:medibookings/presentation/widget/custom_appBar_without_backbutton.dart';
+import 'package:medibookings/presentation/widget/images_widgets.dart';
+import 'package:medibookings/presentation/widget/somethin_went_wrong.dart';
+import 'package:medibookings/service/hospital/patient_service_hospital.dart';
+import 'package:medibookings/service/nurse/nurse_appointmet_service.dart';
+import 'package:medibookings/service/nurse/nurse_service.dart';
+import 'package:provider/provider.dart';
+
 
 
 class AppointmentBookingPage extends StatefulWidget {
@@ -13,140 +28,263 @@ class AppointmentBookingPage extends StatefulWidget {
 
 class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   late DateTime _selectedDate;
-  late List<String> _availableTimeSlots;
-  int? _selectedIndex;
+  late String _selectedStatus;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
-    _availableTimeSlots = [];
-    _loadAvailableTimeSlots(_selectedDate);
+    _selectedStatus = 'All'; // Initial value for appointment status filter
   }
 
-  void _loadAvailableTimeSlots(DateTime selectedDate) {
-    _availableTimeSlots = [
-      '10:00 AM', '11:00 AM', '12:00 PM',
-      '1:00 PM', '2:00 PM', '3:00 PM'
-    ];
+  List<NurseAppointment> filterNurseBookingsByDate(
+      DateTime date, List<NurseAppointment> nurseBookings) {
+    // Filter nurse bookings by date
+    return nurseBookings.where((booking) {
+      return booking.serviceDateTime.year == date.year &&
+          booking.serviceDateTime.month == date.month &&
+          booking.serviceDateTime.day == date.day;
+    }).toList();
+  }
+
+  List<NurseAppointment> filterNurseBookingsByStatus(
+      String status, List<NurseAppointment> nurseBookings) {
+    // Filter nurse bookings by appointment status
+    if (status == "All") {
+      return nurseBookings;
+    } else {
+      
+      AppointmentStatus check = appointmentStatusFromString(_selectedStatus);
+      return nurseBookings
+          .where((booking) => booking.appointmentStatus == check)
+          .toList();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final appointmentService = Provider.of<NurseAppointmentService>(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appointment',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildCalendar(),
-            const SizedBox(height: 20),
-            const Text(
-              'Available Time Slots:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      
+      body: Column(
+        children: [
+          // Date filter
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text('Filter by Date: '),
+                      TextButton(
+                        onPressed: () async {
+                          final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDate,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime.now(),
+                          );
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedDate = pickedDate;
+                            });
+                          }
+                        },
+                        child: Text(
+                          _selectedDate.toString().substring(0, 10),
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        dropdownColor: theme.scaffoldBackgroundColor,
+                        value: _selectedStatus,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedStatus = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'All',
+                          'Pending',
+                          'Approved',
+                          'Rejected',
+                          'CancelledByPatient'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: defaultInputDecoration(
+                          hintText: 'By Status',
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: 20),
-            _buildTimeSlots(),
-            const SizedBox(height: 20),
-            basicButton(
-              onPressed: (){
-                // _selectedIndex != null ? _bookAppointment : null
+          ),
+
+          // Nurse booking list
+          Expanded(
+            child: StreamBuilder<List<NurseAppointment>>(
+              stream: appointmentService.nurseAppointments,
+              builder: (BuildContext context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return commonLoading();
+                } else if (snapshot.hasError) {
+                  return SomethingWentWrongWidget(
+                    superContext: context,
+                  );
+                } else {
+                  final filteredBookings =
+                      filterNurseBookingsByDate(_selectedDate, snapshot.data!)
+                          .where((booking) => filterNurseBookingsByStatus(
+                                  _selectedStatus, snapshot.data!)
+                              .contains(booking))
+                          .toList();
+                  return ListView.builder(
+                    itemCount: filteredBookings.length,
+                    itemBuilder: (context, index) {
+                      final booking = filteredBookings[index];
+                      return BookingItem(
+                        nurseAppointment: filteredBookings[index],
+                      );
+                    },
+                  );
+                }
               },
-              text: 'Confirm Appointment',
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BookingItem extends StatelessWidget {
+  final NurseAppointment nurseAppointment;
+  const BookingItem({super.key, required this.nurseAppointment});
+
+  @override
+  Widget build(BuildContext context) {
+    final nurseService = Provider.of<NurseService>(context);
+     final patientService = Provider.of<PatientServiceHospital>(context);
+    final theme = Theme.of(context);
+    return FutureBuilder<PatientModel?>(
+        future: patientService.getPatientById(nurseAppointment.patientID),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return SomethingWentWrongWidget(superContext: context);
+          } else if (snapshot.hasData ) {
+           return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, RouteName.nurseAppointmentDetail,arguments: NurseAppointmentRouteAruguments(nurseAppointment: nurseAppointment,patientModel: snapshot.data!));
+                },
+                child: Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(cardRadius),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: theme.scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(cardRadius)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    tag(nurseAppointment.appointmentStatus),
+                                    Text(
+                                      "${capitalizeFirstLetter(snapshot.data!.firstName)} ${capitalizeFirstLetter(snapshot.data!.lastName)}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      customDateFormat(
+                                       
+                                          dateTime: nurseAppointment.serviceDateTime),
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return ShimmerWidget();
+          }
+        });
+  }
+
+  
+}
+Widget tag(AppointmentStatus status) {
+    Color? color;
+    String label;
+    switch (status) {
+      case AppointmentStatus.Pending:
+        color = Colors.blue.withOpacity(.6);
+        label = 'Pending';
+        break;
+      case AppointmentStatus.Approved:
+        color = Colors.green.withOpacity(.6);
+        ;
+        label = 'Approved';
+        break;
+      case AppointmentStatus.Rejected:
+        color = Colors.red.withOpacity(.6);
+        ;
+        label = 'Rejected';
+        break;
+      case AppointmentStatus.CancelledByPatient:
+        color = Colors.orange.withOpacity(.6);
+        ;
+        label = 'Cancelled';
+        break;
+    }
+    return Container(
+      decoration: BoxDecoration(
+          color: color, borderRadius: BorderRadius.circular(cardRadius)),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Text(
+          label,
+          style: TextStyle(color: Colors.white),
         ),
       ),
     );
   }
-
-  Widget _buildCalendar() {
-    return SizedBox(
-      height: 300,
-      child: CalendarCarousel<Event>(
-        onDayPressed: (DateTime date, List<Event> events) {
-          setState(() {
-            _selectedDate = date;
-            _loadAvailableTimeSlots(date);
-            _selectedIndex = null;
-          });
-        },
-        weekendTextStyle: const TextStyle(color: Colors.red),
-        thisMonthDayBorderColor: Colors.grey,
-        daysTextStyle: const TextStyle(color: Colors.black),
-        headerTextStyle: const TextStyle(color: Colors.black, fontSize: 20),
-        selectedDateTime: _selectedDate,
-        selectedDayButtonColor: Colors.blue,
-        selectedDayTextStyle: const TextStyle(color: Colors.white),
-        todayTextStyle: const TextStyle(color: Colors.blue),
-        onCalendarChanged: (DateTime date) {
-          // Handle calendar changes if needed
-        },
-      ),
-    );
-  }
-
-  Widget _buildTimeSlots() {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: _availableTimeSlots.map((timeSlot) {
-        final index = _availableTimeSlots.indexOf(timeSlot);
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          child: Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: _selectedIndex == index
-                  ? LinearGradient(
-                colors: [Colors.blue.withOpacity(0.5), Colors.blue.withOpacity(0.8)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-                  : null,
-              border: Border.all(color: Colors.grey),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              timeSlot,
-              style: TextStyle(
-                fontWeight: _selectedIndex == index ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  void _bookAppointment() {
-    // Add your logic here to book the appointment
-    final selectedTimeSlot = _availableTimeSlots[_selectedIndex!];
-    final formattedDate = '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}';
-    // Show a popup message for booking confirmation
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Booking Confirmed',style: TextStyle(color: Colors.black)),
-          content: Text('Appointment Confirmed on $formattedDate at $selectedTimeSlot',style: const TextStyle(color: Colors.black)),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK',style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}

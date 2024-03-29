@@ -10,7 +10,8 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="medibookings"
+        android:enableOnBackInvokedCallback="true"
+        android:label="Medibookings"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

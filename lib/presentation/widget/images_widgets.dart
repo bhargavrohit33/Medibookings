@@ -4,7 +4,7 @@ class NoImageWidget extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const NoImageWidget({Key? key, this.width, this.height}) : super(key: key);
+  const NoImageWidget({super.key, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class NoImageWidget extends StatelessWidget {
       width: width,
       height: height,
       color: Colors.grey[200],
-      child: Center(
+      child: const Center(
         child: Icon(
           Icons.image_not_supported,
           size: 48,
@@ -31,11 +31,11 @@ class ImageWithPlaceholder extends StatelessWidget {
   final double height;
 
   const ImageWithPlaceholder({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.width,
     required this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +47,12 @@ class ImageWithPlaceholder extends StatelessWidget {
         height: height,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          return NoImageWidget();
+          return const NoImageWidget();
         },
       );
     } else {
       // If URL is not valid, display a placeholder
-      return NoImageWidget();
+      return  NoImageWidget(height: height,width: width,);
     }
   }
 }

@@ -10,18 +10,18 @@ import 'package:medibookings/model/hospital/doctor/doctorModel.dart';
 import 'package:medibookings/model/hospital/patient/patient_model.dart';
 import 'package:medibookings/presentation/screens/Hospital/home/widget/home_doctor_card.dart';
 import 'package:medibookings/presentation/screens/Hospital/widgets/%20no_appointment_found.dart';
-import 'package:medibookings/presentation/screens/common/textFormField.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
-import 'package:medibookings/service/homeTab_service.dart';
+
 import 'package:medibookings/service/hospital/doctor.service.dart';
 import 'package:medibookings/service/hospital/emergency_service.dart';
+import 'package:medibookings/service/hospital/hometab_service.dart';
 import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
 import 'package:medibookings/service/hospital/hospital_service.dart';
 import 'package:medibookings/service/hospital/patient_service_hospital.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class hospitalHomeScreen extends StatefulWidget {
   const hospitalHomeScreen({super.key});
@@ -49,7 +49,7 @@ class _hospitalHomeScreenState extends State<hospitalHomeScreen> {
             textEditingController.text.isEmpty
                 ? Padding(
                     padding: EdgeInsets.all(padding),
-                    child:  HomeBasicContent(),
+                    child:  const HomeBasicContent(),
                   )
                 : const SearchResult()
           ],
@@ -64,7 +64,7 @@ class HomeBasicContent extends StatelessWidget {
 
   
 
-   HomeBasicContent({super.key});
+   const HomeBasicContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -132,12 +132,12 @@ class HomeBasicContent extends StatelessWidget {
       builder: (context, normalAppointments) {
 
          if (normalAppointments.connectionState == ConnectionState.waiting) {
-              return ShimmerAppointmentCard();
+              return const ShimmerAppointmentCard();
             } else if (normalAppointments.hasError) {
               return Center(child: Text('Error: ${normalAppointments.error}'));
             } else {
-          if(normalAppointments.data!.length <= 0){
-            return NoAppointmentsFound();
+          if(normalAppointments.data!.isEmpty){
+            return const NoAppointmentsFound();
           }  
       return CarouselSlider.builder(
         itemCount: normalAppointments.data!.length,
@@ -182,7 +182,7 @@ class HomeBasicContent extends StatelessWidget {
                           const Icon(Icons.calendar_today, color: color, size: 30),
                           Expanded(
                             child: Text(
-                              'Date: ${DateFormat('MMMM dd, yyyy').format(appointment.appointmentDate!)}',
+                              'Date: ${DateFormat('MMMM dd, yyyy').format(appointment.appointmentDate)}',
                               style: const TextStyle(color: color),
                             ),
                           ),
@@ -214,7 +214,7 @@ class HomeBasicContent extends StatelessWidget {
                 ),
               );
             }else{
-              return  ShimmerAppointmentCard();
+              return  const ShimmerAppointmentCard();
             }
             }
           );
@@ -225,18 +225,18 @@ class HomeBasicContent extends StatelessWidget {
   );
 }
 Widget doctorList(BuildContext context){
-  final _doctorService = Provider.of<DoctorService>(context);
+  final doctorService = Provider.of<DoctorService>(context);
   return SizedBox(
       height: 180, 
       child: StreamBuilder<List<Doctor>>(
-        stream: _doctorService.getDoctorsByHospitalIdStream(hospitalId: _doctorService.firebaseAuth.currentUser!.uid),
+        stream: doctorService.getDoctorsByHospitalIdStream(hospitalId: doctorService.firebaseAuth.currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return commonLoading();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: '));
+            return const Center(child: Text('Error: '));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No doctors found.'));
+            return const Center(child: Text('No doctors found.'));
           }else{
           return  ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -269,8 +269,8 @@ Widget doctorList(BuildContext context){
       stream: edService.fetchOrderedHospitalEmergencyAppointmentsStream(dateTime: DateTime.now(),limit: 3),
       builder: (context, eDsnapshot) {
         if (eDsnapshot.hasData){
-        if(eDsnapshot.data!.length == 0 ){
-          return NoAppointmentsFound();
+        if(eDsnapshot.data!.isEmpty ){
+          return const NoAppointmentsFound();
         }
         return CarouselSlider.builder(
           itemCount: eDsnapshot.data!.length,
@@ -299,7 +299,7 @@ Widget doctorList(BuildContext context){
                         Row(children: [
                           const Icon(Icons.personal_injury,color: color,size: 30),
                           Expanded(
-                            child: Text(snapshot.data!.firstName.toString() +" " + snapshot.data!.lastName.toString(),
+                            child: Text("${snapshot.data!.firstName} ${snapshot.data!.lastName}",
                                             style: const TextStyle(color: color),
                                             ),
                           ),
@@ -337,7 +337,7 @@ Widget doctorList(BuildContext context){
                   ),
                 );
               } else{
-                return ShimmerAppointmentCard();
+                return const ShimmerAppointmentCard();
               }
               }
             );
@@ -346,7 +346,7 @@ Widget doctorList(BuildContext context){
     
     }
         else{
-          return ShimmerAppointmentCard();
+          return const ShimmerAppointmentCard();
         }  }
     );
   }

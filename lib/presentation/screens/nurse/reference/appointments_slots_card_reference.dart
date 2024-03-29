@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:medibookings/model/hospital/appointment/appointment_model.dart';
 import 'package:medibookings/presentation/widget/button.dart';
 import 'package:medibookings/presentation/widget/commonLoading.dart';
-import 'package:medibookings/service/hospital/hospital_appointment_service.dart';
-import 'package:medibookings/service/reference_service.dart';
+import 'package:medibookings/service/hospital/reference_service.dart';
+
 
 import 'package:provider/provider.dart';
 
@@ -100,7 +100,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
               Navigator.pop(context);
               }
               catch(e){
-                throw e;
+                rethrow;
               }finally{
                 setState(() {
                   isLoading = false;
