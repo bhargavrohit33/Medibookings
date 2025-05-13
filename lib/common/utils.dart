@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:medibookings/common/app_colors.dart';
 
-const google_place_key = "AIzaSyBgvkw61jj5ZU5tvWvrno5Cv-Q04LW4b9k";
+const google_place_key = "AIzaSyDK_6D3hloxy5evFkL1e0-_S-d6BJqXd-Y";
 // dummy data
 
 String hospitalDemoImage =

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyC0CgylSbv-NW6mCIp6mIJQRFiND4jLrB4</string>
+	<string>AIzaSyD_vphsp718cjNd3NwkH6ZNNtXxl268HeM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>245451810013</string>
+	<string>412873809461</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.medibookings</string>
+	<string>com.example.myapp</string>
 	<key>PROJECT_ID</key>
-	<string>hospitalappointment-6cf61</string>
+	<string>medibookings-be231</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hospitalappointment-6cf61.appspot.com</string>
+	<string>medibookings-be231.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:245451810013:ios:2e48d9cc41ff7c6fb12734</string>
+	<string>1:412873809461:ios:19734b035684863d73db7c</string>
+	<key>DATABASE_URL</key>
+	<string>https://medibookings-be231-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

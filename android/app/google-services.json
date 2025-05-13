@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "245451810013",
-    "project_id": "hospitalappointment-6cf61",
-    "storage_bucket": "hospitalappointment-6cf61.appspot.com"
+    "project_number": "412873809461",
+    "project_id": "medibookings-be231",
+    "storage_bucket": "medibookings-be231.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:245451810013:android:ea3cbf7a8c10c8f8b12734",
+        "mobilesdk_app_id": "1:412873809461:android:0c37cd201bc1f39c73db7c",
         "android_client_info": {
           "package_name": "com.example.medibookings"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDcfEjk0lftfdoliXApN1FGu6kpeTkxPFs"
+          "current_key": "AIzaSyDyAZ_Y8knjWdHHrk2apXZLmTp4cJNcg8Y"
         }
       ],
       "services": {

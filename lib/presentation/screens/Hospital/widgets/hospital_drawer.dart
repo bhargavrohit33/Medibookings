@@ -21,7 +21,7 @@ class HospitalDrawer extends StatelessWidget {
             accountName:  Text(hospitalProvider.hospitalModel!.name),
             accountEmail:  Text(hospitalProvider.hospitalModel!.email),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(nurseDemoImageURL),
+              backgroundImage: NetworkImage(hospitalDemoImage),
             ),
           ),
          box("Doctor",(){

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -66,6 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         
   }
  Future<void> findPalce(GeoPoint geoPoint)async{
+  log("${geoPoint.latitude} asdhgasjdhgjasdjhbmjhasdd");
   List<Placemark> placemarks =
           await placemarkFromCoordinates(geoPoint.latitude, geoPoint.longitude);
       String address =
@@ -214,10 +217,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   getPlaceDetailWithLatLng: (Prediction prediction) {
                     address = GeoPoint(double.tryParse(prediction.lat!)!,
                         double.tryParse(prediction.lng!)!);
+                       
                   },
                   itemClick: (Prediction prediction) {
                     _addressController.text = prediction.description!;
-            
+                     address = GeoPoint(double.tryParse(prediction.lat!)!,
+                        double.tryParse(prediction.lng!)!);
+                       
                     _addressController.selection = TextSelection.fromPosition(
                         TextPosition(offset: prediction.description!.length));
                   },
@@ -370,6 +376,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
   NurseModel updateModel(String profileUrl){
+    log("${address!.latitude} adkjasdjkasdasd");
     return NurseModel(
       firstName: _firstNameController.text,
       lastName: _lastNameController.text,
@@ -399,12 +406,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final Position position = await _determinePosition();
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
-      String address =
+      String _address =
           '${placemarks.first.street}, ${placemarks.first.locality}, ${placemarks.first.country}';
       setState(() {
         currentLocation = position;
-        _addressController.text = address;
-        print("address as $address");
+        _addressController.text = _address;
+        address = GeoPoint(double.tryParse(position.latitude.toString())!,
+                        double.tryParse(position.longitude.toString())!);
+        print("address as ${position.latitude}");
       });
     } catch (e) {
       print('Error getting current location: $e');

@@ -206,6 +206,7 @@ class _HospitalProfileUpdatePageState extends State<HospitalProfileUpdatePage> {
       setState(() {
         currentLocation = position;
         _addressController.text = address;
+        addressGeoPoint = GeoPoint(currentLocation!.latitude, currentLocation!.latitude);
         print("address as $address");
       });
     } catch (e) {
